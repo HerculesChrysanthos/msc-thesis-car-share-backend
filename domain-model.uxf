@@ -1,0 +1,124 @@
+<diagram program="umletino" version="15.1"><zoom_level>8</zoom_level><help_text>Space for diagram notes </help_text><element><id>UMLClass</id><coordinates><x>288</x><y>272</y><w>168</w><h>152</h></coordinates><panel_attributes>User
+--
+name: String
+surname: String
+email: String
+password:  String
+role: Role
+phone: Number
+vat: String
+licence: String
+drivingSince: Number
+profilePictureUrl: String</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>288</x><y>536</y><w>168</w><h>56</h></coordinates><panel_attributes>Review
+--
+rating: Number
+comment: String
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>656</x><y>272</y><w>168</w><h>208</h></coordinates><panel_attributes>Car
+--
+make: Makes
+model: String
+mileage: Number
+fuelType: FuelType
+engineSize: Number
+enginePower: Number
+geraboxType: GearBoxType
+exteriorColor: String | Enum
+interiorColor: String | Enum
+rimSize: Number
+euroClase: Number
+driverType: DriveType
+doors: Number
+rentPerDay: Number
+features: String[]
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>656</x><y>576</y><w>168</w><h>64</h></coordinates><panel_attributes>Availability
+--
+id: Long="36548"
+[waiting for message]</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>504</x><y>72</y><w>168</w><h>136</h></coordinates><panel_attributes>Booking
+--
+startDay: Number
+endDay: Number
+totalCost: Number
+status: Status
+canceledBy: Role</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>880</x><y>32</y><w>168</w><h>56</h></coordinates><panel_attributes>&lt;&lt;enumeration&gt;&gt;
+Make
+--
+AUDI
+VOLKSWAGEN</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>448</x><y>288</y><w>224</w><h>40</h></coordinates><panel_attributes>lt=-
+m1=1
+m2=0..*
+owns &gt;</panel_attributes><additional_attributes>100;20;10;20;260;20</additional_attributes></element><element><id>UMLClass</id><coordinates><x>56</x><y>320</y><w>168</w><h>56</h></coordinates><panel_attributes>DateOfBirth
+--
+day: Number,
+month: Number,
+year: Number
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>96</x><y>232</y><w>168</w><h>56</h></coordinates><panel_attributes>&lt;&lt;enumeration&gt;&gt;
+Role
+--
+OWNER
+RENTER
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>312</x><y>416</y><w>64</w><h>136</h></coordinates><panel_attributes>lt=-
+m1=0..*
+m2=1
+makes &gt;</panel_attributes><additional_attributes>10;150;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>408</x><y>416</y><w>48</w><h>136</h></coordinates><panel_attributes>lt=-
+m1=1
+m2=0..*
+has &gt;</panel_attributes><additional_attributes>10;10;10;150</additional_attributes></element><element><id>Relation</id><coordinates><x>216</x><y>336</y><w>88</w><h>24</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>90;10;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>720</x><y>472</y><w>48</w><h>120</h></coordinates><panel_attributes>lt=-
+m1=1
+m2=0..*
+has &gt;</panel_attributes><additional_attributes>10;10;10;130</additional_attributes></element><element><id>Relation</id><coordinates><x>376</x><y>96</y><w>144</w><h>192</h></coordinates><panel_attributes>lt=-
+m1=1
+m2=0..*
+books &gt;</panel_attributes><additional_attributes>10;220;10;10;160;10</additional_attributes></element><element><id>Relation</id><coordinates><x>664</x><y>96</y><w>160</w><h>192</h></coordinates><panel_attributes>lt=-
+m1=0..*
+m2=1
+relate &gt;</panel_attributes><additional_attributes>10;10;130;10;130;220</additional_attributes></element><element><id>UMLClass</id><coordinates><x>40</x><y>432</y><w>168</w><h>96</h></coordinates><panel_attributes>&lt;&lt;enumeration&gt;&gt;
+Status
+--
+PENDING
+APPROVED
+COMPLETED
+CANCELED
+IN_PROGRESS
+
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>104</x><y>0</y><w>168</w><h>80</h></coordinates><panel_attributes>Payment
+--
+status: PaymentStatus
+amount: Number
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>264</x><y>16</y><w>352</w><h>72</h></coordinates><panel_attributes>lt=-
+m1=1
+m2=0..*
+has &gt;</panel_attributes><additional_attributes>410;70;410;20;10;20</additional_attributes></element><element><id>UMLClass</id><coordinates><x>40</x><y>560</y><w>168</w><h>96</h></coordinates><panel_attributes>&lt;&lt;enumeration&gt;&gt;
+PaymentStatus
+--
+PENDING
+APPROVED
+COMPLETED
+REJECTED
+
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>872</x><y>280</y><w>168</w><h>56</h></coordinates><panel_attributes>Registration
+--
+month: Number,
+year: Number
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>816</x><y>288</y><w>72</w><h>24</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;70;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>872</x><y>368</y><w>168</w><h>56</h></coordinates><panel_attributes>&lt;&lt;enumeration&gt;&gt;
+FuelType
+--
+AUDI
+VOLKSWAGEN</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>872</x><y>448</y><w>168</w><h>72</h></coordinates><panel_attributes>&lt;&lt;enumeration&gt;&gt;
+GearBoxType
+--
+AUTOMATIC
+MANUAL
+SEMI_AUTO</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>872</x><y>536</y><w>168</w><h>64</h></coordinates><panel_attributes>&lt;&lt;enumeration&gt;&gt;
+DriveType
+--
+FF
+FR</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>480</x><y>640</y><w>168</w><h>56</h></coordinates><panel_attributes>Location
+--
+type: String
+coordinates: Number[]</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>480</x><y>520</y><w>168</w><h>72</h></coordinates><panel_attributes>AvailableAddress
+--
+street: String
+number: Number
+city: String
+postalCode: Number
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>544</x><y>376</y><w>128</w><h>160</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>140;10;10;10;10;180</additional_attributes></element><element><id>Relation</id><coordinates><x>544</x><y>584</y><w>24</w><h>72</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;70</additional_attributes></element></diagram>
