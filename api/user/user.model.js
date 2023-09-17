@@ -34,7 +34,7 @@ const userSchema = mongoose.Schema(
     vat: { type: String },
     licence: { type: String, required: true },
     drivingSince: { type: Number },
-    profilePicture: { type: String },
+    profilePictureUrl: { type: String },
     carsOwning: [
       {
         carId: {
@@ -43,14 +43,6 @@ const userSchema = mongoose.Schema(
         },
       },
     ],
-    // hotelsOwning: [
-    //   {
-    //     hotelId: {
-    //       type: mongoose.Schema.Types.ObjectId,
-    //       ref: 'Hotel',
-    //     },
-    //   },
-    // ],
   },
   {
     timestamps: true,
