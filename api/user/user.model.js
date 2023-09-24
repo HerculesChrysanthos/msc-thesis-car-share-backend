@@ -12,7 +12,7 @@ const userSchema = mongoose.Schema(
       default: ROLES.RENTER,
       enum: ROLES,
     },
-    phone: { type: Number, required: true },
+    phone: { type: String, required: true },
     dateOfBirth: {
       day: {
         type: Number,
@@ -32,7 +32,7 @@ const userSchema = mongoose.Schema(
       },
     },
     vat: { type: String },
-    licence: { type: String, required: true },
+    licence: { type: Number, required: true },
     drivingSince: { type: Number },
     profilePictureUrl: { type: String },
     carsOwning: [
