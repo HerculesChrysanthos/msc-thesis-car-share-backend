@@ -11,11 +11,11 @@ router.post(
   userController.register
 );
 
-// router.post(
-//   '/login',
-//   validator(userValidator.loginSchema),
-//   userController.login
-// );
+router.post(
+  '/login',
+  validator(userValidator.loginSchema),
+  userController.login
+);
 
 //router.get('/:userId', authorization(), userController.getUser);
 

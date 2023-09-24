@@ -25,6 +25,25 @@ async function register(user) {
   return dbUser;
 }
 
+async function login(email, password) {
+  const user = await userRepository.findUser(email);
+
+  if (!user) {
+    throw new Error('User not found');
+  }
+
+  const matchedPassword = await bcrypt.compare(password, user.password);
+
+  if (!matchedPassword) {
+    throw new Error('Invalid password');
+  }
+
+  user.token = createToken(user);
+
+  return user;
+}
+
 module.exports = {
   register,
+  login,
 };
