@@ -4,6 +4,7 @@ const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 require('dotenv').config();
+const userRoute = require('./api/user/user.route');
 
 app.use(morgan('dev'));
 
@@ -13,7 +14,7 @@ app.use(bodyParser.json());
 mongoose.connect(
   'mongodb+srv://herculeschrysanthos:' +
     process.env.MONGO_ATLAS_PASS +
-    '@cluster0.j390io1.mongodb.net/?retryWrites=true&w=majority',
+    '@cluster0.j390io1.mongodb.net/carShare?retryWrites=true&w=majority',
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -32,6 +33,8 @@ app.use((req, res, next) => {
   }
   next();
 });
+
+app.use('/users', userRoute);
 
 app.use((req, res, next) => {
   const error = new Error('Not Found');
