@@ -45,7 +45,22 @@ async function login(req, res, next) {
   }
 }
 
+async function getUserProfile(req, res, next) {
+  try {
+    const isOwner = req.user.isOwner;
+
+    if (!isOwner) {
+      return res.status(200).json({});
+    }
+
+    // isOwner
+  } catch (error) {
+    return next(error);
+  }
+}
+
 module.exports = {
   register,
   login,
+  getUserProfile,
 };

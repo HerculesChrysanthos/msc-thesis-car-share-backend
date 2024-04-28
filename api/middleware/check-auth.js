@@ -4,9 +4,10 @@ const auth = (role = []) => {
   return (req, res, next) => {
     const token = req.headers?.authorization?.split(' ')[1];
 
-    if (!token) {
+    if (!token && role.length !== 0) {
       throw new Error('A token is required for authentication');
     }
+
     try {
       const decoded = jwt.verify(token, process.env.TOKEN_KEY);
       req.user = decoded;
@@ -35,4 +36,27 @@ const auth = (role = []) => {
   };
 };
 
-module.exports = auth;
+function authorization() {
+  return (req, res, next) => {
+    try {
+      const token = req?.headers?.authorization?.split(' ')[1];
+      if (!token) {
+        return next();
+      }
+
+      const decoded = jwt.verify(token, process.env.TOKEN_KEY);
+      req.user = decoded;
+
+      req.user.isOwner = req.user.userId === req.params.userId;
+
+      return next();
+    } catch (error) {
+      return next(error);
+    }
+  };
+}
+
+module.exports = {
+  auth,
+  authorization,
+};

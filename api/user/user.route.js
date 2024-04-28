@@ -17,7 +17,7 @@ router.post(
   userController.login
 );
 
-//router.get('/:userId', authorization(), userController.getUser);
+router.get('/:userId', authorization(), userController.getUserProfile);
 
 // router.put('/:userId');
 // // change password
