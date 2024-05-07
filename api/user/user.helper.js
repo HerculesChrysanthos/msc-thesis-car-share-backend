@@ -11,6 +11,7 @@ function buildUserResponse(user) {
       licence: user.licence,
       drivingSince: user.drivingSince,
       profilePictureUrl: user.profilePictureUrl,
+      googleId: user.googleId,
     },
     token: user.token,
   };

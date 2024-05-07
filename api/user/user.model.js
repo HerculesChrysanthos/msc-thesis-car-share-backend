@@ -6,13 +6,14 @@ const userSchema = mongoose.Schema(
     name: { type: String, required: true },
     surname: { type: String, required: true },
     email: { type: String, unique: true, required: true },
-    password: { type: String, required: true },
+    password: { type: String },
+    googleId: { type: String },
     role: {
       type: String,
       default: ROLES.RENTER,
       enum: ROLES,
     },
-    phone: { type: String, required: true },
+    phone: { type: String },
     dateOfBirth: {
       day: {
         type: Number,
@@ -32,7 +33,7 @@ const userSchema = mongoose.Schema(
       },
     },
     vat: { type: String },
-    licence: { type: Number, required: true },
+    licence: { type: Number },
     drivingSince: { type: Number },
     profilePictureUrl: { type: String },
     carsOwning: [

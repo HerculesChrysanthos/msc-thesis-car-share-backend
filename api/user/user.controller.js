@@ -59,8 +59,22 @@ async function getUserProfile(req, res, next) {
   }
 }
 
+async function googleAuth(req, res, next) {
+  try {
+    if (!req.dbUser) {
+      throw new Error('Error on google auth');
+    }
+    console.log(req.dbUser);
+    const response = userHelper.buildUserResponse(req.dbUser);
+    return res.status(200).json(response);
+  } catch (error) {
+    return next(error);
+  }
+}
+
 module.exports = {
   register,
   login,
   getUserProfile,
+  googleAuth,
 };

@@ -41,7 +41,14 @@ const loginSchema = Joi.object({
   }),
 }).required();
 
+const googleSchema = Joi.object({
+  query: Joi.object({
+    role: Joi.string().valid(...Object.values(ROLES)),
+  }),
+});
+
 module.exports = {
   registerSchema,
   loginSchema,
+  googleSchema,
 };
