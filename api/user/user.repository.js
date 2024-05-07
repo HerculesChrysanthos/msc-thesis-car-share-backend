@@ -9,10 +9,23 @@ async function findUser(email) {
 }
 
 async function createOrUpdateUserByGoogleId(user) {
-  return User.findOneAndUpdate({ googleId: user.googleId }, user, {
-    upsert: true,
-    new: true,
-  })
+  return User.findOneAndUpdate(
+    { googleId: user.googleId },
+    {
+      $set: {
+        name: user.name,
+        surname: user.surname,
+        email: user.email,
+        googleId: user.googleId,
+        profilePictureUrl: user.profilePictureUrl,
+      },
+      $setOnInsert: { role: user.role },
+    },
+    {
+      upsert: true,
+      new: true,
+    }
+  )
     .lean()
     .exec();
 }
