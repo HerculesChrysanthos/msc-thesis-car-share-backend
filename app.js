@@ -4,7 +4,7 @@ const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 require('dotenv').config();
-const userRoute = require('./api/user/user.route');
+const userRoute = require('./server/api/user/user.route');
 
 app.use(morgan('dev'));
 

@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const { validator } = require('../middleware/validate');
+const { validator } = require('../../middleware/validate');
 const userValidator = require('./user.validator');
-const { auth, authorization } = require('../middleware/check-auth');
+const { auth, authorization } = require('../../middleware/check-auth');
 const userController = require('./user.controller');
 const passport = require('passport');
-require('../../server/clients/google-client');
+require('../../clients/google-client');
 
 router.post(
   '/register',
