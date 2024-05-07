@@ -61,11 +61,13 @@ async function getUserProfile(req, res, next) {
 
 async function googleAuth(req, res, next) {
   try {
-    if (!req.dbUser) {
+    const user = req.dbUser;
+
+    if (!user) {
       throw new Error('Error on google auth');
     }
-    console.log(req.dbUser);
-    const response = userHelper.buildUserResponse(req.dbUser);
+    console.log(user);
+    const response = userHelper.buildUserResponse(user);
     return res.status(200).json(response);
   } catch (error) {
     return next(error);

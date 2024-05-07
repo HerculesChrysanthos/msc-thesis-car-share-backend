@@ -24,6 +24,7 @@ async function createOrUpdateUserByGoogleId(user) {
     {
       upsert: true,
       new: true,
+      rawResult: true,
     }
   )
     .lean()

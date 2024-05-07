@@ -2,6 +2,8 @@ const userRepository = require('./user.repository');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
+const nodemailer = require('../../clients/nodemailer');
+const { EMAIL_TYPES } = require('../constants');
 
 function createToken(user) {
   const expirationTimeInSeconds = 60 * 60 * 24 * 30; // 30days in seconds
@@ -19,6 +21,11 @@ async function register(user) {
   user.password = encryptedPassword;
 
   const dbUser = await userRepository.registerUser(user);
+
+  /**
+   * Send email through nodemailer
+   */
+  nodemailer.sendEmail(EMAIL_TYPES.REGISTRATION, dbUser);
 
   dbUser.token = createToken(dbUser);
 

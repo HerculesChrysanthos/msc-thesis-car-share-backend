@@ -2,6 +2,8 @@ const passport = require('passport');
 var GoogleStrategy = require('passport-google-oauth20').Strategy;
 require('dotenv').config();
 const userRepository = require('../api/user/user.repository');
+const nodemailer = require('../clients/nodemailer');
+const { EMAIL_TYPES } = require('../api/constants');
 
 // passport.serializeUser((user, done) => {
 //   done(null, user);
@@ -33,9 +35,15 @@ passport.use(
         role: req.query.state,
       };
 
-      const dbUser = await userRepository.createOrUpdateUserByGoogleId(
+      const dbResult = await userRepository.createOrUpdateUserByGoogleId(
         googleUser
       );
+
+      const dbUser = dbResult.value;
+
+      if (!dbResult.lastErrorObject.updatedExisting) {
+        nodemailer.sendEmail(EMAIL_TYPES.REGISTRATION, dbUser);
+      }
 
       req.dbUser = dbUser;
 
