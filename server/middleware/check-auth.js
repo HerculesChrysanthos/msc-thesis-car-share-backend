@@ -12,7 +12,7 @@ const auth = (role = []) => {
       const decoded = jwt.verify(token, process.env.TOKEN_KEY);
       req.user = decoded;
 
-      if (!role.includes(req.user.role)) {
+      if (role.length !== 0 && !role.includes(req.user.role)) {
         throw new Error('Unauthorized');
       }
 

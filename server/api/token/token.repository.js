@@ -1,11 +1,11 @@
 const Token = require('./token.model');
 
 async function findTokenByTokenId(tokenId) {
-  return Token.find({ tokenId }).lean().exec();
+  return Token.findOne({ tokenId }).lean().exec();
 }
 
 async function deleteTokenByTokenId(tokenId) {
-  return Token.delete({ tokenId });
+  return Token.findOneAndDelete({ tokenId });
 }
 
 async function createToken(token) {

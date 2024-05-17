@@ -40,6 +40,15 @@ router.get(
   // }
 );
 
+router.get(
+  '/verify',
+  auth(),
+  validator(userValidator.verifySchema),
+  userController.verify
+);
+
+// router.post('/re-send-verify-token')
+
 router.get('/:userId', authorization(), userController.getUserProfile);
 
 // router.put('/:userId');

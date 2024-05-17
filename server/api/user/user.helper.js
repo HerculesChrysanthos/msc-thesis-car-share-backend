@@ -12,6 +12,7 @@ function buildUserResponse(user) {
       drivingSince: user.drivingSince,
       profilePictureUrl: user.profilePictureUrl,
       googleId: user.googleId,
+      verified: user.verified,
     },
     token: user.token,
   };

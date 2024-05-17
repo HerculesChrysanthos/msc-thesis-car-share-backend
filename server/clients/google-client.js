@@ -33,6 +33,7 @@ passport.use(
         googleId: profile._json.sub,
         profilePictureUrl: profile._json.picture,
         role: req.query.state,
+        verified: true,
       };
 
       const dbResult = await userRepository.createOrUpdateUserByGoogleId(

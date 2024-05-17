@@ -47,8 +47,15 @@ const googleSchema = Joi.object({
   }),
 });
 
+const verifySchema = Joi.object({
+  query: Joi.object({
+    token: Joi.string().hex().length(64).required(),
+  }),
+});
+
 module.exports = {
   registerSchema,
   loginSchema,
   googleSchema,
+  verifySchema,
 };

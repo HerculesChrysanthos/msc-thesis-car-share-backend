@@ -31,8 +31,19 @@ async function createOrUpdateUserByGoogleId(user) {
     .exec();
 }
 
+async function verifyUser(_id) {
+  return User.findOneAndUpdate(
+    { _id },
+    { $set: { verified: true } },
+    { new: true }
+  )
+    .lean()
+    .exec();
+}
+
 module.exports = {
   registerUser,
   findUser,
   createOrUpdateUserByGoogleId,
+  verifyUser,
 };

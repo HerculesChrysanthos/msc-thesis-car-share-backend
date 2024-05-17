@@ -7,20 +7,38 @@ function setSubjectByEmailType(type) {
     case EMAIL_TYPES.REGISTRATION:
       return 'Καλώς ήρθες στο car share';
     default:
-      return '';
+      return 'ok';
   }
 }
 
-function setBodyByEmailType(type, info) {
+function setBodyByEmailType(type, user, token) {
   switch (type) {
     case EMAIL_TYPES.REGISTRATION:
-      return `<html> <b>Welcome ${info.name} </b> </html>`;
+      const expirationDate = new Date(
+        user.createdAt.getTime() + 60 * 60 * 24 * 1000
+      );
+      console.log('The document will expire on:', expirationDate);
+      const options = {
+        timeZone: 'Europe/Athens',
+        hourCycle: 'h23',
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+      };
+      const expirationDateGreek = expirationDate.toLocaleString(
+        'el-GR',
+        options
+      );
+      return `<html> <b>Welcome ${user.name} </b> <p> Verify your account here until ${expirationDateGreek}</html>`;
     default:
-      return '';
+      return 'verified';
   }
 }
 
-async function sendEmail(type, info) {
+async function sendEmail(type, user, token) {
   let transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
@@ -34,9 +52,9 @@ async function sendEmail(type, info) {
       name: 'Car Share',
       address: process.env.APP_EMAIL,
     },
-    to: info.email,
+    to: user.email,
     subject: setSubjectByEmailType(type),
-    html: setBodyByEmailType(type, info),
+    html: setBodyByEmailType(type, user, token),
   };
 
   transporter.sendMail(mailOptions, function (error, info) {

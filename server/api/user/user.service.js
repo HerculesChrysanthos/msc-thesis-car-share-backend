@@ -4,6 +4,9 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const nodemailer = require('../../clients/nodemailer');
 const { EMAIL_TYPES } = require('../constants');
+const tokenService = require('../token/token.service');
+const { deleteTokenByTokenId } = require('../token/token.repository');
+const utils = require('../../utils');
 
 function createToken(user) {
   const expirationTimeInSeconds = 60 * 60 * 24 * 30; // 30days in seconds
@@ -22,10 +25,9 @@ async function register(user) {
 
   const dbUser = await userRepository.registerUser(user);
 
-  /**
-   * Send email through nodemailer
-   */
-  nodemailer.sendEmail(EMAIL_TYPES.REGISTRATION, dbUser);
+  const verificationToken = await tokenService.createToken(dbUser._id);
+
+  nodemailer.sendEmail(EMAIL_TYPES.REGISTRATION, dbUser, verificationToken);
 
   dbUser.token = createToken(dbUser);
 
@@ -50,7 +52,26 @@ async function login(email, password) {
   return user;
 }
 
+async function verify(tokenId) {
+  const token = await tokenService.findTokenByTokenId(tokenId);
+
+  if (!token) {
+    throw new Error('Invalid or expired token');
+  }
+
+  const verifiedUser = await userRepository.verifyUser(token.userId);
+
+  if (!verifiedUser) {
+    throw new Error('Already verified user');
+  }
+
+  await deleteTokenByTokenId(tokenId);
+
+  nodemailer.sendEmail(EMAIL_TYPES.VERIFICATION, verifiedUser);
+}
+
 module.exports = {
   register,
   login,
+  verify,
 };

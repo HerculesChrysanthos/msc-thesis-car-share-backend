@@ -74,9 +74,25 @@ async function googleAuth(req, res, next) {
   }
 }
 
+async function verify(req, res, next) {
+  try {
+    const token = req.query.token;
+
+    await userService.verify(token);
+
+    return res.status(200).json({});
+  } catch (error) {
+    if (error.toString().includes('Invalid or expired token')) {
+      error.status = 401;
+    }
+    return next(error);
+  }
+}
+
 module.exports = {
   register,
   login,
   getUserProfile,
   googleAuth,
+  verify,
 };
