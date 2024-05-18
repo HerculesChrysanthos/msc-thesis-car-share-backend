@@ -1,7 +1,8 @@
 const jwt = require('jsonwebtoken');
+const userRepository = require('../api/user/user.repository');
 
 const auth = (role = []) => {
-  return (req, res, next) => {
+  return async (req, res, next) => {
     const token = req.headers?.authorization?.split(' ')[1];
 
     if (!token && role.length !== 0) {
@@ -10,7 +11,14 @@ const auth = (role = []) => {
 
     try {
       const decoded = jwt.verify(token, process.env.TOKEN_KEY);
-      req.user = decoded;
+
+      const foundUser = await userRepository.findUserById(decoded.userId);
+
+      if (!foundUser) {
+        throw new Error('Unauthorized');
+      }
+
+      req.user = foundUser;
 
       if (role.length !== 0 && !role.includes(req.user.role)) {
         throw new Error('Unauthorized');

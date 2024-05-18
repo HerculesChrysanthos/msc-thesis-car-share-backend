@@ -89,10 +89,23 @@ async function verify(req, res, next) {
   }
 }
 
+async function reSendVerfiyToken(req, res, next) {
+  try {
+    const user = req.user;
+
+    await userService.reSendVerifyToken(user);
+
+    return res.status(200).json({});
+  } catch (error) {
+    return next(error);
+  }
+}
+
 module.exports = {
   register,
   login,
   getUserProfile,
   googleAuth,
   verify,
+  reSendVerfiyToken,
 };

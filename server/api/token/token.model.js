@@ -1,7 +1,11 @@
 const mongoose = require('mongoose');
 
 const tokenSchema = mongoose.Schema({
-  userId: mongoose.Schema.Types.ObjectId,
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    unique: true,
+  },
   tokenId: {
     type: String,
     required: true,

@@ -2,6 +2,26 @@ const nodemailer = require('nodemailer');
 require('dotenv').config();
 const { EMAIL_TYPES } = require('../api/constants');
 
+function getExpirationTime(token) {
+  const expirationDate = new Date(
+    token.createdAt.getTime() + 60 * 60 * 24 * 1000
+  );
+  console.log('The document will expire on:', expirationDate);
+  const options = {
+    timeZone: 'Europe/Athens',
+    hourCycle: 'h23',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+  };
+  const expirationDateGreek = expirationDate.toLocaleString('el-GR', options);
+
+  return expirationDateGreek;
+}
+
 function setSubjectByEmailType(type) {
   switch (type) {
     case EMAIL_TYPES.REGISTRATION:
@@ -12,27 +32,15 @@ function setSubjectByEmailType(type) {
 }
 
 function setBodyByEmailType(type, user, token) {
+  let expirationDateGreek;
+  if (token) {
+    expirationDateGreek = getExpirationTime(token);
+  }
   switch (type) {
     case EMAIL_TYPES.REGISTRATION:
-      const expirationDate = new Date(
-        user.createdAt.getTime() + 60 * 60 * 24 * 1000
-      );
-      console.log('The document will expire on:', expirationDate);
-      const options = {
-        timeZone: 'Europe/Athens',
-        hourCycle: 'h23',
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
-      };
-      const expirationDateGreek = expirationDate.toLocaleString(
-        'el-GR',
-        options
-      );
-      return `<html> <b>Welcome ${user.name} </b> <p> Verify your account here until ${expirationDateGreek}</html>`;
+      return `<html> <b>Welcome ${user.name} </b> <p> Verify your account here localhost:8080/api/users/verify?token=${token.tokenId} until ${expirationDateGreek} </p></html>`;
+    case EMAIL_TYPES.VERIFICATION:
+      return `<html> <p> Verify your account here localhost:8080/api/users/verify?token=${token.tokenId} until ${expirationDateGreek}</html>`;
     default:
       return 'verified';
   }

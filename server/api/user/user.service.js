@@ -62,16 +62,33 @@ async function verify(tokenId) {
   const verifiedUser = await userRepository.verifyUser(token.userId);
 
   if (!verifiedUser) {
-    throw new Error('Already verified user');
+    throw new Error('Error verifing user');
   }
 
   await deleteTokenByTokenId(tokenId);
 
-  nodemailer.sendEmail(EMAIL_TYPES.VERIFICATION, verifiedUser);
+  nodemailer.sendEmail(EMAIL_TYPES.VERIFIED, verifiedUser, token);
+}
+
+async function reSendVerifyToken(user) {
+  const verifiedUser = user.verified;
+
+  if (verifiedUser) {
+    throw new Error('User already verified');
+  }
+
+  let token = await tokenService.findTokenByUserId(user._id);
+
+  if (!token) {
+    token = tokenService.createToken(user._id);
+  }
+
+  nodemailer.sendEmail(EMAIL_TYPES.VERIFICATION, user, token);
 }
 
 module.exports = {
   register,
   login,
   verify,
+  reSendVerifyToken,
 };

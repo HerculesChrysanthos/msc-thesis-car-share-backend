@@ -12,8 +12,12 @@ async function createToken(token) {
   return Token.create(token);
 }
 
+async function findTokenByUserId(userId) {
+  return Token.findOne({ userId });
+}
 module.exports = {
   findTokenByTokenId,
   deleteTokenByTokenId,
   createToken,
+  findTokenByUserId,
 };

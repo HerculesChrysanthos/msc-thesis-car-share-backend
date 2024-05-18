@@ -42,12 +42,11 @@ router.get(
 
 router.get(
   '/verify',
-  auth(),
   validator(userValidator.verifySchema),
   userController.verify
 );
 
-// router.post('/re-send-verify-token')
+router.post('/re-send-verify-token', auth(), userController.reSendVerfiyToken);
 
 router.get('/:userId', authorization(), userController.getUserProfile);
 

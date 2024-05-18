@@ -41,9 +41,14 @@ async function verifyUser(_id) {
     .exec();
 }
 
+async function findUserById(id) {
+  return User.findById(id);
+}
+
 module.exports = {
   registerUser,
   findUser,
   createOrUpdateUserByGoogleId,
   verifyUser,
+  findUserById,
 };

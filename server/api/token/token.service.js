@@ -28,11 +28,16 @@ async function createToken(userId) {
     }
   }
 
-  return createToken;
+  return createdToken;
+}
+
+async function findTokenByUserId(userId) {
+  return tokenRepository.findTokenByUserId(userId);
 }
 
 module.exports = {
   findTokenByTokenId,
   deleteTokenByTokenId,
   createToken,
+  findTokenByUserId,
 };
