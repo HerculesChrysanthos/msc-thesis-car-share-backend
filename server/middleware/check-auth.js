@@ -1,11 +1,11 @@
 const jwt = require('jsonwebtoken');
 const userRepository = require('../api/user/user.repository');
 
-const auth = (role = []) => {
+const auth = () => {
   return async (req, res, next) => {
     const token = req.headers?.authorization?.split(' ')[1];
 
-    if (!token && role.length !== 0) {
+    if (!token) {
       throw new Error('A token is required for authentication');
     }
 
@@ -19,10 +19,6 @@ const auth = (role = []) => {
       }
 
       req.user = foundUser;
-
-      if (role.length !== 0 && !role.includes(req.user.role)) {
-        throw new Error('Unauthorized');
-      }
 
       return next();
     } catch (error) {
