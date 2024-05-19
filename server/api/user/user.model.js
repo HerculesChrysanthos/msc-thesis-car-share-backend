@@ -3,47 +3,64 @@ const { ROLES } = require('../constants');
 
 const userSchema = mongoose.Schema(
   {
-    name: { type: String, required: true },
-    surname: { type: String, required: true },
-    email: { type: String, unique: true, required: true },
-    password: { type: String },
-    googleId: { type: String },
-    // role: {
-    //   type: String,
-    //   default: ROLES.RENTER,
-    //   enum: ROLES,
-    // },
-    phone: { type: String },
+    name: {
+      type: String,
+      required: true,
+    },
+    surname: {
+      type: String,
+      required: true,
+    },
+    email: {
+      type: String,
+      unique: true,
+      required: true,
+    },
+    password: {
+      type: String,
+      required: true,
+    },
+    googleId: {
+      type: String,
+    },
+    phone: {
+      type: String,
+    },
     dateOfBirth: {
       day: {
         type: Number,
-        required: true,
         min: 1,
         max: 31,
       },
       month: {
         type: Number,
-        required: true,
         min: 1,
         max: 12,
       },
       year: {
         type: Number,
-        required: true,
       },
     },
-    vat: { type: String },
-    licence: { type: Number },
-    drivingSince: { type: Number },
-    profilePictureUrl: { type: String },
-    carsOwning: [
-      {
-        carId: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: 'Car',
-        },
+    vat: {
+      type: String,
+    },
+    licenceNumber: {
+      type: Number,
+    },
+    drivingSince: {
+      month: {
+        type: Number,
+
+        min: 1,
+        max: 12,
       },
-    ],
+      year: {
+        type: Number,
+      },
+    },
+    profilePictureUrl: {
+      type: String,
+    },
     verified: {
       type: Boolean,
       default: false,
