@@ -1,12 +1,25 @@
 const Joi = require('joi');
+const passwordComplexity = require('joi-password-complexity');
 const { ROLES } = require('../constants');
+
+const complexityOptions = {
+  min: 8,
+  max: 16,
+  lowerCase: 1,
+  upperCase: 1,
+  numeric: 1,
+  symbol: 1,
+  requirementCount: 6,
+};
 
 const registerSchema = Joi.object({
   body: Joi.object({
     name: Joi.string().lowercase().required(),
     surname: Joi.string().lowercase().required(),
     email: Joi.string().email().lowercase().required(),
-    password: Joi.string().min(8).max(16).required().label('password'),
+    password: passwordComplexity(complexityOptions)
+      .required()
+      .label('password'),
     passwordConfirmation: Joi.any()
       .equal(Joi.ref('password'))
       .required()

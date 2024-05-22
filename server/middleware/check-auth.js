@@ -3,13 +3,13 @@ const userRepository = require('../api/user/user.repository');
 
 const auth = () => {
   return async (req, res, next) => {
-    const token = req.headers?.authorization?.split(' ')[1];
-
-    if (!token) {
-      throw new Error('A token is required for authentication');
-    }
-
     try {
+      const token = req.headers?.authorization?.split(' ')[1];
+
+      if (!token) {
+        throw new Error('A token is required for authentication');
+      }
+
       const decoded = jwt.verify(token, process.env.TOKEN_KEY);
 
       const foundUser = await userRepository.findUserById(decoded.userId);

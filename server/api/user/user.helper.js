@@ -4,7 +4,7 @@ function buildUserResponse(user) {
       name: user.name,
       surname: user.surname,
       email: user.email,
-      role: user.role,
+      //role: user.role,
       phone: user.phone,
       dateOfBirth: user.dateOfBirth,
       vat: user.vat,
