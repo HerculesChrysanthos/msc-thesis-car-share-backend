@@ -1,6 +1,6 @@
 const Joi = require('joi');
 const passwordComplexity = require('joi-password-complexity');
-const { ROLES } = require('../constants');
+// const { ROLES } = require('../constants');
 
 const complexityOptions = {
   min: 8,
@@ -54,11 +54,11 @@ const loginSchema = Joi.object({
   }),
 }).required();
 
-const googleSchema = Joi.object({
-  query: Joi.object({
-    role: Joi.string().valid(...Object.values(ROLES)),
-  }),
-});
+// const googleSchema = Joi.object({
+//   query: Joi.object({
+//     role: Joi.string().valid(...Object.values(ROLES)),
+//   }),
+// });
 
 const verifySchema = Joi.object({
   query: Joi.object({
@@ -69,6 +69,6 @@ const verifySchema = Joi.object({
 module.exports = {
   registerSchema,
   loginSchema,
-  googleSchema,
+  //googleSchema,
   verifySchema,
 };

@@ -21,7 +21,7 @@ passport.use(
       passReqToCallback: true,
     },
     async function (req, accessToken, refreshToken, profile, cb) {
-      console.log('Role parameter:', req.query.state);
+      //console.log('Role parameter:', req.query.state);
       //   User.findOrCreate({ googleId: profile.id }, function (err, user) {
       //     return cb(err, user);
       //   });
@@ -32,7 +32,7 @@ passport.use(
         email: profile._json.email,
         googleId: profile._json.sub,
         profilePictureUrl: profile._json.picture,
-        role: req.query.state,
+        //role: req.query.state,
         verified: true,
       };
 
@@ -43,7 +43,7 @@ passport.use(
       const dbUser = dbResult.value;
 
       if (!dbResult.lastErrorObject.updatedExisting) {
-        nodemailer.sendEmail(EMAIL_TYPES.REGISTRATION, dbUser);
+        nodemailer.sendEmail(EMAIL_TYPES.REGISTRATION_GOOGLE, dbUser);
       }
 
       req.dbUser = dbUser;

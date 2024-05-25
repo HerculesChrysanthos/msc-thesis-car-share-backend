@@ -11,7 +11,7 @@ const utils = require('../../utils');
 function createToken(user) {
   const expirationTimeInSeconds = 60 * 60 * 24 * 30; // 30days in seconds
   return jwt.sign(
-    { userId: user._id, email: user.email, role: user.role },
+    { userId: user._id, email: user.email },
     process.env.TOKEN_KEY,
     {
       expiresIn: expirationTimeInSeconds, //'2h',

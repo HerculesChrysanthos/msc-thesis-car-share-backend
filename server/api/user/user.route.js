@@ -21,11 +21,11 @@ router.post(
 
 router.get(
   '/google',
-  validator(userValidator.googleSchema),
+  // validator(userValidator.googleSchema),
   (req, res, next) => {
     passport.authenticate('google', {
       scope: ['profile', 'email'],
-      state: req.query.role,
+      // state: req.query.role,
     })(req, res, next);
   }
 );

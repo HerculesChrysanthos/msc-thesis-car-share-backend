@@ -26,6 +26,8 @@ function setSubjectByEmailType(type) {
   switch (type) {
     case EMAIL_TYPES.REGISTRATION:
       return 'Καλώς ήρθες στο car share';
+    case EMAIL_TYPES.REGISTRATION_GOOGLE:
+      return 'Καλώς ήρθες στο car share';
     default:
       return 'ok';
   }
@@ -39,6 +41,8 @@ function setBodyByEmailType(type, user, token) {
   switch (type) {
     case EMAIL_TYPES.REGISTRATION:
       return `<html> <b>Welcome ${user.name} </b> <p> Verify your account here localhost:8080/api/users/verify?token=${token.tokenId} until ${expirationDateGreek} </p></html>`;
+    case EMAIL_TYPES.REGISTRATION_GOOGLE:
+      return `<html> <b>Welcome ${user.name} </b></html>`;
     case EMAIL_TYPES.VERIFICATION:
       return `<html> <p> Verify your account here localhost:8080/api/users/verify?token=${token.tokenId} until ${expirationDateGreek}</html>`;
     default:
