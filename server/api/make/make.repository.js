@@ -1,7 +1,7 @@
 const Make = require('./make.model');
 
-async function checkIfMakeExistsByFilters(filters) {
-  return Make.exists({ _id: filters.make, model: filters.make });
+async function checkIfMakeExists(make) {
+  return Make.exists({ _id: make });
 }
 
 // async function getMakesWithModels() {
@@ -13,6 +13,6 @@ async function getAllMakes() {
 }
 
 module.exports = {
-  checkIfMakeExistsByFilters,
+  checkIfMakeExists,
   getAllMakes,
 };

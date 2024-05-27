@@ -1,7 +1,7 @@
 const Model = require('./model.model');
 
-async function checkIfModelExists(id) {
-  return Model.exists({ _id: id });
+async function checkIfModelExistsByFilters(filters) {
+  return Model.exists({ _id: filters.model, make: filters.make });
 }
 
 async function getModelsByMake(make) {
@@ -9,6 +9,6 @@ async function getModelsByMake(make) {
 }
 
 module.exports = {
-  checkIfModelExists,
+  checkIfModelExistsByFilters,
   getModelsByMake,
 };

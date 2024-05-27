@@ -1,7 +1,7 @@
 const makeRepository = require('./make.repository');
 
-async function checkIfMakeExistsByFilters(filters) {
-  return makeRepository.checkIfMakeExistsByFilters(filters);
+async function checkIfMakeExists(make) {
+  return makeRepository.checkIfMakeExists(make);
 }
 
 async function getAllMakes() {
@@ -9,6 +9,6 @@ async function getAllMakes() {
 }
 
 module.exports = {
-  checkIfMakeExistsByFilters,
+  checkIfMakeExists,
   getAllMakes,
 };

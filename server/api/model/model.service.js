@@ -1,8 +1,8 @@
 const modelRepository = require('./model.repository');
 const utils = require('../../utils');
 
-async function checkIfModelExists(id) {
-  return modelRepository.checkIfModelExists(id);
+async function checkIfModelExistsByFilters(filters) {
+  return modelRepository.checkIfModelExistsByFilters(filters);
 }
 
 async function getModelsByMake(make) {
@@ -14,6 +14,6 @@ async function getModelsByMake(make) {
 }
 
 module.exports = {
-  checkIfModelExists,
+  checkIfModelExistsByFilters,
   getModelsByMake,
 };

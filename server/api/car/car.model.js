@@ -42,9 +42,11 @@ const carSchema = mongoose.Schema(
       type: String,
       enum: FUEL_TYPES,
     },
+    kilowatt: {
+      type: String,
+    },
     engineSize: {
       type: Number,
-      required: true,
     },
     enginePower: {
       type: Number,
@@ -90,10 +92,10 @@ const carSchema = mongoose.Schema(
       },
     ],
     address: {
-      city: { type: String, required: true },
-      street: { type: String, required: true },
-      number: { type: Number, required: true },
-      postalCode: { type: String, required: true },
+      city: { type: String },
+      street: { type: String },
+      number: { type: Number },
+      postalCode: { type: String },
       location: {
         type: {
           type: String,
@@ -102,7 +104,6 @@ const carSchema = mongoose.Schema(
         },
         coordinates: {
           type: [Number],
-          required: true,
         },
       },
     },
