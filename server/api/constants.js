@@ -8,6 +8,7 @@ const FUEL_TYPES = Object.freeze({
   PETROL: 'Βενζίνη',
   DIESEL: 'Πετρέλαιο',
   GAS: 'Αέριο',
+  ELECTRIC: 'Ηλεκτρικό',
 });
 
 const EMAIL_TYPES = Object.freeze({
