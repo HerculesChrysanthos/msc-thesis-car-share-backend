@@ -1,16 +1,26 @@
 const mongoose = require('mongoose');
-const { MAKES, FUEL_TYPES } = require('../constants');
+const {
+  MAKES,
+  FUEL_TYPES,
+  DRIVE_TYPES,
+  GEARBOX_TYPES,
+} = require('../constants');
 
 const carSchema = mongoose.Schema(
   {
-    owner: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-    make: {
-      type: String,
+    owner: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
       required: true,
-      enum: MAKES,
+    },
+    make: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Make',
+      required: true,
     },
     model: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Model',
       required: true,
     },
     registration: {
@@ -42,37 +52,60 @@ const carSchema = mongoose.Schema(
     },
     gearboxType: {
       type: String,
-      enum: ['Αυτόματο', 'Μηχανικό', 'Ημιαυτόματο'],
+      enum: GEARBOX_TYPES,
     },
     exteriorColor: {
       type: String,
-      required: true,
     },
     interiorColor: {
       type: String,
-      required: true,
     },
     rimSize: {
       type: Number,
-      required: true,
     },
     euroClass: {
       type: Number,
-      required: true,
     },
     driveType: {
       type: String,
-      enum: ['Κίνηση στους εμπρός τροχούς', 'Κίνηση στους πίσω τροχούς', '4x4'],
+      enum: DRIVE_TYPES,
     },
     doors: {
       type: Number,
-      required: true,
     },
-    rentPerDay: {
+    seats: {
       type: Number,
-      required: true,
     },
-    features: [String],
+    rentPerHour: {
+      type: Number,
+    },
+    images: [
+      {
+        type: String,
+      },
+    ],
+    features: [
+      {
+        type: String,
+      },
+    ],
+    address: {
+      city: { type: String, required: true },
+      street: { type: String, required: true },
+      number: { type: Number, required: true },
+      postalCode: { type: String, required: true },
+      location: {
+        type: {
+          type: String,
+          enum: ['Point'],
+          default: 'Point',
+        },
+        coordinates: {
+          type: [Number],
+          required: true,
+        },
+      },
+    },
   },
   {
     timestamps: true,
