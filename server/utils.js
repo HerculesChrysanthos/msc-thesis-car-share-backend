@@ -1,4 +1,5 @@
 const crypto = require('crypto');
+const mongoose = require('mongoose');
 
 function generateCryptoToken(bytes = 32) {
   try {
@@ -11,6 +12,11 @@ function generateCryptoToken(bytes = 32) {
   }
 }
 
+function isValidObjectId(recipeId) {
+  return mongoose.Types.ObjectId.isValid(recipeId);
+}
+
 module.exports = {
   generateCryptoToken,
+  isValidObjectId,
 };
