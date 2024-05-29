@@ -14,17 +14,17 @@ const complexityOptions = {
 
 const registerSchema = Joi.object({
   body: Joi.object({
-    name: Joi.string().lowercase().required(),
-    surname: Joi.string().lowercase().required(),
-    email: Joi.string().email().lowercase().required(),
+    name: Joi.string().required(),
+    surname: Joi.string().required(),
+    email: Joi.string().email().required(),
     password: passwordComplexity(complexityOptions)
       .required()
       .label('password'),
     passwordConfirmation: Joi.any()
       .equal(Joi.ref('password'))
       .required()
-      .label('Confirm password')
-      .messages({ 'any.only': '{{#label}} Δεν ταιριάζουν' }),
+      .label('Οι κωδικοί')
+      .messages({ 'any.only': '{{#label}} δεν ταιριάζουν' }),
     // role: Joi.string().valid(...Object.values(ROLES)),
     // phone: Joi.string()
     //   .pattern(/^\+?\d{1,10}$/)
