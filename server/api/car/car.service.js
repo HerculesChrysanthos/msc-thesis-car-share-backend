@@ -5,13 +5,13 @@ const utils = require('../../utils');
 
 async function createCar(car) {
   if (!utils.isValidObjectId(car.model) || !utils.isValidObjectId(car.make)) {
-    throw new error('not found');
+    throw new error('Ο κατασκευαστής ή το μοντέλο δε βρέθηκαν');
   }
 
   const make = await makeservice.checkIfMakeExists(car.make);
 
   if (!make) {
-    throw new Error('Make not found');
+    throw new Error('Ο κατασκευαστής δε βρέθηκε');
   }
 
   const modleFilters = {
@@ -22,7 +22,7 @@ async function createCar(car) {
   const model = await modelService.checkIfModelExistsByFilters(modleFilters);
 
   if (!model) {
-    throw new Error('Model not found');
+    throw new Error('Το Μοντέλο δε βρέθηκε');
   }
 
   return carRepository.createCar(car);
