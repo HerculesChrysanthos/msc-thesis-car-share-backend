@@ -23,8 +23,8 @@ const registerSchema = Joi.object({
     passwordConfirmation: Joi.any()
       .equal(Joi.ref('password'))
       .required()
-      .label('Οι κωδικοί')
-      .messages({ 'any.only': '{{#label}} δεν ταιριάζουν' }),
+      .label('passwordConfirmation')
+      .messages({ 'any.only': 'Οι κωδικοί δεν ταιριάζουν' }),
     // role: Joi.string().valid(...Object.values(ROLES)),
     // phone: Joi.string()
     //   .pattern(/^\+?\d{1,10}$/)

@@ -8,7 +8,6 @@ const defaultMessages = {
   'number.base': 'Το πεδίο πρέπει να είναι αριθμός',
   'number.min': 'Το πεδίο πρέπει να είναι τουλάχιστον {{#limit}}',
   'number.max': 'Το πεδίο πρέπει να είναι το πολύ {{#limit}}',
-  'any.only': '{{#label}} δεν ταιριάζουν',
 };
 
 const customPasswordMessages = {
@@ -35,6 +34,20 @@ function translateErrors(error) {
     const field = detail.context.key;
     const messageTemplate =
       defaultMessages[detail.type] || customPasswordMessages[detail.type];
+
+    if (
+      detail.type === 'any.only' &&
+      detail.context.valids &&
+      detail.context.valids.length > 0 &&
+      detail.context.key !== 'passwordConfirmation'
+    ) {
+      const expectedValues = detail.context.valids.join(', '); // Get the expected values
+      const customMessage = `Πρέπει να είναι μία από τις εξής τιμές: ${expectedValues}`;
+
+      errors[field] = [customMessage];
+      return;
+    }
+
     let message = messageTemplate
       ? messageTemplate
           .replace(/{{#label}}/g, detail.context.label || detail.context.key)
