@@ -3,6 +3,7 @@ const defaultMessages = {
   'string.empty': 'Το πεδίο δεν πρέπει να είναι κενό',
   'string.min': 'Το πεδίο πρέπει να έχει τουλάχιστον {{#limit}} χαρακτήρες',
   'string.max': 'Το πεδίο πρέπει να έχει το πολύ {{#limit}} χαρακτήρες',
+  'string.email': 'Το πεδίο πρέπει να είναι έγκυρη διεύθυνση email',
   'any.required': 'Το πεδίο είναι υποχρεωτικό',
   'number.base': 'Το πεδίο πρέπει να είναι αριθμός',
   'number.min': 'Το πεδίο πρέπει να είναι τουλάχιστον {{#limit}}',
@@ -68,7 +69,7 @@ const validator = (schema, property) => {
       data.image = req.files.map((file) => file.buffer);
     }
 
-    const { error } = schema.validate(data);
+    const { error } = schema.validate(data, { abortEarly: false });
     console.log(`validator ${JSON.stringify(data)}`);
 
     const valid = error == null;
