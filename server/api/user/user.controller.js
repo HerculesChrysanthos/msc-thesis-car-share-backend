@@ -14,7 +14,7 @@ async function register(req, res, next) {
   } catch (error) {
     console.log(`error: ${error}`);
     if (error.toString().includes('duplicate key')) {
-      error.message = 'Email already exists';
+      error.message = 'Το email υπάρχει ήδη';
       error.status = 409;
     }
 
