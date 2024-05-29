@@ -38,13 +38,13 @@ async function login(email, password) {
   const user = await userRepository.findUser(email);
 
   if (!user) {
-    throw new Error('User not found');
+    throw new Error('Λάθος στοιχεία σύνδεσης');
   }
 
   const matchedPassword = await bcrypt.compare(password, user.password);
 
   if (!matchedPassword) {
-    throw new Error('Invalid password');
+    throw new Error('Λάθος στοιχεία σύνδεσης');
   }
 
   user.token = createToken(user);

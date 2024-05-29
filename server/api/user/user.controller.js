@@ -33,14 +33,15 @@ async function login(req, res, next) {
 
     return res.status(200).json(response);
   } catch (error) {
-    if (error.message === 'User not found') {
-      error.status = 404;
-    }
+    // if (error.message === 'User not found') {
+    //   error.status = 404;
+    // }
 
-    if (error.message === 'Invalid password') {
-      error.status = 401;
-    }
+    // if (error.message === 'Invalid password') {
+    //   error.status = 401;
+    // }
 
+    error.status = 401;
     return next(error);
   }
 }
