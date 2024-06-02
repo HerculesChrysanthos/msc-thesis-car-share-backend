@@ -35,6 +35,28 @@ const FEATURES = Object.freeze({
   AIR_CONDITION: 'air-condition',
 });
 
+const INTERIOR_COLORS = Object.freeze({
+  WHITE: 'Άσπρο',
+  GREY: 'Γκρι',
+  TWO_COLOR: 'Δίχρωμο',
+  BROWN: 'Καφέ',
+  BLACK: 'Μαύρο',
+  OTHER: 'Άλλο',
+});
+
+const EXTERIOR_COLORS = Object.freeze({
+  WHITE: 'Άσπρο',
+  BROWN: 'Καφέ',
+  BLACK: 'Μαύρο',
+  GREY: 'Γκρι',
+  BLUE: 'Μπλε',
+  YELLOW: 'Κίτρινο',
+  RED: 'Κόκκινο',
+  GREEN: 'Πράσινο',
+  PINK: 'Ροζ',
+  OTHER: 'Αλλο',
+});
+
 module.exports = {
   ROLES,
   FUEL_TYPES,
@@ -42,4 +64,6 @@ module.exports = {
   DRIVE_TYPES,
   GEARBOX_TYPES,
   FEATURES,
+  INTERIOR_COLORS,
+  EXTERIOR_COLORS,
 };
