@@ -2,7 +2,7 @@ const passport = require('passport');
 var GoogleStrategy = require('passport-google-oauth20').Strategy;
 require('dotenv').config();
 const userRepository = require('../api/user/user.repository');
-const nodemailer = require('../clients/nodemailer');
+const nodemailer = require('./nodemailer');
 const { EMAIL_TYPES } = require('../api/constants');
 
 // passport.serializeUser((user, done) => {

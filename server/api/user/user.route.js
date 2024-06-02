@@ -5,7 +5,7 @@ const userValidator = require('./user.validator');
 const { auth, authorization } = require('../../middleware/check-auth');
 const userController = require('./user.controller');
 const passport = require('passport');
-require('../../clients/google-client');
+require('../../clients/passport-google-client');
 
 router.post(
   '/register',
