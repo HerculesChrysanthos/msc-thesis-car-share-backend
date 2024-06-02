@@ -8,6 +8,7 @@ const defaultMessages = {
   'number.base': 'Το πεδίο πρέπει να είναι αριθμός',
   'number.min': 'Το πεδίο πρέπει να είναι τουλάχιστον {{#limit}}',
   'number.max': 'Το πεδίο πρέπει να είναι το πολύ {{#limit}}',
+  'object.unknown': 'Το πεδίο δεν επιτρέπεται',
 };
 
 const customPasswordMessages = {
