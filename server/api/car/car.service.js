@@ -28,6 +28,17 @@ async function createCar(car) {
   return carRepository.createCar(car);
 }
 
+async function updateCarSpecificFields(carId, car) {
+  if (car.address) {
+    car.address.location = {
+      type: 'Point',
+      coordinates: [car.address.long, car.address.lat],
+    };
+  }
+  return carRepository.updateCarById(carId, car);
+}
+
 module.exports = {
   createCar,
+  updateCarSpecificFields,
 };

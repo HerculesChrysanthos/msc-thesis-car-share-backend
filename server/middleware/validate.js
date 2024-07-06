@@ -32,7 +32,7 @@ function translateErrors(error) {
   const errors = {};
 
   error.details.forEach((detail) => {
-    const field = detail.context.key;
+    const field = detail.context.label || detail.context.key; // const field = detail.context.key;
     const messageTemplate =
       defaultMessages[detail.type] || customPasswordMessages[detail.type];
 

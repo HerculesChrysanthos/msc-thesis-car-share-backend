@@ -4,6 +4,9 @@ const {
   GEARBOX_TYPES,
   FUEL_TYPES,
   FEATURES,
+  INTERIOR_COLORS,
+  EXTERIOR_COLORS,
+  EXTRA_FEATURES,
 } = require('../constants');
 
 // const createCarSchema = Joi.object({
@@ -68,8 +71,11 @@ const createCarSchema = Joi.object({
       month: Joi.number().integer().min(1).max(12).required(),
       year: Joi.number().integer().max(new Date().getFullYear()).required(),
     }).required(),
+    registrationPlate: Joi.string()
+      .pattern(/^[Α-Ω]{3}-\d{4}$/)
+      .message('Το πεδίο πρέπει να είναι της μορφής "ΑΒΓ-1234"')
+      .required(),
     mileage: Joi.number().integer().min(0).required(),
-    engineSize: Joi.number().integer().min(0).required(),
     enginePower: Joi.number().integer().min(0),
     fuelType: Joi.string()
       .valid(...Object.values(FUEL_TYPES))
@@ -88,10 +94,47 @@ const createCarSchema = Joi.object({
       .valid(...Object.values(GEARBOX_TYPES))
       .required(),
     euroClass: Joi.number().integer().min(0).required(),
+    rentPerHour: Joi.number().integer().min(0),
+  }),
+});
+
+const updateCarSpecificFieldsSchema = Joi.object({
+  params: Joi.object({
+    carId: Joi.string().required(),
+  }).required(),
+  body: Joi.object({
+    exteriorColor: Joi.string().valid(...Object.values(EXTERIOR_COLORS)),
+    interiorColor: Joi.string().valid(...Object.values(INTERIOR_COLORS)),
+    rimSize: Joi.number().min(1).max(4),
+    driveType: Joi.string().valid(...Object.values(DRIVE_TYPES)),
+    doors: Joi.number().valid(3, 5, 7).required(),
+    seats: Joi.number().valid(2, 3, 4, 5, 6, 7).required(),
+    features: Joi.array()
+      .items(Joi.string().valid(...Object.values(FEATURES)))
+      .unique(),
+    extraFeatures: Joi.array()
+      .items(
+        Joi.object({
+          name: Joi.string()
+            .valid(...Object.values(EXTRA_FEATURES))
+            .required(),
+          extraPrice: Joi.number().positive().required(),
+        })
+      )
+      .unique('name'),
+    address: Joi.object({
+      city: Joi.string().required(),
+      street: Joi.string().required(),
+      number: Joi.number().required(),
+      postalCode: Joi.number().required(),
+      lat: Joi.number().min(-90).max(90).required().required(),
+      long: Joi.number().min(-180).max(180).required().required(),
+    }),
   }),
 });
 
 module.exports = {
   createCarSchema,
   // updateCarSchema,
+  updateCarSpecificFieldsSchema,
 };

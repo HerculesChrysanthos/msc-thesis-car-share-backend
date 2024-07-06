@@ -32,7 +32,20 @@ const GEARBOX_TYPES = Object.freeze({
 });
 
 const FEATURES = Object.freeze({
-  AIR_CONDITION: 'air-condition',
+  AIR_CONDITION: 'Air condition',
+  ABS: 'ABS',
+  BLUETOOTH: 'Bluetooth',
+  ESP: 'ESP',
+  REAR_VIEW_CAMERA: 'Κάμερα οπισθοπορείς',
+  GPS: 'GPS',
+});
+
+const EXTRA_FEATURES = Object.freeze({
+  CHILD_SEAT: 'Παιδικό κάθισμα',
+  SNOW_CHAINS: 'Αλυσίδες χιονιού',
+  WINTER_TIRES: 'Χειμερινά ελαστικά',
+  BIKE_RACK: 'Σχάρα ποδηλάτου',
+  ROOF_BOX: 'Κουτί οροφής',
 });
 
 const INTERIOR_COLORS = Object.freeze({
@@ -64,6 +77,7 @@ module.exports = {
   DRIVE_TYPES,
   GEARBOX_TYPES,
   FEATURES,
+  EXTRA_FEATURES,
   INTERIOR_COLORS,
   EXTERIOR_COLORS,
 };
