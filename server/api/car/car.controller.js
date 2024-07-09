@@ -36,7 +36,30 @@ async function updateCarSpecificFields(req, res, next) {
   }
 }
 
+async function uploadCarImage(req, res, next) {
+  try {
+    const image = req.files[0];
+    const user = req.user._id;
+    const carId = req.params.carId;
+    const setThumbnail = req.body.setThumbnail
+      ? JSON.parse(req.body.setThumbnail)
+      : false;
+
+    const updatedCar = await carService.uploadCarImage(
+      carId,
+      image,
+      user,
+      setThumbnail
+    );
+
+    return res.status(201).json(updatedCar);
+  } catch (error) {
+    return next(error);
+  }
+}
+
 module.exports = {
   createCar,
   updateCarSpecificFields,
+  uploadCarImage,
 };

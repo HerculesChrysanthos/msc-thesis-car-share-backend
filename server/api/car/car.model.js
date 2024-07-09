@@ -121,6 +121,15 @@ const carSchema = mongoose.Schema(
         },
       },
     },
+    images: [
+      {
+        url: { type: String },
+      },
+    ],
+    thumbnail: {
+      url: { type: String },
+      imageId: { type: String },
+    },
   },
   {
     timestamps: true,

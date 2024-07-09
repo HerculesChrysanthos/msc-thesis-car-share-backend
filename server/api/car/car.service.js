@@ -2,6 +2,9 @@ const carRepository = require('./car.repository');
 const modelService = require('../model/model.service');
 const makeservice = require('../make/make.service');
 const utils = require('../../utils');
+const carHelper = require('./car.helper');
+const sharpHelper = require('../../helpers/sharp.helper');
+const imagekitClient = require('../../clients/imagekit-client');
 
 async function createCar(car) {
   if (!utils.isValidObjectId(car.model) || !utils.isValidObjectId(car.make)) {
@@ -38,7 +41,50 @@ async function updateCarSpecificFields(carId, car) {
   return carRepository.updateCarById(carId, car);
 }
 
+async function uploadCarImage(carId, image, user, setImageAsThumbnail) {
+  image.originalname = image.originalname.replace(/[^a-zA-Z0-9.]/g, '_');
+
+  const name = carHelper.prepareImageName(image.originalname, user);
+
+  const resizedImage = await sharpHelper.resizeImage(image.buffer, {
+    width: 400,
+    //height: 400,
+  });
+
+  await imagekitClient.uploadImage(resizedImage, name);
+
+  const imageUrl = `https://ik.imagekit.io/carsharerentingapp/${name}`;
+
+  const updatedCar = await carRepository.uploadCarImage(carId, imageUrl);
+
+  if (setImageAsThumbnail) {
+    const addedImagedId = updatedCar.images?.find(
+      (image) => image.url === imageUrl
+    );
+
+    const resizedThumbnail = await sharpHelper.resizeImage(image.buffer, {
+      width: 200,
+      //height: 400,
+    });
+
+    const resizedName = `${name}_thumbnail`;
+
+    await imagekitClient.uploadImage(resizedThumbnail, resizedName);
+
+    const thumbnailUrl = `https://ik.imagekit.io/carsharerentingapp/${resizedName}`;
+
+    return carRepository.addThumbnail(
+      carId,
+      thumbnailUrl,
+      addedImagedId._id.toString()
+    );
+  }
+
+  return updatedCar;
+}
+
 module.exports = {
   createCar,
   updateCarSpecificFields,
+  uploadCarImage,
 };

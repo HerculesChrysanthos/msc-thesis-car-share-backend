@@ -133,8 +133,19 @@ const updateCarSpecificFieldsSchema = Joi.object({
   }),
 });
 
+const uploadCarImageSchema = Joi.object({
+  params: Joi.object({
+    carId: Joi.string().required(),
+  }).required(),
+  body: Joi.object({
+    setThumbnail: Joi.boolean(),
+  }),
+  image: Joi.array().items(Joi.binary().required()).required(),
+});
+
 module.exports = {
   createCarSchema,
   // updateCarSchema,
   updateCarSpecificFieldsSchema,
+  uploadCarImageSchema,
 };
