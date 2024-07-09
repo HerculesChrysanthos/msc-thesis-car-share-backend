@@ -45,6 +45,12 @@ async function uploadCarImage(req, res, next) {
       ? JSON.parse(req.body.setThumbnail)
       : false;
 
+    if (req.car.images.length === 10) {
+      const error = new Error('Μπορείς να ανεβάσεις μέχρι και 10 φωτογραφίες');
+      error.status = 400;
+      throw error;
+    }
+
     const updatedCar = await carService.uploadCarImage(
       carId,
       image,

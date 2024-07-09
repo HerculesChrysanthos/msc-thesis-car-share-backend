@@ -86,6 +86,8 @@ async function hasCarAccess(req, res, next) {
       throw error;
     }
 
+    req.car = car;
+
     return next();
   } catch (error) {
     return next(error);
