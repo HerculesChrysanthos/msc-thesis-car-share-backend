@@ -144,9 +144,17 @@ const uploadCarImageSchema = Joi.object({
   image: Joi.array().items(Joi.binary().required()).required(),
 });
 
+const deleteCarImageSchema = Joi.object({
+  params: Joi.object({
+    carId: Joi.string().required(),
+    imageId: Joi.string().required(),
+  }).required(),
+});
+
 module.exports = {
   createCarSchema,
   // updateCarSchema,
   updateCarSpecificFieldsSchema,
   uploadCarImageSchema,
+  deleteCarImageSchema,
 };

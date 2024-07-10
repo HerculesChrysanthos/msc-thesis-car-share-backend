@@ -34,4 +34,12 @@ router.post(
   carController.uploadCarImage
 );
 
+router.delete(
+  '/:carId/images/:imageId',
+  auth(),
+  hasCarAccess,
+  validator(carValidator.deleteCarImageSchema),
+  carController.deleteCarImage
+);
+
 module.exports = router;

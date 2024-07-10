@@ -50,7 +50,6 @@ async function updateCarSpecificFields(carId, car, existingCar) {
       throw error;
     }
 
-    // TODO download image
     const image = await imagekitClient.getImage(existingCarImage.url);
 
     const resizedThumbnail = await sharpHelper.resizeImage(image.buffer, {
@@ -115,8 +114,16 @@ async function uploadCarImage(carId, image, user, setImageAsThumbnail) {
   return updatedCar;
 }
 
+async function removeCarImage(id, imageId, existingCar) {
+  if (existingCar.thumbnail?.imageId === imageId) {
+    await carRepository.removeCarThumbnail(id);
+  }
+  return carRepository.removeCarImage(id, imageId);
+}
+
 module.exports = {
   createCar,
   updateCarSpecificFields,
   uploadCarImage,
+  removeCarImage,
 };

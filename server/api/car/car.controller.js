@@ -69,8 +69,27 @@ async function uploadCarImage(req, res, next) {
   }
 }
 
+async function deleteCarImage(req, res, next) {
+  try {
+    const imageId = req.params.imageId;
+    const carId = req.params.carId;
+    const existingCar = req.car;
+
+    const updatedCar = await carService.removeCarImage(
+      carId,
+      imageId,
+      existingCar
+    );
+
+    return res.status(200).json(updatedCar);
+  } catch (error) {
+    return next(error);
+  }
+}
+
 module.exports = {
   createCar,
   updateCarSpecificFields,
   uploadCarImage,
+  deleteCarImage,
 };
