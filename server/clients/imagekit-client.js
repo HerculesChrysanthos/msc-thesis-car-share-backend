@@ -44,7 +44,33 @@ async function getImage(imageUrl) {
   }
 }
 
+async function deleteImageByFileId(fileId) {
+  try {
+    const imagekit = new ImageKit({
+      publicKey: process.env.IMAGEKIT_PUBLIC_KEY,
+      privateKey: process.env.IMAGEKIT_PRIVATE_KEY,
+      urlEndpoint: 'https://ik.imagekit.io/carsharerentingapp/',
+    });
+
+    return new Promise((resolve, reject) => {
+      imagekit.deleteFile(fileId, function (error, result) {
+        if (error) {
+          console.log('Error:', error);
+          reject(error);
+        } else {
+          console.log('Result:', result);
+          resolve(result);
+        }
+      });
+    });
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
 module.exports = {
   uploadImage,
   getImage,
+  deleteImageByFileId,
 };

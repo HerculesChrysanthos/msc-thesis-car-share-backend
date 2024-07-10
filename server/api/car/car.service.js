@@ -59,13 +59,19 @@ async function updateCarSpecificFields(carId, car, existingCar) {
 
     const resizedName = `${Date.now()}${existingCarImage._id}_thumbnail`;
 
-    await imagekitClient.uploadImage(resizedThumbnail, resizedName);
+    const result = await imagekitClient.uploadImage(
+      resizedThumbnail,
+      resizedName
+    );
 
     const thumbnailUrl = `https://ik.imagekit.io/carsharerentingapp/${resizedName}`;
+
+    imagekitClient.deleteImageByFileId(existingCar.thumbnail.externalId);
 
     car.thumbnail = {
       url: thumbnailUrl,
       imageId: car.thumbnail,
+      externalId: result.fileId,
     };
   }
 
@@ -82,13 +88,21 @@ async function uploadCarImage(carId, image, user, setImageAsThumbnail) {
     //height: 400,
   });
 
-  await imagekitClient.uploadImage(resizedImage, name);
+  const result = await imagekitClient.uploadImage(resizedImage, name);
 
   const imageUrl = `https://ik.imagekit.io/carsharerentingapp/${name}`;
 
-  const updatedCar = await carRepository.uploadCarImage(carId, imageUrl);
+  const updatedCar = await carRepository.uploadCarImage(
+    carId,
+    imageUrl,
+    result.fileId
+  );
 
   if (setImageAsThumbnail) {
+    if (updatedCar.thumbnail) {
+      imagekitClient.deleteImageByFileId(updatedCar.thumbnail.externalId);
+    }
+
     const addedImagedId = updatedCar.images?.find(
       (image) => image.url === imageUrl
     );
@@ -100,14 +114,18 @@ async function uploadCarImage(carId, image, user, setImageAsThumbnail) {
 
     const resizedName = `${name}_thumbnail`;
 
-    await imagekitClient.uploadImage(resizedThumbnail, resizedName);
+    const resultThumbnail = await imagekitClient.uploadImage(
+      resizedThumbnail,
+      resizedName
+    );
 
     const thumbnailUrl = `https://ik.imagekit.io/carsharerentingapp/${resizedName}`;
 
     return carRepository.addThumbnail(
       carId,
       thumbnailUrl,
-      addedImagedId._id.toString()
+      addedImagedId._id.toString(),
+      resultThumbnail.fileId
     );
   }
 
@@ -115,9 +133,25 @@ async function uploadCarImage(carId, image, user, setImageAsThumbnail) {
 }
 
 async function removeCarImage(id, imageId, existingCar) {
+  const existingImage = existingCar.images.find(
+    (image) => image._id.toString() === imageId
+  );
+
+  if (!existingImage) {
+    const error = new Error('Η φωτογραφία δε βρέθηκε');
+    error.status = 404;
+    throw error;
+  }
+
   if (existingCar.thumbnail?.imageId === imageId) {
+    await imagekitClient.deleteImageByFileId(existingCar.thumbnail.externalId);
     await carRepository.removeCarThumbnail(id);
   }
+
+  if (existingImage.externalId) {
+    await imagekitClient.deleteImageByFileId(existingImage.externalId);
+  }
+
   return carRepository.removeCarImage(id, imageId);
 }
 

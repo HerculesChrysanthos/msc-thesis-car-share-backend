@@ -14,11 +14,11 @@ async function updateCarById(id, updates) {
     .exec();
 }
 
-async function uploadCarImage(id, imageUrl) {
+async function uploadCarImage(id, imageUrl, externalId) {
   return Car.findByIdAndUpdate(
     id,
     {
-      $addToSet: { images: { url: imageUrl } },
+      $addToSet: { images: { url: imageUrl, externalId } },
     },
     { new: true }
   )
@@ -26,11 +26,13 @@ async function uploadCarImage(id, imageUrl) {
     .exec();
 }
 
-async function addThumbnail(id, imageUrl, addedImagedId) {
+async function addThumbnail(id, imageUrl, addedImagedId, externalId) {
   return Car.findByIdAndUpdate(
     id,
     {
-      $set: { thumbnail: { url: imageUrl, imageId: addedImagedId } },
+      $set: {
+        thumbnail: { url: imageUrl, imageId: addedImagedId, externalId },
+      },
     },
     { new: true }
   )

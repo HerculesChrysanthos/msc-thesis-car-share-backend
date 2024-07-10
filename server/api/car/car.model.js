@@ -124,11 +124,19 @@ const carSchema = mongoose.Schema(
     images: [
       {
         url: { type: String },
+        /**
+         * externalId is about the imagekit
+         */
+        externalId: { type: String },
       },
     ],
     thumbnail: {
       url: { type: String },
       imageId: { type: String },
+      /**
+       * externalId is about the imagekit
+       */
+      externalId: { type: String },
     },
   },
   {
