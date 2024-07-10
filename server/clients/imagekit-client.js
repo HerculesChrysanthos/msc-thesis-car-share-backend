@@ -1,5 +1,6 @@
 const ImageKit = require('imagekit');
 require('dotenv').config();
+const axios = require('axios');
 
 async function uploadImage(buffer, name) {
   try {
@@ -31,6 +32,19 @@ async function uploadImage(buffer, name) {
   }
 }
 
+async function getImage(imageUrl) {
+  try {
+    const response = await axios.get(imageUrl, { responseType: 'arraybuffer' });
+
+    // const contentType = response.headers['content-type'];
+    // console.log('Content-Type:', contentType);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
 module.exports = {
   uploadImage,
+  getImage,
 };

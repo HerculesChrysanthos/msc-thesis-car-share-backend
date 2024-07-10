@@ -31,13 +31,45 @@ async function createCar(car) {
   return carRepository.createCar(car);
 }
 
-async function updateCarSpecificFields(carId, car) {
+async function updateCarSpecificFields(carId, car, existingCar) {
   if (car.address) {
     car.address.location = {
       type: 'Point',
       coordinates: [car.address.long, car.address.lat],
     };
   }
+
+  if (car.thumbnail) {
+    const existingCarImage = existingCar.images?.find(
+      (image) => image._id.toString() === car.thumbnail
+    );
+
+    if (!existingCarImage) {
+      const error = new Error('Η φωτογραφία δε βρέθηκε');
+      error.status = 404;
+      throw error;
+    }
+
+    // TODO download image
+    const image = await imagekitClient.getImage(existingCarImage.url);
+
+    const resizedThumbnail = await sharpHelper.resizeImage(image.buffer, {
+      width: 200,
+      //height: 400,
+    });
+
+    const resizedName = `${Date.now()}${existingCarImage._id}_thumbnail`;
+
+    await imagekitClient.uploadImage(resizedThumbnail, resizedName);
+
+    const thumbnailUrl = `https://ik.imagekit.io/carsharerentingapp/${resizedName}`;
+
+    car.thumbnail = {
+      url: thumbnailUrl,
+      imageId: car.thumbnail,
+    };
+  }
+
   return carRepository.updateCarById(carId, car);
 }
 

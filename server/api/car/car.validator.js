@@ -109,6 +109,7 @@ const updateCarSpecificFieldsSchema = Joi.object({
     driveType: Joi.string().valid(...Object.values(DRIVE_TYPES)),
     doors: Joi.number().valid(3, 5, 7).required(),
     seats: Joi.number().valid(2, 3, 4, 5, 6, 7).required(),
+    thumbnail: Joi.string(),
     features: Joi.array()
       .items(Joi.string().valid(...Object.values(FEATURES)))
       .unique(),

@@ -27,8 +27,13 @@ async function updateCarSpecificFields(req, res, next) {
   try {
     const car = req.body;
     const carId = req.params.carId;
+    const existingCar = req.car;
 
-    const updatedCar = await carService.updateCarSpecificFields(carId, car);
+    const updatedCar = await carService.updateCarSpecificFields(
+      carId,
+      car,
+      existingCar
+    );
 
     return res.status(200).json(updatedCar);
   } catch (error) {
