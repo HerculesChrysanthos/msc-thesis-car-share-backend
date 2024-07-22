@@ -93,7 +93,7 @@ const createCarSchema = Joi.object({
     gearboxType: Joi.string()
       .valid(...Object.values(GEARBOX_TYPES))
       .required(),
-    euroClass: Joi.number().integer().min(0).required(),
+    // euroClass: Joi.number().integer().min(0).required(),
     rentPerHour: Joi.number().integer().min(0),
   }),
 });
@@ -103,12 +103,36 @@ const updateCarSpecificFieldsSchema = Joi.object({
     carId: Joi.string().required(),
   }).required(),
   body: Joi.object({
+    make: Joi.string(),
+    model: Joi.string(),
+    registration: Joi.object({
+      month: Joi.number().integer().min(1).max(12),
+      year: Joi.number().integer().max(new Date().getFullYear()),
+    }),
+    registrationPlate: Joi.string()
+      .pattern(/^[Α-Ω]{3}-\d{4}$/)
+      .message('Το πεδίο πρέπει να είναι της μορφής "ΑΒΓ-1234"'),
+    mileage: Joi.number().integer().min(0),
+    enginePower: Joi.number().integer().min(0),
+    fuelType: Joi.string().valid(...Object.values(FUEL_TYPES)),
+    kilowatt: Joi.number().when('fuelType', {
+      is: FUEL_TYPES.ELECTRIC,
+      then: Joi.number().integer().min(0).required(),
+      otherwise: Joi.forbidden(),
+    }),
+    engineSize: Joi.number().when('fuelType', {
+      not: FUEL_TYPES.ELECTRIC,
+      then: Joi.number().integer().min(0).required(),
+      otherwise: Joi.forbidden(),
+    }),
+    gearboxType: Joi.string().valid(...Object.values(GEARBOX_TYPES)),
+    rentPerHour: Joi.number().integer().min(0),
     exteriorColor: Joi.string().valid(...Object.values(EXTERIOR_COLORS)),
     interiorColor: Joi.string().valid(...Object.values(INTERIOR_COLORS)),
     rimSize: Joi.number().min(1).max(4),
     driveType: Joi.string().valid(...Object.values(DRIVE_TYPES)),
-    doors: Joi.number().valid(3, 5, 7).required(),
-    seats: Joi.number().valid(2, 3, 4, 5, 6, 7).required(),
+    doors: Joi.string().valid('3', '5', '7+'),
+    seats: Joi.string().valid('2', '3', '4', '5', '6', '7+'),
     thumbnail: Joi.string(),
     features: Joi.array()
       .items(Joi.string().valid(...Object.values(FEATURES)))

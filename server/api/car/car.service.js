@@ -28,7 +28,9 @@ async function createCar(car) {
     throw new Error('Το Μοντέλο δε βρέθηκε');
   }
 
-  return carRepository.createCar(car);
+  const createdCar = await carRepository.createCar(car);
+
+  return carRepository.findCarByIdAndPopulateModelMake(createdCar?._id);
 }
 
 async function updateCarSpecificFields(carId, car, existingCar) {

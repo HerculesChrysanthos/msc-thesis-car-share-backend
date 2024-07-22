@@ -36,7 +36,7 @@ const FEATURES = Object.freeze({
   ABS: 'ABS',
   BLUETOOTH: 'Bluetooth',
   ESP: 'ESP',
-  REAR_VIEW_CAMERA: 'Κάμερα οπισθοπορείς',
+  REAR_VIEW_CAMERA: 'Κάμερα οπισθοπορείας',
   GPS: 'GPS',
 });
 

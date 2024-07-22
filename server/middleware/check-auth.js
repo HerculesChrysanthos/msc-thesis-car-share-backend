@@ -29,6 +29,11 @@ const auth = () => {
         error.status = 401;
       }
 
+      if (error.message === 'jwt malformed') {
+        error.message = 'Invalid Token';
+        error.status = 401;
+      }
+
       if (error.message === 'A token is required for authentication') {
         error.status = 403;
       }

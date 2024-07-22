@@ -1,5 +1,9 @@
 const Car = require('./car.model');
 
+async function findCarByIdAndPopulateModelMake(carId) {
+  return Car.findById(carId).populate('model make').exec();
+}
+
 async function createCar(car) {
   return Car.create(car);
 }
@@ -10,6 +14,7 @@ async function findCarById(id) {
 
 async function updateCarById(id, updates) {
   return Car.findByIdAndUpdate(id, { $set: updates }, { new: true })
+    .populate('model make')
     .lean()
     .exec();
 }
@@ -58,6 +63,7 @@ async function removeCarThumbnail(id) {
 
 module.exports = {
   createCar,
+  findCarByIdAndPopulateModelMake,
   findCarById,
   updateCarById,
   uploadCarImage,

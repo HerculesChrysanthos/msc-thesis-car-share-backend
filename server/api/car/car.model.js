@@ -80,10 +80,10 @@ const carSchema = mongoose.Schema(
       enum: DRIVE_TYPES,
     },
     doors: {
-      type: Number,
+      type: String,
     },
     seats: {
-      type: Number,
+      type: String,
     },
     rentPerHour: {
       type: Number,
