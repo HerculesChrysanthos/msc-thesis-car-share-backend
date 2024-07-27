@@ -157,9 +157,26 @@ async function removeCarImage(id, imageId, existingCar) {
   return carRepository.removeCarImage(id, imageId);
 }
 
+async function getCarById(carId) {
+  if (!utils.isValidObjectId(carId)) {
+    const error = new Error('Το αυτοκίνητο δε βρέθηκε');
+    error.status = 404;
+    throw error;
+  }
+
+  const carFound = await carRepository.findCarByIdAndPopulateModelMake(carId);
+
+  if (!carFound) {
+    throw new Error('Το αυτοκίνητο δε βρέθηκε');
+  }
+
+  return carFound;
+}
+
 module.exports = {
   createCar,
   updateCarSpecificFields,
   uploadCarImage,
   removeCarImage,
+  getCarById,
 };

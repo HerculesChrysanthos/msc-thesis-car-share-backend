@@ -18,6 +18,12 @@ router.post(
   carController.createCar
 );
 
+router.get(
+  '/:carId',
+  validator(carValidator.getCarByIdSchema),
+  carController.getCarById
+);
+
 router.patch(
   '/:carId',
   auth(),

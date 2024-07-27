@@ -193,6 +193,12 @@ const addCarAvailabilitySchema = Joi.object({
   }).required(),
 });
 
+const getCarByIdSchema = Joi.object({
+  params: Joi.object({
+    carId: Joi.string().required(),
+  }).required(),
+});
+
 module.exports = {
   createCarSchema,
   // updateCarSchema,
@@ -200,4 +206,5 @@ module.exports = {
   uploadCarImageSchema,
   deleteCarImageSchema,
   addCarAvailabilitySchema,
+  getCarByIdSchema,
 };

@@ -87,9 +87,24 @@ async function deleteCarImage(req, res, next) {
   }
 }
 
+async function getCarById(req, res, next) {
+  try {
+    const car = await carService.getCarById(req.params.carId);
+
+    return res.status(200).json(car);
+  } catch (error) {
+    if (error.toString().includes('not found')) {
+      error.status = 404;
+    }
+
+    return next(error);
+  }
+}
+
 module.exports = {
   createCar,
   updateCarSpecificFields,
   uploadCarImage,
   deleteCarImage,
+  getCarById,
 };
