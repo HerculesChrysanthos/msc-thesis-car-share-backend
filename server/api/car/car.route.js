@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { validator } = require('../../middleware/validate');
 const carController = require('./car.controller');
+const availabilityController = require('../availability/availability.controller');
 const {
   auth,
   authorization,
@@ -40,6 +41,14 @@ router.delete(
   hasCarAccess,
   validator(carValidator.deleteCarImageSchema),
   carController.deleteCarImage
+);
+
+router.post(
+  '/:carId/availabilities',
+  auth(),
+  hasCarAccess,
+  validator(carValidator.addCarAvailabilitySchema),
+  availabilityController.createAvailability
 );
 
 module.exports = router;

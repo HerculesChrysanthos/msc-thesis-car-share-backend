@@ -152,8 +152,8 @@ const updateCarSpecificFieldsSchema = Joi.object({
       street: Joi.string().required(),
       number: Joi.number().required(),
       postalCode: Joi.number().required(),
-      lat: Joi.number().min(-90).max(90).required().required(),
-      long: Joi.number().min(-180).max(180).required().required(),
+      lat: Joi.number().min(-90).max(90).required(),
+      long: Joi.number().min(-180).max(180).required(),
     }),
   }),
 });
@@ -175,10 +175,29 @@ const deleteCarImageSchema = Joi.object({
   }).required(),
 });
 
+const addCarAvailabilitySchema = Joi.object({
+  params: Joi.object({
+    carId: Joi.string().required(),
+  }).required(),
+  body: Joi.object({
+    available: Joi.boolean(),
+    startDate: Joi.date().iso().required(),
+    endDate: Joi.date()
+      .iso()
+      .required()
+      .greater(Joi.ref('startDate'))
+      .messages({
+        'date.greater':
+          'Η αρχική ημερομηνία πρέπει να είναι αργότερα από την αρχική.',
+      }),
+  }).required(),
+});
+
 module.exports = {
   createCarSchema,
   // updateCarSchema,
   updateCarSpecificFieldsSchema,
   uploadCarImageSchema,
   deleteCarImageSchema,
+  addCarAvailabilitySchema,
 };

@@ -6,23 +6,25 @@ const availabilitySchema = mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Car',
     },
-    startDay: {
-      type: Date,
-      required: true,
-    },
-    endDay: {
-      type: Date,
-      required: true,
-    },
-    available: {
-      type: Boolean,
-      required: true,
-      default: true,
-    },
-    changedByUser: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
-    },
+    date: { type: Date, required: true },
+    hours: [
+      {
+        hour: {
+          type: Number,
+          min: 0,
+          max: 23,
+        },
+        status: {
+          type: String,
+          enum: ['available', 'reserved', 'unavailable'],
+          default: 'available',
+        },
+        booking: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'Booking',
+        },
+      },
+    ],
   },
   {
     timestamps: true,

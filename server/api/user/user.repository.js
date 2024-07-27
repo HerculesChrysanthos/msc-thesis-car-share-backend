@@ -42,7 +42,7 @@ async function verifyUser(_id) {
 }
 
 async function findUserById(id) {
-  return User.findById(id);
+  return User.findById(id).lean().exec();
 }
 
 module.exports = {
