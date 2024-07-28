@@ -7,11 +7,6 @@ const modelSchema = mongoose.Schema(
       required: true,
       unique: true,
     },
-    label: {
-      type: String,
-      unique: true,
-      required: true,
-    },
     make: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,

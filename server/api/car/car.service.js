@@ -173,10 +173,15 @@ async function getCarById(carId) {
   return carFound;
 }
 
+async function findCarByFiltersAndByAvailabilityDays(filters) {
+  return carRepository.findCarByFiltersAndByAvailabilityDays(filters);
+}
+
 module.exports = {
   createCar,
   updateCarSpecificFields,
   uploadCarImage,
   removeCarImage,
   getCarById,
+  findCarByFiltersAndByAvailabilityDays,
 };

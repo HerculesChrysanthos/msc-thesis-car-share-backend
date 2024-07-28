@@ -49,6 +49,8 @@ async function createAvailability(availability, carId) {
         (isFirstDay && hoursBeforeStartDate < index + 1) ||
         (isLastDay && 24 - hoursAfterEndEndDate > index)
           ? 'available'
+          : !isFirstDay && !isLastDay
+          ? 'available'
           : 'unavailable',
     }));
 

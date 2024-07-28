@@ -101,10 +101,33 @@ async function getCarById(req, res, next) {
   }
 }
 
+async function findCarByFiltersAndByAvailabilityDays(req, res, next) {
+  try {
+    const { startDate, endDate, lat, long, skip, limit } = req.query;
+    const filters = {
+      startDate,
+      endDate,
+      lat,
+      long,
+      skip: skip ? Number(skip) : 0,
+      limit: limit ? Number(limit) : 9,
+    };
+
+    const result = await carService.findCarByFiltersAndByAvailabilityDays(
+      filters
+    );
+
+    return res.status(200).json(result);
+  } catch (error) {
+    return next(error);
+  }
+}
+
 module.exports = {
   createCar,
   updateCarSpecificFields,
   uploadCarImage,
   deleteCarImage,
   getCarById,
+  findCarByFiltersAndByAvailabilityDays,
 };

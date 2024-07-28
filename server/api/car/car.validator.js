@@ -199,6 +199,24 @@ const getCarByIdSchema = Joi.object({
   }).required(),
 });
 
+const findCarByFiltersAndByAvailabilityDaysSchema = Joi.object({
+  params: Joi.object({
+    startDate: Joi.date().iso().required(),
+    endDate: Joi.date()
+      .iso()
+      .required()
+      .greater(Joi.ref('startDate'))
+      .messages({
+        'date.greater':
+          'Η αρχική ημερομηνία πρέπει να είναι αργότερα από την αρχική.',
+      }),
+    lat: Joi.number().min(-90).max(90).required(),
+    long: Joi.number().min(-180).max(180).required(),
+    skip: Joi.number().integer().min(0),
+    limit: Joi.number().integer().min(0),
+  }).required(),
+});
+
 module.exports = {
   createCarSchema,
   // updateCarSchema,
