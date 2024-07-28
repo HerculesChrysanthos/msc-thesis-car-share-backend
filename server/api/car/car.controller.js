@@ -104,13 +104,17 @@ async function getCarById(req, res, next) {
 async function findCarByFiltersAndByAvailabilityDays(req, res, next) {
   try {
     const { startDate, endDate, lat, long, skip, limit } = req.query;
+
+    const pageSize = limit ? Number(limit) : 9;
+    const skipSize = skip ? (Number(skip) - 1) * pageSize : 0;
+
     const filters = {
       startDate,
       endDate,
       lat,
       long,
-      skip: skip ? Number(skip) : 0,
-      limit: limit ? Number(limit) : 9,
+      skip: skipSize,
+      limit: pageSize,
     };
 
     const result = await carService.findCarByFiltersAndByAvailabilityDays(
