@@ -99,8 +99,17 @@ async function hasCarAccess(req, res, next) {
   }
 }
 
+async function checkIfUserIsNotOwner(req, res, next) {
+  try {
+    return next();
+  } catch (error) {
+    return next(error);
+  }
+}
+
 module.exports = {
   auth,
   authorization,
   hasCarAccess,
+  checkIfUserIsNotOwner,
 };

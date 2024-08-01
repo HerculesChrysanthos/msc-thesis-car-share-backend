@@ -66,6 +66,42 @@ async function createAvailability(availability, carId) {
   return availabilityRepository.insertMultipleAvailabilities(availbilities);
 }
 
+async function findCarAvailabilityOnSpecificDays(car, startDate, endDate) {
+  // const startDate = filters.startDate;
+  // const endDate = filters.endDate;
+  // const startHour = 5; //filters.startHour;
+  // const endHour = 5; // filters.endDHour;
+
+  const start = moment.utc(startDate);
+  const end = moment.utc(endDate);
+
+  const midnightOfStartDate = start.clone().startOf('day');
+  const startHour = start.diff(midnightOfStartDate, 'hours');
+
+  const midnightAfterEndDate = end.clone().add(1, 'day').startOf('day');
+  const endHour = Math.abs(end.diff(midnightAfterEndDate, 'hours'));
+  const differenceInHours = end.diff(start, 'hours');
+
+  const filters = {
+    startDate: start,
+    endDate: end,
+    startHour,
+    endHour,
+  };
+  const carAvailability =
+    await availabilityRepository.findCarAvailabilityOnSpecificDays(
+      car,
+      filters
+    );
+
+  if (carAvailability[0].hoursTotal !== differenceInHours) {
+    throw new Error('Το αυτοκίνητο δεν είναι διαθέσιμο τις επιλεγμένες ώρες.'); // 404
+  }
+
+  return carAvailability;
+}
+
 module.exports = {
   createAvailability,
+  findCarAvailabilityOnSpecificDays,
 };
