@@ -15,93 +15,46 @@ async function createAvailability(availability, carId) {
     endDate.diff(midnightAfterEndDate, 'hours')
   );
 
-  const availbilities = [];
+  const availabilities = [];
 
-  const currentDate = startDate;
+  const currentDate = startDate.clone();
 
-  while (currentDate.isSameOrBefore(endDate, 'day')) {
-    const checkIfAvailabilityExist =
-      await availabilityRepository.findAvailabilityByDay({
-        date: currentDate.format('YYYY-MM-DD'),
-        car: carId,
-      });
-
-    if (checkIfAvailabilityExist) {
-      const error = new Error(
-        `Η διαθεσιμότητα για την ημέρα ${currentDate.format(
-          'YYYY-MM-DD'
-        )} υπάρχει ήδη.`
-      );
-
-      error.status = 409;
-      throw error;
-    }
-
-    const isFirstDay = currentDate.isSame(
-      moment(availability.startDate),
-      'day'
-    );
-    const isLastDay = currentDate.isSame(moment(availability.endDate), 'day');
-
-    const hours = Array.from({ length: 24 }, (_, index) => ({
-      hour: index,
-      status:
-        (isFirstDay && hoursBeforeStartDate < index + 1) ||
-        (isLastDay && 24 - hoursAfterEndEndDate > index)
-          ? 'available'
-          : !isFirstDay && !isLastDay
-          ? 'available'
-          : 'unavailable',
-    }));
-
-    availbilities.push({
+  while (currentDate.isBefore(endDate)) {
+    availabilities.push({
       car: carId,
-      date: currentDate.format('YYYY-MM-DD'),
-      hours,
+      date: currentDate.toISOString(),
+      status: 'AVAILABLE',
     });
 
-    currentDate.add(1, 'day');
+    currentDate.add(1, 'hour');
   }
 
-  return availabilityRepository.insertMultipleAvailabilities(availbilities);
+  return availabilityRepository.insertMultipleAvailabilities(availabilities);
 }
 
-async function findCarAvailabilityOnSpecificDays(car, startDate, endDate) {
-  // const startDate = filters.startDate;
-  // const endDate = filters.endDate;
-  // const startHour = 5; //filters.startHour;
-  // const endHour = 5; // filters.endDHour;
-
+async function findCarAvailabilitiesOnSpecificDates(car, startDate, endDate) {
   const start = moment.utc(startDate);
   const end = moment.utc(endDate);
-
-  const midnightOfStartDate = start.clone().startOf('day');
-  const startHour = start.diff(midnightOfStartDate, 'hours');
-
-  const midnightAfterEndDate = end.clone().add(1, 'day').startOf('day');
-  const endHour = Math.abs(end.diff(midnightAfterEndDate, 'hours'));
   const differenceInHours = end.diff(start, 'hours');
 
   const filters = {
     startDate: start,
     endDate: end,
-    startHour,
-    endHour,
   };
-  const carAvailability =
-    await availabilityRepository.findCarAvailabilityOnSpecificDays(
+  const carAvailabilities =
+    await availabilityRepository.findCarAvailabilitiesOnSpecificDates(
       car,
       filters
     );
 
-  if (carAvailability[0].hoursTotal !== differenceInHours) {
+  if (carAvailabilities.length !== differenceInHours) {
     throw new Error('Το αυτοκίνητο δεν είναι διαθέσιμο τις επιλεγμένες ώρες.'); // 404
   }
 
-  return carAvailability;
+  return carAvailabilities;
 }
 
 module.exports = {
   createAvailability,
-  findCarAvailabilityOnSpecificDays,
+  findCarAvailabilitiesOnSpecificDates,
 };

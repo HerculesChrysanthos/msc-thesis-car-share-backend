@@ -9,117 +9,36 @@ async function findAvailabilityByDay({ date, car }) {
   return Availability.findOne({ date, car }).lean().exec();
 }
 
-async function findCarAvailabilityOnSpecificDays(car, filters) {
+async function findCarAvailabilitiesOnSpecificDates(car, filters) {
   const startDate = filters.startDate;
   const endDate = filters.endDate;
-  const startHour = filters.startHour;
-  const endHour = filters.endHour;
 
-  const pipeline = [
-    {
-      $match: {
-        car: new mongoose.Types.ObjectId(car),
-        date: {
-          $gte: new Date(startDate.format('YYYY-MM-DD')),
-          $lte: new Date(endDate.format('YYYY-MM-DD')),
-        },
-      },
+  const query = {
+    car: new mongoose.Types.ObjectId(car),
+    date: {
+      $gte: new Date(startDate),
+      $lt: new Date(endDate),
     },
-  ];
+    status: 'AVAILABLE',
+  };
 
-  if (startDate.isSame(endDate, 'day')) {
-    pipeline.push({
-      $project: {
-        date: 1,
-        hours: {
-          $filter: {
-            input: '$hours',
-            as: 'hour',
-            cond: {
-              $and: [
-                {
-                  $eq: ['$date', new Date(startDate.format('YYYY-MM-DD'))],
-                },
-                {
-                  $eq: ['$date', new Date(endDate.format('YYYY-MM-DD'))],
-                },
-                {
-                  $eq: ['$$hour.status', 'available'],
-                },
-                {
-                  $gte: ['$$hour.hour', startHour],
-                },
-                {
-                  $lt: ['$$hour.hour', 24 - endHour],
-                },
-              ],
-            },
-          },
-        },
-      },
-    });
-  } else {
-    pipeline.push({
-      $project: {
-        date: 1,
-        hours: {
-          $filter: {
-            input: '$hours',
-            as: 'hour',
-            cond: {
-              $or: [
-                {
-                  $and: [
-                    {
-                      $eq: ['$date', new Date(startDate.format('YYYY-MM-DD'))],
-                    },
-                    {
-                      $eq: ['$$hour.status', 'available'],
-                    },
-                    {
-                      $gte: ['$$hour.hour', startHour],
-                    },
-                  ],
-                },
-                {
-                  $and: [
-                    {
-                      $eq: ['$date', new Date(endDate.format('YYYY-MM-DD'))],
-                    },
-                    {
-                      $eq: ['$$hour.status', 'available'],
-                    },
-                    {
-                      $lt: ['$$hour.hour', 24 - endHour],
-                    },
-                  ],
-                },
-              ],
-            },
-          },
-        },
-      },
-    });
-  }
+  return Availability.find(query, { _id: 1 }).lean().exec();
+}
 
-  pipeline.push(
+async function changeAvailabilitiesStatus(availabilities, status) {
+  return Availability.updateMany(
     {
-      $unwind: '$hours',
+      _id: { $in: availabilities },
     },
     {
-      $group: {
-        _id: null,
-        hoursTotal: { $sum: 1 },
-        hours: { $push: '$hours' },
-      },
+      $set: { status },
     }
   );
-
-  return Availability.aggregate(pipeline).exec();
 }
 
 module.exports = {
   insertMultipleAvailabilities,
   findAvailabilityByDay,
-  findCarAvailabilityOnSpecificDays,
+  findCarAvailabilitiesOnSpecificDates,
+  changeAvailabilitiesStatus,
 };

@@ -212,8 +212,8 @@ const findCarByFiltersAndByAvailabilityDaysSchema = Joi.object({
       }),
     lat: Joi.number().min(-90).max(90).required(),
     long: Joi.number().min(-180).max(180).required(),
-    skip: Joi.number().integer().min(0),
-    limit: Joi.number().integer().min(0),
+    page: Joi.number().integer().min(1),
+    limit: Joi.number().integer().min(1),
   }).required(),
 });
 
