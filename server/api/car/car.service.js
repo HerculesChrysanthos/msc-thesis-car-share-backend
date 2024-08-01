@@ -68,7 +68,9 @@ async function updateCarSpecificFields(carId, car, existingCar) {
 
     const thumbnailUrl = `https://ik.imagekit.io/carsharerentingapp/${resizedName}`;
 
-    imagekitClient.deleteImageByFileId(existingCar.thumbnail.externalId);
+    if (existingCar.thumbnail?.externalId) {
+      imagekitClient.deleteImageByFileId(existingCar.thumbnail.externalId);
+    }
 
     car.thumbnail = {
       url: thumbnailUrl,
