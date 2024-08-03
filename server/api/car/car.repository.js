@@ -2,7 +2,7 @@ const Car = require('./car.model');
 const moment = require('moment');
 
 async function findCarByIdAndPopulateModelMake(carId) {
-  return Car.findById(carId).populate('model make').exec();
+  return Car.findById(carId).populate('model make').lean().exec();
 }
 
 async function createCar(car) {
@@ -120,6 +120,13 @@ async function findCarByFiltersAndByAvailabilityDays(filters) {
     },
     {
       $unset: ['availability'],
+    },
+    {
+      $addFields: {
+        price: {
+          $multiply: ['$rentPerHour', differenceInHours],
+        },
+      },
     },
     {
       $lookup: {
