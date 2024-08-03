@@ -4,8 +4,8 @@ const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 require('dotenv').config();
-const userRoute = require('./server/api/user/user.route');
-const carRoute = require('./server/api/car/car.route');
+const userRouter = require('./server/api/user/user.router');
+const carRouter = require('./server/api/car/car.router');
 const modelRouter = require('./server/api/model/model.router');
 const makeRouter = require('./server/api/make/make.router');
 const bookingRouter = require('./server/api/booking/booking.router');
@@ -38,8 +38,8 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use('/api/users', userRoute);
-app.use('/api/cars', carRoute);
+app.use('/api/users', userRouter);
+app.use('/api/cars', carRouter);
 app.use('/api/models', modelRouter);
 app.use('/api/makes', makeRouter);
 app.use('/api/bookings', bookingRouter);
