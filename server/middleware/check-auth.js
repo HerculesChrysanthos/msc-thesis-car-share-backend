@@ -3,6 +3,8 @@ const userRepository = require('../api/user/user.repository');
 const utils = require('../utils');
 const carRepository = require('../api/car/car.repository');
 
+const endpointsWitoutVerification = ['/api/users/re-send-verify-token'];
+
 const auth = () => {
   return async (req, res, next) => {
     try {
@@ -18,6 +20,15 @@ const auth = () => {
 
       if (!foundUser) {
         throw new Error('Unauthorized');
+      }
+
+      if (
+        !foundUser.verified &&
+        !endpointsWitoutVerification.includes(req.originalUrl)
+      ) {
+        throw new Error(
+          'Πρέπει να κάνεις verify το email σου για να προχωρήσεις.'
+        );
       }
 
       req.user = foundUser;
@@ -39,6 +50,13 @@ const auth = () => {
       }
 
       if (error.message === 'Unauthorized') {
+        error.status = 401;
+      }
+
+      if (
+        error.message ===
+        'Πρέπει να κάνεις verify το email σου για να προχωρήσεις.'
+      ) {
         error.status = 401;
       }
 
@@ -101,6 +119,8 @@ async function hasCarAccess(req, res, next) {
 
 async function checkIfUserIsNotOwner(req, res, next) {
   try {
+    // car
+    // verified user
     return next();
   } catch (error) {
     return next(error);
