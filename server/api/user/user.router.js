@@ -48,6 +48,8 @@ router.get(
 
 router.post('/re-send-verify-token', auth(), userController.reSendVerfiyToken);
 
+router.get('/me', auth(), userController.getMe);
+
 router.get('/:userId', authorization(), userController.getUserProfile);
 
 // router.put('/:userId');

@@ -102,6 +102,17 @@ async function reSendVerfiyToken(req, res, next) {
   }
 }
 
+async function getMe(req, res, next) {
+  try {
+    const user = req.user;
+
+    const response = userHelper.buildUserResponse(user);
+    return res.status(200).json(response?.user);
+  } catch (error) {
+    return next(error);
+  }
+}
+
 module.exports = {
   register,
   login,
@@ -109,4 +120,5 @@ module.exports = {
   googleAuth,
   verify,
   reSendVerfiyToken,
+  getMe,
 };
