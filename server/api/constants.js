@@ -16,6 +16,12 @@ const EMAIL_TYPES = Object.freeze({
   REGISTRATION_GOOGLE: 'registration-google',
   VERIFIED: 'verified',
   VERIFICATION: 'verification',
+  BOOKING_OWNER: 'booking-owner',
+  BOOKING_RENTER: 'booking-renter',
+  BOOKING_ACCEPTANCE: 'booking-acceptance',
+  BOOKING_REJECTION: 'booking-rejection',
+  REVIEW_PROMP_ONWER: 'review-promp-onwer',
+  REVIEW_PROMP_RENTER: 'review-promp-renter',
 });
 
 const DRIVE_TYPES = Object.freeze({
