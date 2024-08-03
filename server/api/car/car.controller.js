@@ -127,6 +127,18 @@ async function findCarByFiltersAndByAvailabilityDays(req, res, next) {
   }
 }
 
+async function getMyCars(req, res, next) {
+  try {
+    const userId = req.user._id;
+
+    const cars = await carService.getMyCars(userId);
+
+    return res.status(200).json(cars);
+  } catch (error) {
+    return next(error);
+  }
+}
+
 module.exports = {
   createCar,
   updateCarSpecificFields,
@@ -134,4 +146,5 @@ module.exports = {
   deleteCarImage,
   getCarById,
   findCarByFiltersAndByAvailabilityDays,
+  getMyCars,
 };
