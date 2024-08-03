@@ -18,6 +18,8 @@ router.post(
   carController.createCar
 );
 
+router.get('/my-cars', auth(), carController.getMyCars);
+
 router.get(
   '/:carId',
   validator(carValidator.getCarByIdSchema),

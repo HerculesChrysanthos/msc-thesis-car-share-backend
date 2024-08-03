@@ -162,6 +162,10 @@ async function findCarByFiltersAndByAvailabilityDays(filters) {
   return Car.aggregate(pipeline).exec();
 }
 
+async function getMyCars(userId) {
+  return Car.find({ owner: userId });
+}
+
 module.exports = {
   createCar,
   findCarByIdAndPopulateModelMake,
@@ -172,4 +176,5 @@ module.exports = {
   removeCarImage,
   removeCarThumbnail,
   findCarByFiltersAndByAvailabilityDays,
+  getMyCars,
 };
