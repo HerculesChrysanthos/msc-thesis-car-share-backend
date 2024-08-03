@@ -9,7 +9,7 @@ async function findAvailabilityByDay({ date, car }) {
   return Availability.findOne({ date, car }).lean().exec();
 }
 
-async function findCarAvailabilitiesOnSpecificDates(car, filters) {
+async function findCarAvailabilitiesOnSpecificDates(car, filters, session) {
   const startDate = filters.startDate;
   const endDate = filters.endDate;
 
@@ -22,17 +22,18 @@ async function findCarAvailabilitiesOnSpecificDates(car, filters) {
     status: 'AVAILABLE',
   };
 
-  return Availability.find(query, { _id: 1 }).lean().exec();
+  return Availability.find(query, { _id: 1 }).session(session).lean().exec();
 }
 
-async function changeAvailabilitiesStatus(availabilities, status) {
+async function changeAvailabilitiesStatus(availabilities, status, session) {
   return Availability.updateMany(
     {
       _id: { $in: availabilities },
     },
     {
       $set: { status },
-    }
+    },
+    { session }
   );
 }
 

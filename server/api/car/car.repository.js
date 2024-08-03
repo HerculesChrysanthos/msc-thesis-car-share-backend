@@ -1,5 +1,4 @@
 const Car = require('./car.model');
-const moment = require('moment');
 
 async function findCarByIdAndPopulateModelMake(carId) {
   return Car.findById(carId).populate('model make').lean().exec();
@@ -62,12 +61,10 @@ async function removeCarThumbnail(id) {
     .exec();
 }
 
-async function findCarByFiltersAndByAvailabilityDays(filters) {
-  const startDate = moment.utc(filters.startDate);
-  const endDate = moment.utc(filters.endDate);
-
-  const differenceInHours = endDate.diff(startDate, 'hours');
-
+async function findCarByFiltersAndByAvailabilityDays(
+  filters,
+  differenceInHours
+) {
   const pipeline = [
     {
       $geoNear: {
@@ -94,8 +91,8 @@ async function findCarByFiltersAndByAvailabilityDays(filters) {
     {
       $match: {
         'availability.date': {
-          $gte: new Date(startDate),
-          $lt: new Date(endDate),
+          $gte: new Date(filters.startDate),
+          $lt: new Date(filters.endDate),
         },
         'availability.status': 'AVAILABLE',
       },
@@ -166,6 +163,10 @@ async function getMyCars(userId) {
   return Car.find({ owner: userId }).populate('model make');
 }
 
+async function findCarByIdAndPopulateOnwer(id) {
+  return Car.findById(id).populate('owner').lean().exec();
+}
+
 module.exports = {
   createCar,
   findCarByIdAndPopulateModelMake,
@@ -177,4 +178,5 @@ module.exports = {
   removeCarThumbnail,
   findCarByFiltersAndByAvailabilityDays,
   getMyCars,
+  findCarByIdAndPopulateOnwer,
 };

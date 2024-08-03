@@ -5,6 +5,7 @@ const utils = require('../../utils');
 const carHelper = require('./car.helper');
 const sharpHelper = require('../../helpers/sharp.helper');
 const imagekitClient = require('../../clients/imagekit-client');
+const moment = require('moment');
 
 async function createCar(car) {
   if (!utils.isValidObjectId(car.model) || !utils.isValidObjectId(car.make)) {
@@ -176,7 +177,20 @@ async function getCarById(carId) {
 }
 
 async function findCarByFiltersAndByAvailabilityDays(filters) {
-  return carRepository.findCarByFiltersAndByAvailabilityDays(filters);
+  filters.startDate = moment.utc(filters.startDate);
+  filters.endDate = moment.utc(filters.endDate);
+
+  const differenceInHours = filters.endDate.diff(filters.startDate, 'hours');
+
+  if (differenceInHours <= 0) {
+    throw new Error(
+      'Η αρχική ημερομηνία πρέπει να είναι προγενέστερη της τελικής'
+    );
+  }
+  return carRepository.findCarByFiltersAndByAvailabilityDays(
+    filters,
+    differenceInHours
+  );
 }
 
 async function getMyCars(userId) {

@@ -200,15 +200,33 @@ const getCarByIdSchema = Joi.object({
 });
 
 const findCarByFiltersAndByAvailabilityDaysSchema = Joi.object({
-  params: Joi.object({
-    startDate: Joi.date().iso().required(),
+  query: Joi.object({
+    startDate: Joi.date()
+      .iso()
+      .custom((value, helpers) => {
+        const minutes = value.getUTCMinutes();
+        const seconds = value.getUTCSeconds();
+        if (minutes !== 0 || seconds !== 0) {
+          return helpers.error('any.only');
+        }
+      })
+      .required()
+      .messages({
+        'any.only': 'Επέλεξε μόνο ακέραιες ώρες.',
+      }),
     endDate: Joi.date()
       .iso()
+      .custom((value, helpers) => {
+        const minutes = value.getUTCMinutes();
+        const seconds = value.getUTCSeconds();
+
+        if (minutes !== 0 || seconds !== 0) {
+          return helpers.error('any.only');
+        }
+      })
       .required()
-      .greater(Joi.ref('startDate'))
       .messages({
-        'date.greater':
-          'Η αρχική ημερομηνία πρέπει να είναι αργότερα από την αρχική.',
+        'any.only': 'Επέλεξε μόνο ακέραιες ώρες.',
       }),
     lat: Joi.number().min(-90).max(90).required(),
     long: Joi.number().min(-180).max(180).required(),
@@ -225,4 +243,5 @@ module.exports = {
   deleteCarImageSchema,
   addCarAvailabilitySchema,
   getCarByIdSchema,
+  findCarByFiltersAndByAvailabilityDaysSchema,
 };

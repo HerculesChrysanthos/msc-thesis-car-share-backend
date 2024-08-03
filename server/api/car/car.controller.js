@@ -123,6 +123,16 @@ async function findCarByFiltersAndByAvailabilityDays(req, res, next) {
 
     return res.status(200).json(result);
   } catch (error) {
+    if (
+      error
+        .toString()
+        .includes(
+          'Η αρχική ημερομηνία πρέπει να είναι προγενέστερη της τελικής'
+        )
+    ) {
+      error.status = 422;
+    }
+
     return next(error);
   }
 }

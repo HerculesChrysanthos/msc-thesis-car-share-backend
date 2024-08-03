@@ -28,6 +28,10 @@ function setSubjectByEmailType(type) {
       return 'Καλώς ήρθες στο car share';
     case EMAIL_TYPES.REGISTRATION_GOOGLE:
       return 'Καλώς ήρθες στο car share';
+    case EMAIL_TYPES.BOOKING_OWNER:
+      return 'Νέα κράτηση';
+    case EMAIL_TYPES.BOOKING_RENTER:
+      return 'Νέα κράτηση';
     default:
       return 'ok';
   }
@@ -45,6 +49,10 @@ function setBodyByEmailType(type, user, token) {
       return `<html> <b>Welcome ${user.name} </b></html>`;
     case EMAIL_TYPES.VERIFICATION:
       return `<html> <p> Verify your account here localhost:8080/api/users/verify?token=${token.tokenId} until ${expirationDateGreek}</html>`;
+    case EMAIL_TYPES.BOOKING_OWNER:
+      return '<html> Νέα κράτηση για τον ιδιοκτήτη</html>';
+    case EMAIL_TYPES.BOOKING_RENTER:
+      return '<html> Νέα κράτηση για τον renter</html>';
     default:
       return 'verified';
   }

@@ -3,17 +3,7 @@ const moment = require('moment');
 
 async function createAvailability(availability, carId) {
   const startDate = moment.utc(availability.startDate);
-  const midnightOfStartDate = startDate.clone().startOf('day');
-
-  const hoursBeforeStartDate = startDate.diff(midnightOfStartDate, 'hours');
-
   const endDate = moment.utc(availability.endDate);
-
-  const midnightAfterEndDate = endDate.clone().add(1, 'day').startOf('day');
-
-  const hoursAfterEndEndDate = Math.abs(
-    endDate.diff(midnightAfterEndDate, 'hours')
-  );
 
   const availabilities = [];
 
@@ -32,7 +22,12 @@ async function createAvailability(availability, carId) {
   return availabilityRepository.insertMultipleAvailabilities(availabilities);
 }
 
-async function findCarAvailabilitiesOnSpecificDates(car, startDate, endDate) {
+async function findCarAvailabilitiesOnSpecificDates(
+  car,
+  startDate,
+  endDate,
+  session
+) {
   const start = moment.utc(startDate);
   const end = moment.utc(endDate);
   const differenceInHours = end.diff(start, 'hours');
@@ -44,7 +39,8 @@ async function findCarAvailabilitiesOnSpecificDates(car, startDate, endDate) {
   const carAvailabilities =
     await availabilityRepository.findCarAvailabilitiesOnSpecificDates(
       car,
-      filters
+      filters,
+      session
     );
 
   if (carAvailabilities.length !== differenceInHours) {
@@ -54,7 +50,16 @@ async function findCarAvailabilitiesOnSpecificDates(car, startDate, endDate) {
   return carAvailabilities;
 }
 
+async function changeAvailabilitiesStatus(availabilities, status, session) {
+  return availabilityRepository.changeAvailabilitiesStatus(
+    availabilities,
+    status,
+    session
+  );
+}
+
 module.exports = {
   createAvailability,
   findCarAvailabilitiesOnSpecificDates,
+  changeAvailabilitiesStatus,
 };

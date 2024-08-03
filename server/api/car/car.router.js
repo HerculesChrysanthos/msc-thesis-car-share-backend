@@ -59,6 +59,10 @@ router.post(
   availabilityController.createAvailability
 );
 
-router.get('/', carController.findCarByFiltersAndByAvailabilityDays);
+router.get(
+  '/',
+  validator(carValidator.findCarByFiltersAndByAvailabilityDaysSchema),
+  carController.findCarByFiltersAndByAvailabilityDays
+);
 
 module.exports = router;

@@ -119,8 +119,32 @@ async function hasCarAccess(req, res, next) {
 
 async function checkIfUserIsNotOwner(req, res, next) {
   try {
-    // car
-    // verified user
+    const carId = req.body.car;
+
+    if (!utils.isValidObjectId(carId)) {
+      const error = new Error('Το αυτοκίνητο δε βρέθηκε');
+      error.status = 404;
+      throw error;
+    }
+
+    const car = await carRepository.findCarByIdAndPopulateOnwer(carId);
+
+    if (!car) {
+      const error = new Error('Το αυτοκίνητο δε βρέθηκε');
+      error.status = 404;
+      throw error;
+    }
+
+    if (car.owner.toString() === req.user._id.toString()) {
+      const error = new Error(
+        'Δεν μπορείς να νοικιάσεις αυτοκίνητο που σου ανήκει.'
+      );
+      error.status = 409;
+      throw error;
+    }
+
+    req.car = car;
+
     return next();
   } catch (error) {
     return next(error);
