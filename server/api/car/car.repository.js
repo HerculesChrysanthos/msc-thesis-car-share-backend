@@ -163,7 +163,7 @@ async function findCarByFiltersAndByAvailabilityDays(filters) {
 }
 
 async function getMyCars(userId) {
-  return Car.find({ owner: userId });
+  return Car.find({ owner: userId }).populate('model make');
 }
 
 module.exports = {
