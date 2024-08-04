@@ -56,8 +56,9 @@ const userSchema = mongoose.Schema(
         type: Number,
       },
     },
-    profilePictureUrl: {
-      type: String,
+    profileImage: {
+      url: { type: String },
+      externalId: { type: String },
     },
     verified: {
       type: Boolean,

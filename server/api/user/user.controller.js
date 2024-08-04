@@ -126,6 +126,21 @@ async function updateMyUserFields(req, res, next) {
   }
 }
 
+async function uploadUserProfileImage(req, res, next) {
+  try {
+    const image = req.files[0];
+    const user = req.user;
+
+    const updatedUser = await userService.uploadUserProfileImage(user, image);
+
+    const response = userHelper.buildUserResponse(updatedUser);
+
+    return res.status(200).json(response);
+  } catch (error) {
+    return next(error);
+  }
+}
+
 module.exports = {
   register,
   login,
@@ -135,4 +150,5 @@ module.exports = {
   reSendVerfiyToken,
   getMe,
   updateMyUserFields,
+  uploadUserProfileImage,
 };

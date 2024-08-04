@@ -7,6 +7,9 @@ const { EMAIL_TYPES } = require('../constants');
 const tokenService = require('../token/token.service');
 const { deleteTokenByTokenId } = require('../token/token.repository');
 const utils = require('../../utils');
+const generalHelper = require('../../helpers/general.helper');
+const sharpHelper = require('../../helpers/sharp.helper');
+const imagekitClient = require('../../clients/imagekit-client');
 
 function createToken(user) {
   const expirationTimeInSeconds = 60 * 60 * 24 * 30; // 30days in seconds
@@ -90,10 +93,36 @@ async function updateMyUserFields(user, userId) {
   return userRepository.updateMyUserFields(user, userId);
 }
 
+async function uploadUserProfileImage(user, image) {
+  if (user.profileImage?.url) {
+    imagekitClient.deleteImageByFileId(user.profileImage.externalId);
+  }
+  image.originalname = image.originalname.replace(/[^a-zA-Z0-9.]/g, '_');
+
+  const name = generalHelper.prepareImageName(image.originalname, user._id);
+
+  const resizedImage = await sharpHelper.resizeImage(image.buffer, {
+    width: 200,
+  });
+
+  const result = await imagekitClient.uploadImage(resizedImage, name);
+
+  const imageUrl = `https://ik.imagekit.io/carsharerentingapp/${name}`;
+
+  const updatedUser = await userRepository.uploadProfileImage(
+    user._id,
+    imageUrl,
+    result.fileId
+  );
+
+  return updatedUser;
+}
+
 module.exports = {
   register,
   login,
   verify,
   reSendVerifyToken,
   updateMyUserFields,
+  uploadUserProfileImage,
 };

@@ -1,5 +1,5 @@
 function prepareImageName(name, user) {
-  return `${Date.now()}${user}-1${name}`;
+  return `${name}-${Date.now()}${user}`;
 }
 
 module.exports = {

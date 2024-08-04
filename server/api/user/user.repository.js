@@ -51,6 +51,18 @@ async function updateMyUserFields(user, userId) {
     .exec();
 }
 
+async function uploadProfileImage(id, imageUrl, externalId) {
+  return User.findByIdAndUpdate(
+    id,
+    {
+      $set: { profileImage: { url: imageUrl, externalId } },
+    },
+    { new: true }
+  )
+    .lean()
+    .exec();
+}
+
 module.exports = {
   registerUser,
   findUser,
@@ -58,4 +70,5 @@ module.exports = {
   verifyUser,
   findUserById,
   updateMyUserFields,
+  uploadProfileImage,
 };

@@ -99,10 +99,18 @@ const updateMyUserFieldsSchema = Joi.object({
   }),
 });
 
+const uploadUserProfileImageSchema = Joi.object({
+  params: Joi.object({
+    userId: Joi.string().required(),
+  }).required(),
+  image: Joi.array().items(Joi.binary().required()).required(),
+});
+
 module.exports = {
   registerSchema,
   loginSchema,
   //googleSchema,
   verifySchema,
   updateMyUserFieldsSchema,
+  uploadUserProfileImageSchema,
 };

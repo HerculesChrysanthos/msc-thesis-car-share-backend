@@ -2,7 +2,7 @@ const carRepository = require('./car.repository');
 const modelService = require('../model/model.service');
 const makeservice = require('../make/make.service');
 const utils = require('../../utils');
-const carHelper = require('./car.helper');
+const generalHelper = require('../../helpers/general.helper');
 const sharpHelper = require('../../helpers/sharp.helper');
 const imagekitClient = require('../../clients/imagekit-client');
 const moment = require('moment');
@@ -86,7 +86,7 @@ async function updateCarSpecificFields(carId, car, existingCar) {
 async function uploadCarImage(carId, image, user, setImageAsThumbnail) {
   image.originalname = image.originalname.replace(/[^a-zA-Z0-9.]/g, '_');
 
-  const name = carHelper.prepareImageName(image.originalname, user);
+  const name = generalHelper.prepareImageName(image.originalname, user);
 
   const resizedImage = await sharpHelper.resizeImage(image.buffer, {
     width: 400,

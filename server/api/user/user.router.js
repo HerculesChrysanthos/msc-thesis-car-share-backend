@@ -6,6 +6,7 @@ const { auth, isUser } = require('../../middleware/check-auth');
 const userController = require('./user.controller');
 const passport = require('passport');
 require('../../clients/passport-google-client');
+const multerHelper = require('../../helpers/multer.helper');
 
 router.post(
   '/register',
@@ -51,6 +52,15 @@ router.post('/re-send-verify-token', auth(), userController.reSendVerfiyToken);
 router.get('/me', auth(), userController.getMe);
 
 router.patch('/:userId', auth(), isUser, userController.updateMyUserFields);
+
+router.post(
+  '/:userId/profile-image',
+  auth(),
+  isUser,
+  multerHelper.prepareImages(1),
+  validator(userValidator.uploadUserProfileImageSchema),
+  userController.uploadUserProfileImage
+);
 
 //router.get('/:userId', authorization(), userController.getUserProfile);
 
