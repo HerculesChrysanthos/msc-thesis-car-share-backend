@@ -45,10 +45,17 @@ async function findUserById(id) {
   return User.findById(id).lean().exec();
 }
 
+async function updateMyUserFields(user, userId) {
+  return User.findOneAndUpdate({ _id: userId }, { $set: user }, { new: true })
+    .lean()
+    .exec();
+}
+
 module.exports = {
   registerUser,
   findUser,
   createOrUpdateUserByGoogleId,
   verifyUser,
   findUserById,
+  updateMyUserFields,
 };

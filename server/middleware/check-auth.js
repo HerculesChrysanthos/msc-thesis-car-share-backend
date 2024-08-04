@@ -151,9 +151,24 @@ async function checkIfUserIsNotOwner(req, res, next) {
   }
 }
 
+async function isUser(req, res, next) {
+  try {
+    if (req.params.userId !== req.user._id.toString()) {
+      const error = new Error('Δεν έχεις πρόσβαση');
+      error.status = 403;
+      throw error;
+    }
+
+    return next();
+  } catch (error) {
+    return next(error);
+  }
+}
+
 module.exports = {
   auth,
   authorization,
   hasCarAccess,
   checkIfUserIsNotOwner,
+  isUser,
 };

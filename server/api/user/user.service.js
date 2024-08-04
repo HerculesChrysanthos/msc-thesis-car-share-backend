@@ -86,9 +86,14 @@ async function reSendVerifyToken(user) {
   nodemailer.sendEmail(EMAIL_TYPES.VERIFICATION, user, token);
 }
 
+async function updateMyUserFields(user, userId) {
+  return userRepository.updateMyUserFields(user, userId);
+}
+
 module.exports = {
   register,
   login,
   verify,
   reSendVerifyToken,
+  updateMyUserFields,
 };

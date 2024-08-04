@@ -66,9 +66,43 @@ const verifySchema = Joi.object({
   }),
 });
 
+const updateMyUserFieldsSchema = Joi.object({
+  params: Joi.object({
+    userId: Joi.string().required(),
+  }).required(),
+  body: Joi.object({
+    name: Joi.string().required(),
+    surname: Joi.string().required(),
+    email: Joi.string().email().required(),
+    phone: Joi.string()
+      .pattern(/^\+?\d{1,10}$/)
+      .required(),
+    dateOfBirth: Joi.object({
+      day: Joi.number().integer().min(1).max(31).required(),
+      month: Joi.number().integer().min(1).max(12).required(),
+      year: Joi.number()
+        .integer()
+        .min(1900)
+        .max(new Date().getFullYear() - 18)
+        .messages({
+          'number.max': 'Πρέπει να είσαι ενήλικας για να προχωρήσεις',
+        })
+        .required(),
+    }).required(),
+    vat: Joi.string().required(),
+    licenceNumber: Joi.number().required(),
+    drivingSince: Joi.object({
+      month: Joi.number().integer().min(1).max(12).required(),
+      month: Joi.number().integer().min(1).max(12).required(),
+      year: Joi.number().integer().min(1900).required(),
+    }),
+  }),
+});
+
 module.exports = {
   registerSchema,
   loginSchema,
   //googleSchema,
   verifySchema,
+  updateMyUserFieldsSchema,
 };

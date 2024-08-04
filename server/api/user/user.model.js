@@ -49,7 +49,6 @@ const userSchema = mongoose.Schema(
     drivingSince: {
       month: {
         type: Number,
-
         min: 1,
         max: 12,
       },

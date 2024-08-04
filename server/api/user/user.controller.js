@@ -113,6 +113,19 @@ async function getMe(req, res, next) {
   }
 }
 
+async function updateMyUserFields(req, res, next) {
+  try {
+    const user = req.body;
+    const userId = req.params.userId;
+
+    const updatedUser = await userService.updateMyUserFields(user, userId);
+    const response = userHelper.buildUserResponse(updatedUser);
+    return res.status(200).json(response);
+  } catch (error) {
+    return next(error);
+  }
+}
+
 module.exports = {
   register,
   login,
@@ -121,4 +134,5 @@ module.exports = {
   verify,
   reSendVerfiyToken,
   getMe,
+  updateMyUserFields,
 };
