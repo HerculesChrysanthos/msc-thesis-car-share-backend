@@ -58,8 +58,21 @@ async function changeAvailabilitiesStatus(availabilities, status, session) {
   );
 }
 
+async function findCarAvailabilities(car, dates) {
+  return availabilityRepository.findCarAvailabilities(car, dates);
+}
+
+async function setBookingOnAvailabilities(booking, availabilities) {
+  return availabilityRepository.setBookingOnAvailabilities(
+    booking,
+    availabilities
+  );
+}
+
 module.exports = {
   createAvailability,
   findCarAvailabilitiesOnSpecificDates,
   changeAvailabilitiesStatus,
+  findCarAvailabilities,
+  setBookingOnAvailabilities,
 };

@@ -18,9 +18,10 @@ async function createBooking(booking) {
   };
 
   let result;
+  let availabilities = [];
 
   try {
-    const availabilities =
+    availabilities =
       await availabilityService.findCarAvailabilitiesOnSpecificDates(
         booking.car._id,
         booking.startDate,
@@ -50,6 +51,8 @@ async function createBooking(booking) {
   } finally {
     session.endSession();
   }
+
+  availabilityService.setBookingOnAvailabilities(result._id, availabilities);
 
   nodemailer.sendEmail(EMAIL_TYPES.BOOKING_OWNER, booking.car.owner);
 

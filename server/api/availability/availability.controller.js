@@ -22,6 +22,19 @@ async function createAvailability(req, res, next) {
   }
 }
 
+async function findCarAvailabilities(req, res, next) {
+  try {
+    const car = req.params.carId;
+
+    const availabilities = await availabilityService.findCarAvailabilities(car);
+
+    return res.status(200).json(availabilities);
+  } catch (error) {
+    return next(error);
+  }
+}
+
 module.exports = {
   createAvailability,
+  findCarAvailabilities,
 };

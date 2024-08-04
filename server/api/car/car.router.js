@@ -61,6 +61,14 @@ router.post(
 );
 
 router.get(
+  '/:carId/availabilities',
+  auth(),
+  hasCarAccess,
+  validator(carValidator.getCarAvailabilitiesSchema),
+  availabilityController.findCarAvailabilities
+);
+
+router.get(
   '/',
   validator(carValidator.findCarByFiltersAndByAvailabilityDaysSchema),
   carController.findCarByFiltersAndByAvailabilityDays

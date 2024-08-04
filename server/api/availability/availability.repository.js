@@ -5,8 +5,61 @@ async function insertMultipleAvailabilities(availabilities) {
   return Availability.insertMany(availabilities);
 }
 
-async function findAvailabilityByDay({ date, car }) {
-  return Availability.findOne({ date, car }).lean().exec();
+async function setBookingOnAvailabilities(booking, availabilities) {
+  return Availability.updateMany(
+    { _id: { $in: availabilities } },
+    { $set: { booking } }
+  );
+}
+
+async function findCarAvailabilities(car, dates) {
+  return Availability.aggregate([
+    {
+      $match: {
+        car: new mongoose.Types.ObjectId(car),
+      },
+    },
+    {
+      $project: {
+        dateOnly: {
+          $dateToString: {
+            format: '%Y-%m-%d',
+            date: '$date',
+          },
+        },
+        hour: {
+          $hour: {
+            date: '$date',
+          },
+        },
+        status: 1,
+        booking: 1,
+      },
+    },
+    {
+      $group: {
+        _id: '$dateOnly',
+        hours: {
+          $push: {
+            _id: '$_id',
+            hour: '$hour',
+            status: '$status',
+            booking: '$booking',
+          },
+        },
+      },
+    },
+    {
+      $project: {
+        _id: 0,
+        date: '$_id',
+        hours: 1,
+      },
+    },
+    {
+      $sort: { date: 1 },
+    },
+  ]).exec();
 }
 
 async function findCarAvailabilitiesOnSpecificDates(car, filters, session) {
@@ -39,7 +92,8 @@ async function changeAvailabilitiesStatus(availabilities, status, session) {
 
 module.exports = {
   insertMultipleAvailabilities,
-  findAvailabilityByDay,
+  findCarAvailabilities,
   findCarAvailabilitiesOnSpecificDates,
   changeAvailabilitiesStatus,
+  setBookingOnAvailabilities,
 };

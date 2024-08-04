@@ -241,6 +241,12 @@ const getCarBookingsSchema = Joi.object({
   }).required(),
 });
 
+const getCarAvailabilitiesSchema = Joi.object({
+  params: Joi.object({
+    carId: Joi.string().required(),
+  }).required(),
+});
+
 module.exports = {
   createCarSchema,
   // updateCarSchema,
@@ -251,4 +257,5 @@ module.exports = {
   getCarByIdSchema,
   findCarByFiltersAndByAvailabilityDaysSchema,
   getCarBookingsSchema,
+  getCarAvailabilitiesSchema,
 };
