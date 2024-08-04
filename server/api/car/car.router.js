@@ -3,6 +3,7 @@ const router = express.Router();
 const { validator } = require('../../middleware/validate');
 const carController = require('./car.controller');
 const availabilityController = require('../availability/availability.controller');
+const bookingController = require('../booking/booking.controller');
 const {
   auth,
   authorization,
@@ -63,6 +64,14 @@ router.get(
   '/',
   validator(carValidator.findCarByFiltersAndByAvailabilityDaysSchema),
   carController.findCarByFiltersAndByAvailabilityDays
+);
+
+router.get(
+  '/:carId/bookings',
+  auth(),
+  hasCarAccess,
+  validator(carValidator.getCarBookingsSchema),
+  bookingController.getCarBookings
 );
 
 module.exports = router;

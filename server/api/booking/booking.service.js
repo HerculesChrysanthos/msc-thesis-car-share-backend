@@ -58,6 +58,11 @@ async function createBooking(booking) {
   return result;
 }
 
+async function getCarBookingsByCarId(car) {
+  return bookingRepository.getCarBookingsByCarId(car);
+}
+
 module.exports = {
   createBooking,
+  getCarBookingsByCarId,
 };

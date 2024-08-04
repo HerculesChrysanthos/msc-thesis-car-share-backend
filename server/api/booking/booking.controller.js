@@ -33,6 +33,16 @@ async function createBooking(req, res, next) {
   }
 }
 
+async function getCarBookings(req, res, next) {
+  try {
+    const bookings = await bookingService.getCarBookingsByCarId(req.car._id);
+    return res.status(200).json(bookings);
+  } catch (error) {
+    return next(error);
+  }
+}
+
 module.exports = {
   createBooking,
+  getCarBookings,
 };
