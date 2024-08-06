@@ -29,6 +29,8 @@ async function createAvailability(availability, carId) {
         availabilities,
         session
       );
+
+    await session.commitTransaction();
   } catch (error) {
     await session.abortTransaction();
     throw error;

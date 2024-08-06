@@ -5,8 +5,11 @@ async function createAvailability(req, res, next) {
     const availability = req.body;
     const carId = req.car._id;
 
-    await availabilityService.createAvailability(availability, carId);
-    return res.status(201).json();
+    const availabilities = await availabilityService.createAvailability(
+      availability,
+      carId
+    );
+    return res.status(201).json(availabilities);
   } catch (error) {
     console.log(`error: ${error}`);
 
