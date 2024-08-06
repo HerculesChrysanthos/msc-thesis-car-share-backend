@@ -65,7 +65,19 @@ async function getCarBookingsByCarId(car) {
   return bookingRepository.getCarBookingsByCarId(car);
 }
 
+async function setAsDoneAcceptedBookingsThatEndDatePassed() {
+  const bookings =
+    await bookingRepository.findAcceptedBookingsThatEndDatePassed();
+
+  // send emails
+
+  // update
+
+  return bookings;
+}
+
 module.exports = {
   createBooking,
   getCarBookingsByCarId,
+  setAsDoneAcceptedBookingsThatEndDatePassed,
 };

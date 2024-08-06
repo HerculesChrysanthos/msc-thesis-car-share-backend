@@ -9,6 +9,7 @@ const carRouter = require('./server/api/car/car.router');
 const modelRouter = require('./server/api/model/model.router');
 const makeRouter = require('./server/api/make/make.router');
 const bookingRouter = require('./server/api/booking/booking.router');
+const scheduleJobs = require('./server/jobs');
 
 app.use(morgan('dev'));
 
@@ -24,6 +25,8 @@ mongoose.connect(
     useUnifiedTopology: true,
   }
 );
+
+scheduleJobs();
 
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
