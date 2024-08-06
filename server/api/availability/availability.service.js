@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const availabilityRepository = require('./availability.repository');
 const moment = require('moment');
 
@@ -6,6 +7,7 @@ async function createAvailability(availability, carId) {
   const endDate = moment.utc(availability.endDate);
 
   const availabilities = [];
+  let createdAvailabilities;
 
   const currentDate = startDate.clone();
 
@@ -18,8 +20,23 @@ async function createAvailability(availability, carId) {
 
     currentDate.add(1, 'hour');
   }
+  const session = await mongoose.startSession();
+  session.startTransaction();
 
-  return availabilityRepository.insertMultipleAvailabilities(availabilities);
+  try {
+    createdAvailabilities =
+      await availabilityRepository.insertMultipleAvailabilities(
+        availabilities,
+        session
+      );
+  } catch (error) {
+    await session.abortTransaction();
+    throw error;
+  } finally {
+    session.endSession();
+  }
+
+  return createdAvailabilities;
 }
 
 async function findCarAvailabilitiesOnSpecificDates(

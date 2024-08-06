@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 const Availability = require('./availability.model');
 
-async function insertMultipleAvailabilities(availabilities) {
-  return Availability.insertMany(availabilities);
+async function insertMultipleAvailabilities(availabilities, session) {
+  return Availability.insertMany(availabilities, { session });
 }
 
 async function setBookingOnAvailabilities(booking, availabilities) {
