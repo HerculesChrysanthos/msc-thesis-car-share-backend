@@ -239,6 +239,11 @@ const getCarBookingsSchema = Joi.object({
   params: Joi.object({
     carId: Joi.string().required(),
   }).required(),
+  query: Joi.object({
+    status: Joi.string().valid('PENDING', 'ACCEPTED', 'PREVIOUS'),
+    page: Joi.number().integer().min(1),
+    limit: Joi.number().integer().min(1),
+  }),
 });
 
 const getCarAvailabilitiesSchema = Joi.object({

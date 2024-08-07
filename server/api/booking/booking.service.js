@@ -61,8 +61,8 @@ async function createBooking(booking) {
   return result;
 }
 
-async function getCarBookingsByCarId(car) {
-  return bookingRepository.getCarBookingsByCarId(car);
+async function getCarBookingsByCarId(car, status, skip, limit) {
+  return bookingRepository.getCarBookingsByCarId(car, status, skip, limit);
 }
 
 async function setAsDoneAcceptedBookingsThatEndDatePassed() {

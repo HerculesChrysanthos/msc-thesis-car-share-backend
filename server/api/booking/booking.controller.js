@@ -35,7 +35,17 @@ async function createBooking(req, res, next) {
 
 async function getCarBookings(req, res, next) {
   try {
-    const bookings = await bookingService.getCarBookingsByCarId(req.car._id);
+    const { status, page, limit } = req.query;
+
+    const pageSize = limit ? Number(limit) : 9;
+    const skipSize = page ? (Number(page) - 1) * pageSize : 0;
+
+    const bookings = await bookingService.getCarBookingsByCarId(
+      req.car._id,
+      status,
+      skipSize,
+      pageSize
+    );
     return res.status(200).json(bookings);
   } catch (error) {
     return next(error);
