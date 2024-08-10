@@ -12,6 +12,33 @@ async function getCarBookingsByCarId(car, status, skip, limit) {
   return Booking.aggregate([
     { $match: query },
     {
+      $lookup: {
+        from: 'users',
+        localField: 'renter',
+        foreignField: '_id',
+        as: 'renter',
+      },
+    },
+    {
+      $unwind: '$renter',
+    },
+
+    {
+      $project: {
+        'renter.name': 1,
+        'renter.surname': 1,
+        'renter._id': 1,
+        car: 1,
+        startDate: 1,
+        endDate: 1,
+        totalPrice: 1,
+        status: 1,
+        createdAt: 1,
+        updatedAt: 1,
+        // TODO reviews
+      },
+    },
+    {
       $sort: {
         _id: -1,
       },
