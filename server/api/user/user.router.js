@@ -7,6 +7,7 @@ const userController = require('./user.controller');
 const passport = require('passport');
 require('../../clients/passport-google-client');
 const multerHelper = require('../../helpers/multer.helper');
+const reviewController = require('../review/review.controller');
 
 router.post(
   '/register',
@@ -51,7 +52,13 @@ router.post('/re-send-verify-token', auth(), userController.reSendVerfiyToken);
 
 router.get('/me', auth(), userController.getMe);
 
-router.patch('/:userId', auth(), isUser, userController.updateMyUserFields);
+router.patch(
+  '/:userId',
+  auth(),
+  isUser,
+  validator(userValidator.updateMyUserFieldsSchema),
+  userController.updateMyUserFields
+);
 
 router.post(
   '/:userId/profile-image',
@@ -61,6 +68,8 @@ router.post(
   validator(userValidator.uploadUserProfileImageSchema),
   userController.uploadUserProfileImage
 );
+
+//router.get('/:userId/reviews');
 
 //router.get('/:userId', authorization(), userController.getUserProfile);
 
