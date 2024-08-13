@@ -8,7 +8,7 @@ function buildUserResponse(user) {
       phone: user.phone,
       dateOfBirth: user.dateOfBirth,
       vat: user.vat,
-      licence: user.licence,
+      licenceNumber: user.licenceNumber,
       drivingSince: user.drivingSince,
       profileImage: user.profileImage,
       googleId: user.googleId,
