@@ -90,10 +90,27 @@ async function changeAvailabilitiesStatus(availabilities, status, session) {
   );
 }
 
+async function findAvailabilitiesByCarId(car, session) {
+  return Availability.find({ car }).session(session).lean().exec();
+}
+
+async function deleteAvailabilities(availabilities, session) {
+  return Availability.deleteMany({ _id: { $in: availabilities } }).session(
+    session
+  );
+}
+
+async function findCarAvailableOrReservedAvailabilities(car) {
+  return Availability.find({ car, status: { $in: ['AVAILABLE', 'RESERVED'] } });
+}
+
 module.exports = {
   insertMultipleAvailabilities,
   findCarAvailabilities,
   findCarAvailabilitiesOnSpecificDates,
   changeAvailabilitiesStatus,
   setBookingOnAvailabilities,
+  findAvailabilitiesByCarId,
+  deleteAvailabilities,
+  findCarAvailableOrReservedAvailabilities,
 };

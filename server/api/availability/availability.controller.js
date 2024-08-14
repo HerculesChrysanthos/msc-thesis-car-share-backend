@@ -21,6 +21,16 @@ async function createAvailability(req, res, next) {
       error.status = 409;
     }
 
+    if (
+      error
+        .toString()
+        .includes(
+          'Δεν μπορείς να προσθέσεις επιπλέον διαθεσιμότητα. Επεξεργάσου την υπάρχουσα.'
+        )
+    ) {
+      error.status = 409;
+    }
+
     return next(error);
   }
 }
@@ -37,7 +47,30 @@ async function findCarAvailabilities(req, res, next) {
   }
 }
 
+async function updateCarAvailabilities(req, res, next) {
+  try {
+    const availability = req.body;
+    const carId = req.car._id;
+
+    await availabilityService.updateCarAvailabilities(availability, carId);
+    return res.status(200).json({});
+  } catch (error) {
+    if (
+      error
+        .toString()
+        .includes(
+          'Δεν μπορούμε να προχωρήσουμε στην αλλαγή της διαθεσιμότητας, καθώς στην αρχική διαθεσιμότητα υπάρχουν κρατήσεις.'
+        )
+    ) {
+      error.status = 409;
+    }
+
+    return next(error);
+  }
+}
+
 module.exports = {
   createAvailability,
   findCarAvailabilities,
+  updateCarAvailabilities,
 };

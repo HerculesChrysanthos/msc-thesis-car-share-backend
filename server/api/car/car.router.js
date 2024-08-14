@@ -60,8 +60,23 @@ router.post(
   availabilityController.createAvailability
 );
 
-router.get(
+// change general car availability
+router.put(
   '/:carId/availabilities',
+  auth(),
+  hasCarAccess,
+  validator(carValidator.updateCarAvailabilitySchema),
+  availabilityController.updateCarAvailabilities
+);
+
+// TODO allazei diathesimothta se range mesa mesa sth geniki diathesimothta
+router.put(
+  '/:carId/availabilities?status=unavailable&startDate=isodate&endDate=isodate'
+);
+
+// TODO na gurnaei start kai enddate
+router.get(
+  '/:carId/availabilities?status=unavailable|available',
   auth(),
   hasCarAccess,
   validator(carValidator.getCarAvailabilitiesSchema),

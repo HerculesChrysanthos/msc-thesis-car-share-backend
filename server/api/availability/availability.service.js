@@ -3,6 +3,16 @@ const availabilityRepository = require('./availability.repository');
 const moment = require('moment');
 
 async function createAvailability(availability, carId) {
+  const existingAvailabilities =
+    await availabilityRepository.findCarAvailableOrReservedAvailabilities(
+      carId
+    );
+  if (existingAvailabilities.length > 0) {
+    throw new Error(
+      'Δεν μπορείς να προσθέσεις επιπλέον διαθεσιμότητα. Επεξεργάσου την υπάρχουσα.'
+    );
+  }
+
   const startDate = moment.utc(availability.startDate);
   const endDate = moment.utc(availability.endDate);
 
@@ -24,6 +34,7 @@ async function createAvailability(availability, carId) {
   session.startTransaction();
 
   try {
+    // check if car has availabilities, if yes throw error
     createdAvailabilities =
       await availabilityRepository.insertMultipleAvailabilities(
         availabilities,
@@ -88,10 +99,101 @@ async function setBookingOnAvailabilities(booking, availabilities) {
   );
 }
 
+async function updateCarAvailabilities(incomingAvailability, carId) {
+  const session = await mongoose.startSession();
+  session.startTransaction();
+
+  try {
+    const existingCarAvailabilities =
+      await availabilityRepository.findAvailabilitiesByCarId(carId, session);
+
+    const startDate = moment.utc(incomingAvailability.startDate);
+    const endDate = moment.utc(incomingAvailability.endDate);
+
+    const availabilities = [];
+
+    const currentDate = startDate.clone();
+
+    while (currentDate.isBefore(endDate)) {
+      availabilities.push({
+        car: carId,
+        date: currentDate.toISOString(),
+        status: 'AVAILABLE',
+      });
+
+      currentDate.add(1, 'hour');
+    }
+
+    const incomingAvailabilitiesSet = new Set(
+      availabilities.map((availability) =>
+        new Date(availability.date).toISOString()
+      )
+    );
+
+    const missingBookings = existingCarAvailabilities.filter(
+      (availability) =>
+        availability.booking &&
+        !incomingAvailabilitiesSet.has(
+          new Date(availability.date).toISOString()
+        )
+    );
+
+    if (missingBookings.length > 0) {
+      throw new Error(
+        'Δεν μπορούμε να προχωρήσουμε στην αλλαγή της διαθεσιμότητας, καθώς στην αρχική διαθεσιμότητα υπάρχουν κρατήσεις.'
+      );
+    }
+
+    const existingAvailabilitiesSet = new Set(
+      existingCarAvailabilities.map((availability) =>
+        availability.date.toISOString()
+      )
+    );
+
+    const availabilitiesToAdd = availabilities.filter(
+      (availability) =>
+        !existingAvailabilitiesSet.has(
+          new Date(availability.date).toISOString()
+        )
+    );
+
+    await availabilityRepository.insertMultipleAvailabilities(
+      availabilitiesToAdd,
+      session
+    );
+
+    const availabilitiesToRemove = existingCarAvailabilities
+      .filter(
+        (availability) =>
+          !incomingAvailabilitiesSet.has(availability.date.toISOString()) &&
+          !availability.bookingId
+      )
+      .map((availability) => availability._id);
+
+    await availabilityRepository.deleteAvailabilities(
+      availabilitiesToRemove,
+      session
+    );
+
+    await session.commitTransaction();
+  } catch (error) {
+    await session.abortTransaction();
+    throw error;
+  } finally {
+    session.endSession();
+  }
+}
+
+async function findCarAvailableOrReservedAvailabilities(car) {
+  return availabilityRepository.findCarAvailableOrReservedAvailabilities(car);
+}
+
 module.exports = {
   createAvailability,
   findCarAvailabilitiesOnSpecificDates,
   changeAvailabilitiesStatus,
   findCarAvailabilities,
   setBookingOnAvailabilities,
+  updateCarAvailabilities,
+  findCarAvailableOrReservedAvailabilities,
 };
