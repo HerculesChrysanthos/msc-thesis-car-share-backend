@@ -188,6 +188,65 @@ async function findCarAvailableOrReservedAvailabilities(car) {
   return availabilityRepository.findCarAvailableOrReservedAvailabilities(car);
 }
 
+async function updatePartialCarAvailabilities(carId, availability) {
+  const session = await mongoose.startSession();
+  session.startTransaction();
+
+  const startDate = moment.utc(availability.startDate);
+  const endDate = moment.utc(availability.endDate);
+  const searchStatus =
+    availability.status === 'AVAILABLE' ? 'UNAVAILABLE' : 'AVAILABLE';
+  const status = availability.status;
+
+  const availabilities = [];
+
+  const currentDate = startDate.clone();
+
+  while (currentDate.isBefore(endDate)) {
+    availabilities.push({
+      car: carId,
+      date: currentDate.toISOString(),
+      status: 'AVAILABLE',
+    });
+
+    currentDate.add(1, 'hour');
+  }
+
+  const filters = {
+    startDate,
+    endDate,
+    searchStatus,
+  };
+
+  try {
+    const existingAvailabilities =
+      await availabilityRepository.findCarAvailabilitiesOnSpecificDates(
+        carId,
+        filters,
+        session
+      );
+
+    if (existingAvailabilities.length !== availabilities.length) {
+      throw new Error(
+        'Δεν μπορείς να αλλάξεις διάστημα διαθεσιμότητας που δεν είναι διαθέσιμες ή περιέχει κράτηση.'
+      );
+    }
+
+    await availabilityRepository.changeAvailabilitiesStatus(
+      existingAvailabilities,
+      status,
+      session
+    );
+
+    await session.commitTransaction();
+  } catch (error) {
+    await session.abortTransaction();
+    throw error;
+  } finally {
+    session.endSession();
+  }
+}
+
 module.exports = {
   createAvailability,
   findCarAvailabilitiesOnSpecificDates,
@@ -196,4 +255,5 @@ module.exports = {
   setBookingOnAvailabilities,
   updateCarAvailabilities,
   findCarAvailableOrReservedAvailabilities,
+  updatePartialCarAvailabilities,
 };

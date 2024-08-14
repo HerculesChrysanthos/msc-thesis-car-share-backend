@@ -52,7 +52,15 @@ async function updateCarAvailabilities(req, res, next) {
     const availability = req.body;
     const carId = req.car._id;
 
-    await availabilityService.updateCarAvailabilities(availability, carId);
+    if (!availability.status) {
+      await availabilityService.updateCarAvailabilities(availability, carId);
+    } else {
+      await availabilityService.updatePartialCarAvailabilities(
+        carId,
+        availability
+      );
+    }
+
     return res.status(200).json({});
   } catch (error) {
     if (
@@ -60,6 +68,11 @@ async function updateCarAvailabilities(req, res, next) {
         .toString()
         .includes(
           'Δεν μπορούμε να προχωρήσουμε στην αλλαγή της διαθεσιμότητας, καθώς στην αρχική διαθεσιμότητα υπάρχουν κρατήσεις.'
+        ) ||
+      error
+        .toString()
+        .includes(
+          'Δεν μπορείς να αλλάξεις διάστημα διαθεσιμότητας που δεν υπάρχει ή περιέχει κράτηση.'
         )
     ) {
       error.status = 409;
@@ -68,6 +81,8 @@ async function updateCarAvailabilities(req, res, next) {
     return next(error);
   }
 }
+
+async function updatePartialCarAvailabilities(req, res, next) {}
 
 module.exports = {
   createAvailability,

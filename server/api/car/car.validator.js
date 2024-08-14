@@ -208,6 +208,7 @@ const updateCarAvailabilitySchema = Joi.object({
         'date.greater':
           'Η αρχική ημερομηνία πρέπει να είναι αργότερα από την αρχική.',
       }),
+    status: Joi.string().valid('UNAVAILABLE', 'AVAILABLE'),
   }).required(),
 });
 

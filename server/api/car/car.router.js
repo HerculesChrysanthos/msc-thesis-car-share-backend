@@ -61,6 +61,10 @@ router.post(
 );
 
 // change general car availability
+// Also partial change.
+// Allazei diathesimothta se range mesa mesa sth geniki diathesimothta efoson dinetai to status
+// an uparxei booking epistrefei oti uparxei booking mesa se auto to
+// diasthma kai gi auto den mporei na allaksei to status ths diathesimothtas
 router.put(
   '/:carId/availabilities',
   auth(),
@@ -69,12 +73,9 @@ router.put(
   availabilityController.updateCarAvailabilities
 );
 
-// TODO allazei diathesimothta se range mesa mesa sth geniki diathesimothta
-router.put(
-  '/:carId/availabilities?status=unavailable&startDate=isodate&endDate=isodate'
-);
-
 // TODO na gurnaei start kai enddate
+// status=available
+// status unavailable
 router.get(
   '/:carId/availabilities?status=unavailable|available',
   auth(),

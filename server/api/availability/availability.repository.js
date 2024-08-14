@@ -66,13 +66,15 @@ async function findCarAvailabilitiesOnSpecificDates(car, filters, session) {
   const startDate = filters.startDate;
   const endDate = filters.endDate;
 
+  const status = filters.searchStatus || 'AVAILABLE';
+
   const query = {
     car: new mongoose.Types.ObjectId(car),
     date: {
       $gte: new Date(startDate),
       $lt: new Date(endDate),
     },
-    status: 'AVAILABLE',
+    status,
   };
 
   return Availability.find(query, { _id: 1 }).session(session).lean().exec();
