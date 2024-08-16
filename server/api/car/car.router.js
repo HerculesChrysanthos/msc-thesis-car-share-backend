@@ -73,11 +73,8 @@ router.put(
   availabilityController.updateCarAvailabilities
 );
 
-// TODO na gurnaei start kai enddate
-// status=available
-// status unavailable
 router.get(
-  '/:carId/availabilities?status=unavailable|available',
+  '/:carId/availabilities',
   auth(),
   hasCarAccess,
   validator(carValidator.getCarAvailabilitiesSchema),
