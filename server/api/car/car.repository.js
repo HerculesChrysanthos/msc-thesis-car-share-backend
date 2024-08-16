@@ -1,4 +1,5 @@
 const Car = require('./car.model');
+const mongoose = require('mongoose');
 
 async function findCarByIdAndPopulateModelMake(carId) {
   return Car.findById(carId).populate('model make').lean().exec();
@@ -77,6 +78,44 @@ async function findCarByFiltersAndByAvailabilityDays(
         spherical: true,
       },
     },
+  ];
+
+  if (filters.maxPrice && filters.minPrice) {
+    pipeline.push({
+      $match: {
+        rentPerHour: {
+          $lte: Number(filters.maxPrice),
+          $gte: Number(filters.minPrice),
+        },
+      },
+    });
+  }
+
+  if (filters.make) {
+    pipeline.push({
+      $match: {
+        make: new mongoose.Types.ObjectId(filters.make),
+      },
+    });
+  }
+
+  if (filters.model) {
+    pipeline.push({
+      $match: {
+        model: new mongoose.Types.ObjectId(filters.model),
+      },
+    });
+  }
+
+  if (filters.gearboxType) {
+    pipeline.push({
+      $match: {
+        gearboxType: filters.gearboxType,
+      },
+    });
+  }
+
+  pipeline.push(
     {
       $lookup: {
         from: 'availabilities',
@@ -96,8 +135,8 @@ async function findCarByFiltersAndByAvailabilityDays(
         },
         'availability.status': 'AVAILABLE',
       },
-    },
-  ];
+    }
+  );
 
   pipeline.push(
     {

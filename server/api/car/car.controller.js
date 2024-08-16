@@ -103,7 +103,19 @@ async function getCarById(req, res, next) {
 
 async function findCarByFiltersAndByAvailabilityDays(req, res, next) {
   try {
-    const { startDate, endDate, lat, long, page, limit } = req.query;
+    const {
+      startDate,
+      endDate,
+      lat,
+      long,
+      page,
+      limit,
+      maxPrice,
+      minPrice,
+      make,
+      model,
+      gearboxType,
+    } = req.query;
 
     const pageSize = limit ? Number(limit) : 9;
     const skipSize = page ? (Number(page) - 1) * pageSize : 0;
@@ -115,6 +127,11 @@ async function findCarByFiltersAndByAvailabilityDays(req, res, next) {
       long,
       skip: skipSize,
       limit: pageSize,
+      maxPrice,
+      minPrice,
+      make,
+      model,
+      gearboxType,
     };
 
     const result = await carService.findCarByFiltersAndByAvailabilityDays(
@@ -131,6 +148,10 @@ async function findCarByFiltersAndByAvailabilityDays(req, res, next) {
         )
     ) {
       error.status = 422;
+    }
+
+    if (error.toString().includes('δε βρέθηκε')) {
+      error.status = 404;
     }
 
     return next(error);

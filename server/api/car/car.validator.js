@@ -251,6 +251,13 @@ const findCarByFiltersAndByAvailabilityDaysSchema = Joi.object({
     long: Joi.number().min(-180).max(180).required(),
     page: Joi.number().integer().min(1),
     limit: Joi.number().integer().min(1),
+    minPrice: Joi.number().min(0),
+    maxPrice: Joi.number().min(1),
+    make: Joi.string(),
+    model: Joi.string(),
+    gearboxType: Joi.string()
+      .valid(...Object.values(GEARBOX_TYPES))
+      .required(),
   }).required(),
 });
 

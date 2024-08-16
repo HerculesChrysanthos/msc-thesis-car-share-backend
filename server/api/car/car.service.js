@@ -9,7 +9,7 @@ const moment = require('moment');
 
 async function createCar(car) {
   if (!utils.isValidObjectId(car.model) || !utils.isValidObjectId(car.make)) {
-    throw new error('Ο κατασκευαστής ή το μοντέλο δε βρέθηκαν');
+    throw new Error('Ο κατασκευαστής ή το μοντέλο δε βρέθηκαν');
   }
 
   const make = await makeservice.checkIfMakeExists(car.make);
@@ -177,6 +177,14 @@ async function getCarById(carId) {
 }
 
 async function findCarByFiltersAndByAvailabilityDays(filters) {
+  if (filters.make && !utils.isValidObjectId(filters.make)) {
+    throw new Error('Ο κατασκευαστής δε βρέθηκε');
+  }
+
+  if (filters.model && !utils.isValidObjectId(filters.model)) {
+    throw new Error('Το μοντέλο δε βρέθηκε');
+  }
+
   filters.startDate = moment.utc(filters.startDate);
   filters.endDate = moment.utc(filters.endDate);
 
