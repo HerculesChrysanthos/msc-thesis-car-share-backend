@@ -191,6 +191,26 @@ async function findCarByFiltersAndByAvailabilityDays(
       $facet: {
         totalCount: [{ $count: 'count' }],
         paginatedResults: [{ $skip: filters.skip }, { $limit: filters.limit }],
+        general: [
+          {
+            $group: {
+              _id: null,
+              minPrice: { $min: '$rentPerHour' },
+              maxPrice: { $max: '$rentPerHour' },
+              makes: { $addToSet: '$make' },
+              models: { $addToSet: '$model' },
+            },
+          },
+          {
+            $project: {
+              _id: 0,
+              minPrice: 1,
+              maxPrice: 1,
+              makes: 1,
+              models: 1,
+            },
+          },
+        ],
       },
     }
   );
