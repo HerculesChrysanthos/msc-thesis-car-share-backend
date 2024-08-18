@@ -205,6 +205,10 @@ async function getMyCars(userId) {
   return carRepository.getMyCars(userId);
 }
 
+async function updateCarRatingScoreAndAmount(carId, score, amount) {
+  return carRepository.updateCarRatingScoreAndAmount(carId, score, amount);
+}
+
 module.exports = {
   createCar,
   updateCarSpecificFields,
@@ -213,4 +217,5 @@ module.exports = {
   getCarById,
   findCarByFiltersAndByAvailabilityDays,
   getMyCars,
+  updateCarRatingScoreAndAmount,
 };

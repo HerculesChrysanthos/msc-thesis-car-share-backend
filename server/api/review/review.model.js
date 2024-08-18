@@ -15,6 +15,10 @@ const reviewSchema = mongoose.Schema(
     car: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Car',
+    },
+    booking: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Booking',
       required: true,
     },
     rating: {
@@ -25,6 +29,7 @@ const reviewSchema = mongoose.Schema(
     },
     comment: {
       type: String,
+      maxlength: [500, 'Επιτρέπονται μέχρι 500 χαρακτήρες.'],
     },
   },
   {

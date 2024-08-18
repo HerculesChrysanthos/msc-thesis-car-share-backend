@@ -76,8 +76,13 @@ async function setAsDoneAcceptedBookingsThatEndDatePassed() {
   return bookings;
 }
 
+async function setBookingReview(bookingId, review) {
+  return bookingRepository.setBookingReview(bookingId, review);
+}
+
 module.exports = {
   createBooking,
   getCarBookingsByCarId,
   setAsDoneAcceptedBookingsThatEndDatePassed,
+  setBookingReview,
 };

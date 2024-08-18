@@ -96,9 +96,34 @@ async function setBookingsAsDone(bookings) {
   );
 }
 
+async function getBookingById(bookingId) {
+  return Booking.findById(bookingId)
+    .populate({
+      path: 'car',
+      populate: {
+        path: 'owner',
+      },
+    })
+    .populate('renter')
+    .lean()
+    .exec();
+}
+
+async function setBookingReview(bookingId, review) {
+  return Booking.findByIdAndUpdate(
+    bookingId,
+    {
+      $set: review,
+    },
+    { new: true }
+  );
+}
+
 module.exports = {
   createBooking,
   getCarBookingsByCarId,
   findAcceptedBookingsThatEndDatePassed,
   setBookingsAsDone,
+  getBookingById,
+  setBookingReview,
 };

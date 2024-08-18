@@ -118,6 +118,10 @@ async function uploadUserProfileImage(user, image) {
   return updatedUser;
 }
 
+async function updateUserRatingScoreAndAmount(userId, score, amount) {
+  return userRepository.updateUserRatingScoreAndAmount(userId, score, amount);
+}
+
 module.exports = {
   register,
   login,
@@ -125,4 +129,5 @@ module.exports = {
   reSendVerifyToken,
   updateMyUserFields,
   uploadUserProfileImage,
+  updateUserRatingScoreAndAmount,
 };

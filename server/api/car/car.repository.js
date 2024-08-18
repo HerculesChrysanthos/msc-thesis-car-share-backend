@@ -206,6 +206,19 @@ async function findCarByIdAndPopulateOnwer(id) {
   return Car.findById(id).populate('owner').lean().exec();
 }
 
+async function updateCarRatingScoreAndAmount(id, score, amount) {
+  return Car.findByIdAndUpdate(
+    id,
+    {
+      $set: {
+        ratingsScore: score,
+        ratingsAmount: amount,
+      },
+    },
+    { new: true }
+  );
+}
+
 module.exports = {
   createCar,
   findCarByIdAndPopulateModelMake,
@@ -218,4 +231,5 @@ module.exports = {
   findCarByFiltersAndByAvailabilityDays,
   getMyCars,
   findCarByIdAndPopulateOnwer,
+  updateCarRatingScoreAndAmount,
 };

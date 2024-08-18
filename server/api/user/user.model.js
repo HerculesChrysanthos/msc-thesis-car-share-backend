@@ -64,6 +64,12 @@ const userSchema = mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    ratingsScore: {
+      type: Number,
+    },
+    ratingsAmount: {
+      type: Number,
+    },
   },
   {
     timestamps: true,

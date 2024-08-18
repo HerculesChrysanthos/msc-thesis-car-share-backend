@@ -139,6 +139,12 @@ const carSchema = mongoose.Schema(
        */
       externalId: { type: String },
     },
+    ratingsScore: {
+      type: Number,
+    },
+    ratingsAmount: {
+      type: Number,
+    },
   },
   {
     timestamps: true,

@@ -30,6 +30,14 @@ const bookingSchema = mongoose.Schema(
       type: String,
       enum: ['PENDING', 'ACCEPTED', 'REJECTED', 'DONE', 'CANCELLED'],
     },
+    renterReview: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Review',
+    },
+    ownerReview: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Review',
+    },
   },
   {
     timestamps: true,
