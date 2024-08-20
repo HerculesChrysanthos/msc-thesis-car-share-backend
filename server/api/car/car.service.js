@@ -209,6 +209,18 @@ async function updateCarRatingScoreAndAmount(carId, score, amount) {
   return carRepository.updateCarRatingScoreAndAmount(carId, score, amount);
 }
 
+async function checkIfCarExists(carId) {
+  if (!utils.isValidObjectId(carId)) {
+    throw new Error('Το αυτοκίνητο δε βρέθηκε');
+  }
+
+  const foundCar = await carRepository.findCarById(carId);
+
+  if (!foundCar) {
+    throw new Error('Το αυτοκίνητο δε βρέθηκε');
+  }
+}
+
 module.exports = {
   createCar,
   updateCarSpecificFields,
@@ -218,4 +230,5 @@ module.exports = {
   findCarByFiltersAndByAvailabilityDays,
   getMyCars,
   updateCarRatingScoreAndAmount,
+  checkIfCarExists,
 };

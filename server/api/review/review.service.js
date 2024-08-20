@@ -84,7 +84,14 @@ async function getUserReviews(userId, page, limit) {
   return reviewRepository.getUserReviews(userId, page, limit);
 }
 
+async function getCarReviews(carId, page, limit) {
+  await carService.checkIfCarExists(carId);
+
+  return reviewRepository.getCarReviews(carId, page, limit);
+}
+
 module.exports = {
   createReview,
   getUserReviews,
+  getCarReviews,
 };

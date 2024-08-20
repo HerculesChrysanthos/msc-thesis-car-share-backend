@@ -21,7 +21,24 @@ async function getUserReviews(userId, skip, limit) {
   ]);
 }
 
+async function getCarReviews(carId, skip, limit) {
+  return Review.aggregate([
+    {
+      $match: {
+        car: new mongoose.Types.ObjectId(carId),
+      },
+    },
+    {
+      $facet: {
+        totalCount: [{ $count: 'count' }],
+        paginatedResults: [{ $skip: skip }, { $limit: limit }],
+      },
+    },
+  ]);
+}
+
 module.exports = {
   createReview,
   getUserReviews,
+  getCarReviews,
 };

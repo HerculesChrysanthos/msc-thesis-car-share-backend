@@ -11,6 +11,7 @@ const {
 } = require('../../middleware/check-auth');
 const carValidator = require('./car.validator');
 const multerHelper = require('../../helpers/multer.helper');
+const reviewController = require('../review/review.controller');
 
 router.post(
   '/',
@@ -93,6 +94,12 @@ router.get(
   hasCarAccess,
   validator(carValidator.getCarBookingsSchema),
   bookingController.getCarBookings
+);
+
+router.get(
+  '/:carId/reviews',
+  validator(carValidator.getCarReviewsSchema),
+  reviewController.getCarReviews
 );
 
 module.exports = router;

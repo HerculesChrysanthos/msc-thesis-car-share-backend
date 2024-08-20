@@ -45,7 +45,31 @@ async function getUserReviews(req, res, next) {
   }
 }
 
+async function getCarReviews(req, res, next) {
+  try {
+    const carId = req.params.carId;
+    const { page, limit } = req.query;
+
+    const pageSize = limit ? Number(limit) : 9;
+    const skipSize = page ? (Number(page) - 1) * pageSize : 0;
+
+    const reviews = await reviewService.getCarReviews(
+      carId,
+      skipSize,
+      pageSize
+    );
+
+    return res.status(200).json(reviews);
+  } catch (error) {
+    if (error.toString().includes('δε βρέθηκε')) {
+      error.status = 404;
+    }
+    return next(error);
+  }
+}
+
 module.exports = {
   createReview,
   getUserReviews,
+  getCarReviews,
 };
