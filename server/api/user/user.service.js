@@ -122,6 +122,18 @@ async function updateUserRatingScoreAndAmount(userId, score, amount) {
   return userRepository.updateUserRatingScoreAndAmount(userId, score, amount);
 }
 
+async function checkIfUserExists(userId) {
+  if (!utils.isValidObjectId(userId)) {
+    throw new Error('Ο χρήστης δε βρέθηκε');
+  }
+
+  const foundUser = await userRepository.findUserById(userId);
+
+  if (!foundUser) {
+    throw new Error('Ο χρήστης δε βρέθηκε');
+  }
+}
+
 module.exports = {
   register,
   login,
@@ -130,4 +142,5 @@ module.exports = {
   updateMyUserFields,
   uploadUserProfileImage,
   updateUserRatingScoreAndAmount,
+  checkIfUserExists,
 };

@@ -105,6 +105,16 @@ const uploadUserProfileImageSchema = Joi.object({
   image: Joi.array().items(Joi.binary().required()).required(),
 });
 
+const getUserReviewsSchema = Joi.object({
+  params: Joi.object({
+    userId: Joi.string().required(),
+  }).required(),
+  query: Joi.object({
+    page: Joi.number().integer().min(1),
+    limit: Joi.number().integer().min(1),
+  }),
+});
+
 module.exports = {
   registerSchema,
   loginSchema,
@@ -112,4 +122,5 @@ module.exports = {
   verifySchema,
   updateMyUserFieldsSchema,
   uploadUserProfileImageSchema,
+  getUserReviewsSchema,
 };

@@ -78,6 +78,13 @@ async function createReview(user, booking, review) {
   return createdReview;
 }
 
+async function getUserReviews(userId, page, limit) {
+  await userService.checkIfUserExists(userId);
+
+  return reviewRepository.getUserReviews(userId, page, limit);
+}
+
 module.exports = {
   createReview,
+  getUserReviews,
 };

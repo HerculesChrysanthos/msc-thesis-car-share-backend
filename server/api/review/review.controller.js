@@ -22,6 +22,30 @@ async function createReview(req, res, next) {
   }
 }
 
+async function getUserReviews(req, res, next) {
+  try {
+    const userId = req.params.userId;
+    const { page, limit } = req.query;
+
+    const pageSize = limit ? Number(limit) : 9;
+    const skipSize = page ? (Number(page) - 1) * pageSize : 0;
+
+    const reviews = await reviewService.getUserReviews(
+      userId,
+      skipSize,
+      pageSize
+    );
+
+    return res.status(200).json(reviews);
+  } catch (error) {
+    if (error.toString().includes('δε βρέθηκε')) {
+      error.status = 404;
+    }
+    return next(error);
+  }
+}
+
 module.exports = {
   createReview,
+  getUserReviews,
 };
