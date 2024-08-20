@@ -13,6 +13,8 @@ function buildUserResponse(user) {
       profileImage: user.profileImage,
       googleId: user.googleId,
       verified: user.verified,
+      ratingsScore: user.ratingsScore,
+      ratingsAmount: user.ratingsAmount,
     },
     token: user.token,
   };
