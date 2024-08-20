@@ -22,7 +22,28 @@ async function getCarBookingsByCarId(car, status, skip, limit) {
     {
       $unwind: '$renter',
     },
-
+    {
+      $lookup: {
+        from: 'reviews',
+        localField: 'renterReview',
+        foreignField: '_id',
+        as: 'renterReview',
+      },
+    },
+    {
+      $unwind: '$renterReview',
+    },
+    {
+      $lookup: {
+        from: 'reviews',
+        localField: 'ownerReview',
+        foreignField: '_id',
+        as: 'ownerReview',
+      },
+    },
+    {
+      $unwind: '$ownerReview',
+    },
     {
       $project: {
         'renter.name': 1,
@@ -35,7 +56,8 @@ async function getCarBookingsByCarId(car, status, skip, limit) {
         status: 1,
         createdAt: 1,
         updatedAt: 1,
-        // TODO reviews
+        renterReview: 1,
+        ownerReview: 1,
       },
     },
     {
