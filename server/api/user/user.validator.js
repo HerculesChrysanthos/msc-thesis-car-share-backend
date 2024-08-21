@@ -115,6 +115,17 @@ const getUserReviewsSchema = Joi.object({
   }),
 });
 
+const getRenterUserBookingsSchema = Joi.object({
+  params: Joi.object({
+    userId: Joi.string().required(),
+  }).required(),
+  query: Joi.object({
+    status: Joi.string().valid('ACCEPTED', 'PREVIOUS'),
+    page: Joi.number().integer().min(1),
+    limit: Joi.number().integer().min(1),
+  }),
+});
+
 module.exports = {
   registerSchema,
   loginSchema,
@@ -123,4 +134,5 @@ module.exports = {
   updateMyUserFieldsSchema,
   uploadUserProfileImageSchema,
   getUserReviewsSchema,
+  getRenterUserBookingsSchema,
 };

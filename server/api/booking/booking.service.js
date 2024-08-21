@@ -80,9 +80,14 @@ async function setBookingReview(bookingId, review) {
   return bookingRepository.setBookingReview(bookingId, review);
 }
 
+async function getRenterUserBookings(userId, status, skip, limit) {
+  return bookingRepository.getRenterUserBookings(userId, status, skip, limit);
+}
+
 module.exports = {
   createBooking,
   getCarBookingsByCarId,
   setAsDoneAcceptedBookingsThatEndDatePassed,
   setBookingReview,
+  getRenterUserBookings,
 };

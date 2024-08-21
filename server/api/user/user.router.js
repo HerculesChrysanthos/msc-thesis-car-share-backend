@@ -8,6 +8,7 @@ const passport = require('passport');
 require('../../clients/passport-google-client');
 const multerHelper = require('../../helpers/multer.helper');
 const reviewController = require('../review/review.controller');
+const bookingController = require('../booking/booking.controller');
 
 router.post(
   '/register',
@@ -74,6 +75,16 @@ router.get(
   validator(userValidator.getUserReviewsSchema),
   reviewController.getUserReviews
 );
+
+router.get(
+  '/:userId/bookings',
+  auth(),
+  isUser,
+  validator(userValidator.getRenterUserBookingsSchema),
+  bookingController.getRenterUserBookings
+);
+
+//router.get('/:userId');
 
 //router.get('/:userId', authorization(), userController.getUserProfile);
 

@@ -52,7 +52,32 @@ async function getCarBookings(req, res, next) {
   }
 }
 
+async function getRenterUserBookings(req, res, next) {
+  try {
+    const { status, page, limit } = req.query;
+
+    const pageSize = limit ? Number(limit) : 9;
+    const skipSize = page ? (Number(page) - 1) * pageSize : 0;
+
+    const bookings = await bookingService.getRenterUserBookings(
+      req.user._id,
+      status,
+      skipSize,
+      pageSize
+    );
+
+    return res.status(200).json(bookings);
+  } catch (error) {
+    if (error.toString().includes('δε βρέθηκε')) {
+      error.status = 404;
+    }
+
+    return next(error);
+  }
+}
+
 module.exports = {
   createBooking,
   getCarBookings,
+  getRenterUserBookings,
 };
