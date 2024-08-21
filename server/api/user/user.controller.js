@@ -141,6 +141,19 @@ async function uploadUserProfileImage(req, res, next) {
   }
 }
 
+async function getUserById(req, res, next) {
+  try {
+    const userId = req.params.userId;
+
+    const user = await userService.getUserById(userId);
+
+    const response = userHelper.buildUserGeneralResponse(user);
+    return res.status(200).json(response);
+  } catch (error) {
+    return next(error);
+  }
+}
+
 module.exports = {
   register,
   login,
@@ -151,4 +164,5 @@ module.exports = {
   getMe,
   updateMyUserFields,
   uploadUserProfileImage,
+  getUserById,
 };

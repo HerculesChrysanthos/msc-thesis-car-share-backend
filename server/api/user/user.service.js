@@ -132,6 +132,12 @@ async function checkIfUserExists(userId) {
   if (!foundUser) {
     throw new Error('Ο χρήστης δε βρέθηκε');
   }
+
+  return foundUser;
+}
+
+async function getUserById(userId) {
+  return checkIfUserExists(userId);
 }
 
 module.exports = {
@@ -143,4 +149,5 @@ module.exports = {
   uploadUserProfileImage,
   updateUserRatingScoreAndAmount,
   checkIfUserExists,
+  getUserById,
 };

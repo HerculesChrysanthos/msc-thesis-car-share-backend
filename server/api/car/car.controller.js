@@ -170,6 +170,26 @@ async function getMyCars(req, res, next) {
   }
 }
 
+async function getCarsByOwnerId(req, res, next) {
+  try {
+    const userId = req.params.userId;
+    const { page, limit } = req.query;
+
+    const pageSize = limit ? Number(limit) : 9;
+    const skipSize = page ? (Number(page) - 1) * pageSize : 0;
+
+    const cars = await carService.getCarsByOwnerId(userId, skipSize, pageSize);
+
+    return res.status(200).json(cars);
+  } catch (error) {
+    if (error.toString().includes('δε βρέθηκε')) {
+      error.status = 404;
+    }
+
+    return next(error);
+  }
+}
+
 module.exports = {
   createCar,
   updateCarSpecificFields,
@@ -178,4 +198,5 @@ module.exports = {
   getCarById,
   findCarByFiltersAndByAvailabilityDays,
   getMyCars,
+  getCarsByOwnerId,
 };

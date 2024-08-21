@@ -20,6 +20,24 @@ function buildUserResponse(user) {
   };
 }
 
+function buildUserGeneralResponse(user) {
+  return {
+    _id: user._id,
+    name: user.name,
+    surname: user.surname,
+    email: user.email,
+    phone: user.phone,
+    dateOfBirth: user.dateOfBirth,
+    licenceNumber: user.licenceNumber,
+    drivingSince: user.drivingSince,
+    profileImage: user.profileImage,
+    ratingsScore: user.ratingsScore,
+    ratingsAmount: user.ratingsAmount,
+    createdAt: user.createdAt,
+  };
+}
+
 module.exports = {
   buildUserResponse,
+  buildUserGeneralResponse,
 };

@@ -6,6 +6,7 @@ const generalHelper = require('../../helpers/general.helper');
 const sharpHelper = require('../../helpers/sharp.helper');
 const imagekitClient = require('../../clients/imagekit-client');
 const moment = require('moment');
+const userService = require('../user/user.service');
 
 async function createCar(car) {
   if (!utils.isValidObjectId(car.model) || !utils.isValidObjectId(car.make)) {
@@ -221,6 +222,12 @@ async function checkIfCarExists(carId) {
   }
 }
 
+async function getCarsByOwnerId(userId, skip, limit) {
+  const user = await userService.checkIfUserExists(userId);
+
+  return carRepository.getCarsByOwnerId(user._id, skip, limit);
+}
+
 module.exports = {
   createCar,
   updateCarSpecificFields,
@@ -231,4 +238,5 @@ module.exports = {
   getMyCars,
   updateCarRatingScoreAndAmount,
   checkIfCarExists,
+  getCarsByOwnerId,
 };

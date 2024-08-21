@@ -126,6 +126,22 @@ const getRenterUserBookingsSchema = Joi.object({
   }),
 });
 
+const getUserByIdSchema = Joi.object({
+  params: Joi.object({
+    userId: Joi.string().required(),
+  }).required(),
+});
+
+const getUserCarsSchema = Joi.object({
+  params: Joi.object({
+    userId: Joi.string().required(),
+  }).required(),
+  query: Joi.object({
+    page: Joi.number().integer().min(1),
+    limit: Joi.number().integer().min(1),
+  }),
+});
+
 module.exports = {
   registerSchema,
   loginSchema,
@@ -135,4 +151,6 @@ module.exports = {
   uploadUserProfileImageSchema,
   getUserReviewsSchema,
   getRenterUserBookingsSchema,
+  getUserByIdSchema,
+  getUserCarsSchema,
 };

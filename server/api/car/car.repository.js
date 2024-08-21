@@ -239,6 +239,45 @@ async function updateCarRatingScoreAndAmount(id, score, amount) {
   );
 }
 
+async function getCarsByOwnerId(ownerId, skip, limit) {
+  return Car.aggregate([
+    {
+      $match: {
+        owner: ownerId,
+      },
+    },
+    {
+      $lookup: {
+        from: 'makes',
+        localField: 'make',
+        foreignField: '_id',
+        as: 'make',
+      },
+    },
+    { $unwind: '$make' },
+    {
+      $lookup: {
+        from: 'models',
+        localField: 'model',
+        foreignField: '_id',
+        as: 'model',
+      },
+    },
+    { $unwind: '$model' },
+    {
+      $sort: {
+        _id: -1,
+      },
+    },
+    {
+      $facet: {
+        totalCount: [{ $count: 'count' }],
+        paginatedResults: [{ $skip: skip }, { $limit: limit }],
+      },
+    },
+  ]).exec();
+}
+
 module.exports = {
   createCar,
   findCarByIdAndPopulateModelMake,
@@ -252,4 +291,5 @@ module.exports = {
   getMyCars,
   findCarByIdAndPopulateOnwer,
   updateCarRatingScoreAndAmount,
+  getCarsByOwnerId,
 };
