@@ -73,7 +73,7 @@ const EXTERIOR_COLORS = Object.freeze({
   RED: 'Κόκκινο',
   GREEN: 'Πράσινο',
   PINK: 'Ροζ',
-  OTHER: 'Αλλο',
+  OTHER: 'Άλλο',
 });
 
 module.exports = {
