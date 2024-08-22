@@ -246,6 +246,18 @@ async function getRenterUserBookings(userId, status, skip, limit) {
   ]).exec();
 }
 
+async function changeBookingStatus(bookingId, status) {
+  return Booking.findByIdAndUpdate(
+    bookingId,
+    {
+      $set: { status },
+    },
+    { new: true }
+  )
+    .lean()
+    .exec();
+}
+
 module.exports = {
   createBooking,
   getCarBookingsByCarId,
@@ -254,4 +266,5 @@ module.exports = {
   getBookingById,
   setBookingReview,
   getRenterUserBookings,
+  changeBookingStatus,
 };

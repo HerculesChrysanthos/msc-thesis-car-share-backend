@@ -3,7 +3,7 @@ const userRepository = require('../api/user/user.repository');
 const utils = require('../utils');
 const carRepository = require('../api/car/car.repository');
 const bookingRepository = require('../api/booking/booking.repository');
-
+const bookingService = require('../api/booking/booking.service');
 const endpointsWitoutVerification = ['/api/users/re-send-verify-token'];
 
 const auth = () => {
@@ -170,19 +170,7 @@ async function hasBookingAccessForReview(req, res, next) {
   try {
     const bookingId = req.params.bookingId;
 
-    if (!utils.isValidObjectId(bookingId)) {
-      const error = new Error('Η κράτηση δε βρέθηκε');
-      error.status = 404;
-      throw error;
-    }
-
-    const booking = await bookingRepository.getBookingById(bookingId);
-
-    if (!booking) {
-      const error = new Error('Η κράτηση δε βρέθηκε');
-      error.status = 404;
-      throw error;
-    }
+    const booking = await bookingService.getBookingById(bookingId);
 
     req.booking = booking;
 
@@ -203,6 +191,44 @@ async function hasBookingAccessForReview(req, res, next) {
   }
 }
 
+async function isCarBookingOwner(req, res, next) {
+  try {
+    const bookingId = req.params.bookingId;
+    const booking = await bookingService.getBookingById(bookingId);
+
+    if (booking.car.owner._id.toString() !== req.user._id.toString()) {
+      const error = new Error('Δεν έχεις πρόσβαση στην κράτηση');
+      error.status = 403;
+      throw error;
+    }
+
+    req.booking = booking;
+
+    return next();
+  } catch (error) {
+    return next(error);
+  }
+}
+
+async function isBookingRenter(req, res, next) {
+  try {
+    const bookingId = req.params.bookingId;
+    const booking = await bookingService.getBookingById(bookingId);
+
+    if (booking.renter._id.toString() !== req.user._id.toString()) {
+      const error = new Error('Δεν έχεις πρόσβαση στην κράτηση');
+      error.status = 403;
+      throw error;
+    }
+
+    req.booking = booking;
+
+    return next();
+  } catch (error) {
+    return next(error);
+  }
+}
+
 module.exports = {
   auth,
   authorization,
@@ -210,4 +236,6 @@ module.exports = {
   checkIfUserIsNotOwner,
   isUser,
   hasBookingAccessForReview,
+  isCarBookingOwner,
+  isBookingRenter,
 };

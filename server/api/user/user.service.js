@@ -30,7 +30,13 @@ async function register(user) {
 
   const verificationToken = await tokenService.createToken(dbUser._id);
 
-  nodemailer.sendEmail(EMAIL_TYPES.REGISTRATION, dbUser, verificationToken);
+  const emailInfo = {
+    type: EMAIL_TYPES.REGISTRATION,
+    user: dbUser,
+    token: verificationToken,
+  };
+
+  nodemailer.sendEmail(emailInfo);
 
   dbUser.token = createToken(dbUser);
 
@@ -70,7 +76,13 @@ async function verify(tokenId) {
 
   await deleteTokenByTokenId(tokenId);
 
-  nodemailer.sendEmail(EMAIL_TYPES.VERIFIED, verifiedUser, token);
+  const emailInfo = {
+    type: EMAIL_TYPES.VERIFIED,
+    user: verifiedUser,
+    token: token,
+  };
+
+  nodemailer.sendEmail(emailInfo);
 }
 
 async function reSendVerifyToken(user) {
@@ -86,7 +98,13 @@ async function reSendVerifyToken(user) {
     token = tokenService.createToken(user._id);
   }
 
-  nodemailer.sendEmail(EMAIL_TYPES.VERIFICATION, user, token);
+  const emailInfo = {
+    type: EMAIL_TYPES.VERIFICATION,
+    user: user,
+    token: token,
+  };
+
+  nodemailer.sendEmail(emailInfo);
 }
 
 async function updateMyUserFields(user, userId) {

@@ -44,7 +44,28 @@ const createReviewSchema = Joi.object({
   }),
 });
 
+const acceptBookingSchema = Joi.object({
+  params: Joi.object({
+    bookingId: Joi.string().required(),
+  }).required(),
+});
+
+const rejectBookingSchema = Joi.object({
+  params: Joi.object({
+    bookingId: Joi.string().required(),
+  }).required(),
+});
+
+const cancelBookingSchema = Joi.object({
+  params: Joi.object({
+    bookingId: Joi.string().required(),
+  }).required(),
+});
+
 module.exports = {
   createBookingSchema,
   createReviewSchema,
+  acceptBookingSchema,
+  rejectBookingSchema,
+  cancelBookingSchema,
 };

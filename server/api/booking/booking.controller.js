@@ -76,8 +76,43 @@ async function getRenterUserBookings(req, res, next) {
   }
 }
 
+async function acceptBooking(req, res, next) {
+  try {
+    const updatedBooking = await bookingService.acceptBooking(req.booking);
+
+    return res.status(200).json(updatedBooking);
+  } catch (error) {
+    if (error.toString().includes('Η κράτηση')) {
+      error.status = 409;
+    }
+
+    return next(error);
+  }
+}
+
+async function rejectBooking(req, res, next) {
+  try {
+  } catch (error) {
+    if (error.toString().includes('δε βρέθηκε')) {
+      error.status = 404;
+    }
+
+    return next(error);
+  }
+}
+
+async function cancelBooking(req, res, next) {
+  try {
+  } catch (error) {
+    return next(error);
+  }
+}
+
 module.exports = {
   createBooking,
   getCarBookings,
   getRenterUserBookings,
+  acceptBooking,
+  rejectBooking,
+  cancelBooking,
 };

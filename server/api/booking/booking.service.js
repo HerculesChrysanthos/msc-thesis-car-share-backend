@@ -4,6 +4,7 @@ const carService = require('../car/car.service');
 const bookingRepository = require('./booking.repository');
 const nodemailer = require('../../clients/nodemailer');
 const { EMAIL_TYPES } = require('../constants');
+const utils = require('../../utils');
 
 async function createBooking(booking) {
   const session = await mongoose.startSession();
@@ -54,9 +55,17 @@ async function createBooking(booking) {
 
   availabilityService.setBookingOnAvailabilities(result._id, availabilities);
 
-  nodemailer.sendEmail(EMAIL_TYPES.BOOKING_OWNER, booking.car.owner);
+  const emailInfo = {
+    type: EMAIL_TYPES.BOOKING_OWNER,
+    user: booking.car.owner,
+  };
+  nodemailer.sendEmail(emailInfo);
 
-  nodemailer.sendEmail(EMAIL_TYPES.BOOKING_RENTER, booking.user);
+  const emailInfoRenter = {
+    type: EMAIL_TYPES.BOOKING_RENTER,
+    user: booking.user,
+  };
+  nodemailer.sendEmail(emailInfoRenter);
 
   return result;
 }
@@ -84,10 +93,64 @@ async function getRenterUserBookings(userId, status, skip, limit) {
   return bookingRepository.getRenterUserBookings(userId, status, skip, limit);
 }
 
+async function getBookingById(bookingId) {
+  if (!utils.isValidObjectId(bookingId)) {
+    const error = new Error('Η κράτηση δε βρέθηκε');
+    error.status = 404;
+    throw error;
+  }
+
+  const booking = await bookingRepository.getBookingById(bookingId);
+
+  if (!booking) {
+    const error = new Error('Η κράτηση δε βρέθηκε');
+    error.status = 404;
+    throw error;
+  }
+
+  return booking;
+}
+
+async function acceptBooking(existingBooking) {
+  if (existingBooking.status !== 'PENDING') {
+    switch (existingBooking.status) {
+      case 'ACCEPTED':
+        throw new Error('Η κράτηση έχει ήδη γίνει αποδεχτή');
+      case 'REJECTED' || 'CANCELLED':
+        throw new Error(
+          'Η κράτηση δεν μπορεί να γίνει αποδεχτή καθώς έχει ακυρωθεί'
+        );
+      case 'DONE':
+        throw new Error(
+          'Η κράτηση δεν μπορεί να γίνει αποδεχτή καθώς έχει ολοκληρωθεί'
+        );
+      default:
+        throw new Error('Η κράτηση δεν μπορεί να αλλάξει σε αποδεχτή');
+    }
+  }
+
+  const booking = await bookingRepository.changeBookingStatus(
+    existingBooking._id,
+    'ACCEPTED'
+  );
+
+  const emailInfo = {
+    type: EMAIL_TYPES.BOOKING_ACCEPTANCE,
+    user: existingBooking.renter,
+    info: existingBooking,
+  };
+
+  nodemailer.sendEmail(emailInfo);
+
+  return booking;
+}
+
 module.exports = {
   createBooking,
   getCarBookingsByCarId,
   setAsDoneAcceptedBookingsThatEndDatePassed,
   setBookingReview,
   getRenterUserBookings,
+  getBookingById,
+  acceptBooking,
 };

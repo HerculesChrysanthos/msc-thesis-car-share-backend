@@ -5,8 +5,10 @@ const {
   auth,
   checkIfUserIsNotOwner,
   hasBookingAccessForReview,
+  isBookingRenter,
+  isCarBookingOwner,
 } = require('../../middleware/check-auth');
-const bookingRouter = require('./booking.controller');
+const bookingController = require('./booking.controller');
 const bookingValidator = require('./booking.validator');
 const reviewController = require('../review/review.controller');
 
@@ -15,7 +17,7 @@ router.post(
   auth(),
   validator(bookingValidator.createBookingSchema),
   checkIfUserIsNotOwner,
-  bookingRouter.createBooking
+  bookingController.createBooking
 );
 
 router.post(
@@ -26,8 +28,28 @@ router.post(
   reviewController.createReview
 );
 
-// router.put('/:bookingId/accept');
+router.put(
+  '/:bookingId/accept',
+  auth(),
+  isCarBookingOwner,
+  validator(bookingValidator.acceptBookingSchema),
+  bookingController.acceptBooking
+);
 
-// router.put('/:bookingId/reject');
+router.put(
+  '/:bookingId/reject',
+  auth(),
+  isCarBookingOwner,
+  validator(bookingValidator.rejectBookingSchema),
+  bookingController.rejectBooking
+);
+
+router.put(
+  '/:bookingId/cancel',
+  auth(),
+  isBookingRenter,
+  validator(bookingValidator.cancelBookingSchema),
+  bookingController.cancelBooking
+);
 
 module.exports = router;

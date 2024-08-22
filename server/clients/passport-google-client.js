@@ -43,7 +43,11 @@ passport.use(
       const dbUser = dbResult.value;
 
       if (!dbResult.lastErrorObject.updatedExisting) {
-        nodemailer.sendEmail(EMAIL_TYPES.REGISTRATION_GOOGLE, dbUser);
+        const emailInfo = {
+          type: EMAIL_TYPES.REGISTRATION_GOOGLE,
+          user: dbUser,
+        };
+        nodemailer.sendEmail(emailInfo);
       }
 
       req.dbUser = dbUser;
