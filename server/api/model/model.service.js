@@ -13,7 +13,12 @@ async function getModelsByMake(make) {
   return modelRepository.getModelsByMake(make);
 }
 
+async function getModelById(make) {
+  return modelRepository.getModelById(make);
+}
+
 module.exports = {
   checkIfModelExistsByFilters,
   getModelsByMake,
+  getModelById,
 };

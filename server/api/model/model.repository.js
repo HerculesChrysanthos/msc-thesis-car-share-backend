@@ -8,7 +8,12 @@ async function getModelsByMake(make) {
   return Model.find({ make }).sort({ name: -1 });
 }
 
+async function getModelById(modelId) {
+  return Model.findById(modelId);
+}
+
 module.exports = {
   checkIfModelExistsByFilters,
   getModelsByMake,
+  getModelById,
 };

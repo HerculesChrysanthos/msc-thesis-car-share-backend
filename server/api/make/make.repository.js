@@ -12,7 +12,12 @@ async function getAllMakes() {
   return Make.find({}).sort({ name: 1 });
 }
 
+async function getMakeById(makeId) {
+  return Make.findById(makeId);
+}
+
 module.exports = {
   checkIfMakeExists,
   getAllMakes,
+  getMakeById,
 };

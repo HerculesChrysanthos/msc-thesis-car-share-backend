@@ -1,4 +1,6 @@
 const carService = require('./car.service');
+const makeService = require('../make/make.service');
+const modelService = require('../model/model.service');
 
 async function createCar(req, res, next) {
   try {
@@ -138,6 +140,9 @@ async function findCarByFiltersAndByAvailabilityDays(req, res, next) {
       filters
     );
 
+    let makeFound;
+    let modelFound;
+
     result[0].searchTerms = {
       startDate,
       endDate,
@@ -147,10 +152,18 @@ async function findCarByFiltersAndByAvailabilityDays(req, res, next) {
       limit,
       maxPrice,
       minPrice,
-      make,
-      model,
       gearboxType,
     };
+
+    if (make) {
+      makeFound = await makeService.getMakeById(make);
+      result[0].searchTerms.make = makeFound;
+    }
+
+    if (model) {
+      modelFound = await modelService.getModelById(model);
+      result[0].searchTerms.model = modelFound;
+    }
 
     return res.status(200).json(result);
   } catch (error) {
