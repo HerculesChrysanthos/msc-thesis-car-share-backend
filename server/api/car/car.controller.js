@@ -157,12 +157,12 @@ async function findCarByFiltersAndByAvailabilityDays(req, res, next) {
 
     if (make) {
       makeFound = await makeService.getMakeById(make);
-      result[0].searchTerms.make = makeFound;
+      result[0].searchTerms.make = makeFound.name;
     }
 
     if (model) {
       modelFound = await modelService.getModelById(model);
-      result[0].searchTerms.model = modelFound;
+      result[0].searchTerms.model = modelFound.name;
     }
 
     return res.status(200).json(result);
