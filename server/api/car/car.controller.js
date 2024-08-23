@@ -138,8 +138,19 @@ async function findCarByFiltersAndByAvailabilityDays(req, res, next) {
       filters
     );
 
-    result[0].general[0].lat = lat;
-    result[0].general[0].long = long;
+    result[0].searchTerms = {
+      startDate,
+      endDate,
+      lat,
+      long,
+      page,
+      limit,
+      maxPrice,
+      minPrice,
+      make,
+      model,
+      gearboxType,
+    };
 
     return res.status(200).json(result);
   } catch (error) {
