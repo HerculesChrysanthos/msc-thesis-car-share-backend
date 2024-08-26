@@ -251,6 +251,12 @@ async function updatePartialCarAvailabilities(carId, availability) {
   }
 }
 
+async function setAvailabilitiesAsAvailableByBookingId(bookingId) {
+  return availabilityRepository.setAvailabilitiesAsAvailableByBookingId(
+    bookingId
+  );
+}
+
 module.exports = {
   createAvailability,
   findCarAvailabilitiesOnSpecificDates,
@@ -261,4 +267,5 @@ module.exports = {
   updateCarAvailabilities,
   findCarAvailableOrReservedAvailabilities,
   updatePartialCarAvailabilities,
+  setAvailabilitiesAsAvailableByBookingId,
 };

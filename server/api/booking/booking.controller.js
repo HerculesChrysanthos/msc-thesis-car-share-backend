@@ -92,9 +92,12 @@ async function acceptBooking(req, res, next) {
 
 async function rejectBooking(req, res, next) {
   try {
+    const updatedBooking = await bookingService.rejectBooking(req.booking);
+
+    return res.status(200).json(updatedBooking);
   } catch (error) {
-    if (error.toString().includes('δε βρέθηκε')) {
-      error.status = 404;
+    if (error.toString().includes('Η κράτηση')) {
+      error.status = 409;
     }
 
     return next(error);
@@ -103,7 +106,46 @@ async function rejectBooking(req, res, next) {
 
 async function cancelBooking(req, res, next) {
   try {
+    const updatedBooking = await bookingService.cancelBooking(
+      req.booking,
+      req.user
+    );
+
+    return res.status(200).json(updatedBooking);
   } catch (error) {
+    if (
+      error
+        .toString()
+        .includes('Δεν μπορείς να ακυρώσεις κράτηση που έχει ήδη ακυρωθεί') ||
+      error
+        .toString()
+        .includes('Δεν μπορείς να ακυρώσεις κράτηση που έχει ολοκληρωθεί') ||
+      error
+        .toString()
+        .includes(
+          'Δεν μπορείς να ακυρώσεις κράτηση που βρίσκεται σε εξέλιξη'
+        ) ||
+      error
+        .toString()
+        .includes(
+          'Δεν μπορείς να ακυρώσεις κράτηση η οποία αρχίζει σε λιγότερο από μία ώρα'
+        ) ||
+      error
+        .toString()
+        .includes('Δεν μπορείς να ακυρώσεις κράτηση που έχει απορριφθεί') ||
+      error
+        .toString()
+        .includes(
+          'Δεν μπορείς να ακυρώσεις κράτηση η οποία αρχίζει σε λιγότερο από μία ημέρα'
+        ) ||
+      error
+        .toString()
+        .includes(
+          'Μπορείς να ακυρώσεις μόνο κράτηση την οποία έχεις προηγουμένως αποδεκτεί'
+        )
+    ) {
+      error.status = 409;
+    }
     return next(error);
   }
 }

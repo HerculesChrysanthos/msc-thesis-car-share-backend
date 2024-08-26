@@ -34,6 +34,12 @@ function setSubjectByEmailType(type) {
       return 'Νέα κράτηση';
     case EMAIL_TYPES.BOOKING_ACCEPTANCE:
       return 'Η κράτηση σου επιβεβαιώθηκε!';
+    case EMAIL_TYPES.BOOKING_REJECTION:
+      return 'Η κράτηση σου απορρίφθηκε';
+    case EMAIL_TYPES.BOOKING_CANCELEATION_BY_OWNER:
+      return 'Ακύρωση από owner';
+    case EMAIL_TYPES.BOOKING_CANCELEATION_BY_RENTER:
+      return 'Ακύρωση από renter';
     default:
       return 'ok';
   }
@@ -57,6 +63,12 @@ function setBodyByEmailType(emailInfo) {
       return '<html> Νέα κράτηση για τον renter</html>';
     case EMAIL_TYPES.BOOKING_ACCEPTANCE:
       return '<html>  Αποδοχη </html>';
+    case EMAIL_TYPES.BOOKING_REJECTION:
+      return '<html>Απόρριψη </html>';
+    case EMAIL_TYPES.BOOKING_CANCELEATION_BY_OWNER:
+      return '<html>Ακύρωση από owner</html>';
+    case EMAIL_TYPES.BOOKING_CANCELEATION_BY_RENTER:
+      return '<html>Ακύρωση από renter</html>';
     default:
       return 'verified';
   }

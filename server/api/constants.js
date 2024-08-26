@@ -20,6 +20,8 @@ const EMAIL_TYPES = Object.freeze({
   BOOKING_RENTER: 'booking-renter',
   BOOKING_ACCEPTANCE: 'booking-acceptance',
   BOOKING_REJECTION: 'booking-rejection',
+  BOOKING_CANCELEATION_BY_OWNER: 'booking-cancelation-by-owner',
+  BOOKING_CANCELEATION_BY_RENTER: 'booking-cancelation-by-renter',
   REVIEW_PROMP_ONWER: 'review-promp-onwer',
   REVIEW_PROMP_RENTER: 'review-promp-renter',
 });

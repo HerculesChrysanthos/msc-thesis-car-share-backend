@@ -4,7 +4,7 @@ const { validator } = require('../../middleware/validate');
 const {
   auth,
   checkIfUserIsNotOwner,
-  hasBookingAccessForReview,
+  isBookingRenterOrCarOwner,
   isBookingRenter,
   isCarBookingOwner,
 } = require('../../middleware/check-auth');
@@ -24,7 +24,7 @@ router.post(
   '/:bookingId/reviews',
   auth(),
   validator(bookingValidator.createReviewSchema),
-  hasBookingAccessForReview,
+  isBookingRenterOrCarOwner,
   reviewController.createReview
 );
 
@@ -47,7 +47,7 @@ router.put(
 router.put(
   '/:bookingId/cancel',
   auth(),
-  isBookingRenter,
+  isBookingRenterOrCarOwner,
   validator(bookingValidator.cancelBookingSchema),
   bookingController.cancelBooking
 );

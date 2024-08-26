@@ -200,6 +200,19 @@ async function findCarAvailableOrReservedAvailabilities(car) {
   return Availability.find({ car, status: { $in: ['AVAILABLE', 'RESERVED'] } });
 }
 
+async function setAvailabilitiesAsAvailableByBookingId(bookingId) {
+  return Availability.updateMany(
+    {
+      booking: new mongoose.Types.ObjectId(bookingId),
+    },
+    {
+      $set: {
+        status: 'AVAILABLE',
+      },
+    }
+  );
+}
+
 module.exports = {
   insertMultipleAvailabilities,
   findCarAvailabilitiesGroupByDay,
@@ -210,4 +223,5 @@ module.exports = {
   findAvailabilitiesByCarId,
   deleteAvailabilities,
   findCarAvailableOrReservedAvailabilities,
+  setAvailabilitiesAsAvailableByBookingId,
 };

@@ -2,7 +2,6 @@ const jwt = require('jsonwebtoken');
 const userRepository = require('../api/user/user.repository');
 const utils = require('../utils');
 const carRepository = require('../api/car/car.repository');
-const bookingRepository = require('../api/booking/booking.repository');
 const bookingService = require('../api/booking/booking.service');
 const endpointsWitoutVerification = ['/api/users/re-send-verify-token'];
 
@@ -166,7 +165,7 @@ async function isUser(req, res, next) {
   }
 }
 
-async function hasBookingAccessForReview(req, res, next) {
+async function isBookingRenterOrCarOwner(req, res, next) {
   try {
     const bookingId = req.params.bookingId;
 
@@ -235,7 +234,7 @@ module.exports = {
   hasCarAccess,
   checkIfUserIsNotOwner,
   isUser,
-  hasBookingAccessForReview,
+  isBookingRenterOrCarOwner,
   isCarBookingOwner,
   isBookingRenter,
 };
