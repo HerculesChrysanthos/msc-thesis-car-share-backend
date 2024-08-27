@@ -31,7 +31,10 @@ async function getCarBookingsByCarId(car, status, skip, limit) {
       },
     },
     {
-      $unwind: '$renterReview',
+      $unwind: {
+        path: '$renterReview',
+        preserveNullAndEmptyArrays: true,
+      },
     },
     {
       $lookup: {
@@ -42,7 +45,10 @@ async function getCarBookingsByCarId(car, status, skip, limit) {
       },
     },
     {
-      $unwind: '$ownerReview',
+      $unwind: {
+        path: '$ownerReview',
+        preserveNullAndEmptyArrays: true,
+      },
     },
     {
       $project: {
@@ -141,16 +147,14 @@ async function setBookingReview(bookingId, review) {
   );
 }
 
-async function getRenterUserBookings(userId, status, skip, limit) {
-  const query = { renter: userId };
+async function getRenterUserBookings(renter, status, skip, limit) {
+  const query = { renter };
   query.status =
     status === 'PREVIOUS' ? { $in: ['REJECTED', 'DONE', 'CANCELLED'] } : status;
 
   return Booking.aggregate([
     {
-      $match: {
-        query,
-      },
+      $match: query,
     },
     {
       $lookup: {
@@ -201,7 +205,10 @@ async function getRenterUserBookings(userId, status, skip, limit) {
       },
     },
     {
-      $unwind: '$renterReview',
+      $unwind: {
+        path: '$renterReview',
+        preserveNullAndEmptyArrays: true,
+      },
     },
     {
       $lookup: {
@@ -212,7 +219,10 @@ async function getRenterUserBookings(userId, status, skip, limit) {
       },
     },
     {
-      $unwind: '$ownerReview',
+      $unwind: {
+        path: '$ownerReview',
+        preserveNullAndEmptyArrays: true,
+      },
     },
     {
       $project: {

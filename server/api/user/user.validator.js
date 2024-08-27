@@ -120,10 +120,10 @@ const getRenterUserBookingsSchema = Joi.object({
     userId: Joi.string().required(),
   }).required(),
   query: Joi.object({
-    status: Joi.string().valid('ACCEPTED', 'PREVIOUS'),
+    status: Joi.string().valid('ACCEPTED', 'PREVIOUS').required(),
     page: Joi.number().integer().min(1),
     limit: Joi.number().integer().min(1),
-  }),
+  }).required(),
 });
 
 const getUserByIdSchema = Joi.object({
