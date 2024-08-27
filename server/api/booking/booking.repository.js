@@ -222,6 +222,7 @@ async function getRenterUserBookings(userId, status, skip, limit) {
         'car._id': 1,
         'car.model': 1,
         'car.make': 1,
+        'car.thumbnail': 1,
         startDate: 1,
         endDate: 1,
         totalPrice: 1,
