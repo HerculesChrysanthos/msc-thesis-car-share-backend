@@ -149,7 +149,7 @@ async function getRenterUserBookings(userId, status, skip, limit) {
   return Booking.aggregate([
     {
       $match: {
-        renter: userId,
+        query,
       },
     },
     {
