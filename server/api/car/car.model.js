@@ -25,6 +25,10 @@ const carSchema = mongoose.Schema(
       ref: 'Model',
       required: true,
     },
+    isEnabled: {
+      type: Boolean,
+      default: true,
+    },
     registration: {
       month: {
         type: Number,
@@ -88,11 +92,6 @@ const carSchema = mongoose.Schema(
     rentPerHour: {
       type: Number,
     },
-    images: [
-      {
-        type: String,
-      },
-    ],
     features: [
       {
         type: String,
