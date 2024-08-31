@@ -99,6 +99,10 @@ async function getCarById(req, res, next) {
       error.status = 404;
     }
 
+    if (error.toString().includes('Το αυτοκίνητο δε βρέθηκε')) {
+      error.status = 404;
+    }
+
     return next(error);
   }
 }
@@ -217,6 +221,25 @@ async function getCarsByOwnerId(req, res, next) {
   }
 }
 
+async function disableCar(req, res, next) {
+  try {
+    await carService.disableCar(req.params.carId, req.car);
+
+    return res.status(204).json({});
+  } catch (error) {
+    if (
+      error
+        .toString()
+        .includes(
+          'Δεν μπορείς να διαγράψεις αυτοκίνητο που έχει ενεργή κράτηση'
+        )
+    ) {
+      error.status = 409;
+    }
+    return next(error);
+  }
+}
+
 module.exports = {
   createCar,
   updateCarSpecificFields,
@@ -226,4 +249,5 @@ module.exports = {
   findCarByFiltersAndByAvailabilityDays,
   getMyCars,
   getCarsByOwnerId,
+  disableCar,
 };

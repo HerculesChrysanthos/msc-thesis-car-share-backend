@@ -109,6 +109,14 @@ async function hasCarAccess(req, res, next) {
       throw error;
     }
 
+    if (!car.isEnabled) {
+      const error = new Error(
+        'Δεν μπορείς να προχωρήσεις σε τροποποιήσεις γιατί το αυτοκίνητο έχει διαγραφεί'
+      );
+      error.status = 404;
+      throw error;
+    }
+
     req.car = car;
 
     return next();

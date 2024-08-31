@@ -286,6 +286,12 @@ const getCarReviewsSchema = Joi.object({
   }),
 });
 
+const deleteCarSchema = Joi.object({
+  params: Joi.object({
+    carId: Joi.string().required(),
+  }).required(),
+});
+
 module.exports = {
   createCarSchema,
   // updateCarSchema,
@@ -299,4 +305,5 @@ module.exports = {
   getCarBookingsSchema,
   getCarAvailabilitiesSchema,
   getCarReviewsSchema,
+  deleteCarSchema,
 };

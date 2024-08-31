@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const availabilityService = require('../availability/availability.service');
-const carService = require('../car/car.service');
 const bookingRepository = require('./booking.repository');
 const nodemailer = require('../../clients/nodemailer');
 const { EMAIL_TYPES } = require('../constants');
@@ -285,6 +284,13 @@ async function cancelBooking(existingBooking, user) {
   return booking;
 }
 
+async function findAcceptedAndPendingBookingsByCarId(carId, session) {
+  return bookingRepository.findAcceptedAndPendingBookingsByCarId(
+    carId,
+    session
+  );
+}
+
 module.exports = {
   createBooking,
   getCarBookingsByCarId,
@@ -295,4 +301,5 @@ module.exports = {
   acceptBooking,
   rejectBooking,
   cancelBooking,
+  findAcceptedAndPendingBookingsByCarId,
 };

@@ -244,6 +244,7 @@ async function getCarsByOwnerId(ownerId, skip, limit) {
     {
       $match: {
         owner: ownerId,
+        isEnabled: true,
       },
     },
     {
@@ -278,6 +279,17 @@ async function getCarsByOwnerId(ownerId, skip, limit) {
   ]).exec();
 }
 
+async function disableCar(id, session) {
+  return Car.findByIdAndUpdate(
+    id,
+    { $set: { isEnabled: false } },
+    { new: true },
+    { session }
+  )
+    .lean()
+    .exec();
+}
+
 module.exports = {
   createCar,
   findCarByIdAndPopulateModelMake,
@@ -292,4 +304,5 @@ module.exports = {
   findCarByIdAndPopulateOnwer,
   updateCarRatingScoreAndAmount,
   getCarsByOwnerId,
+  disableCar,
 };

@@ -213,6 +213,12 @@ async function setAvailabilitiesAsAvailableByBookingId(bookingId) {
   );
 }
 
+async function deleteAvailabilitiesByCarId(id, session) {
+  return Availability.deleteMany({
+    car: new mongoose.Types.ObjectId(id),
+  }).session(session);
+}
+
 module.exports = {
   insertMultipleAvailabilities,
   findCarAvailabilitiesGroupByDay,
@@ -224,4 +230,5 @@ module.exports = {
   deleteAvailabilities,
   findCarAvailableOrReservedAvailabilities,
   setAvailabilitiesAsAvailableByBookingId,
+  deleteAvailabilitiesByCarId,
 };

@@ -36,6 +36,14 @@ router.patch(
   carController.updateCarSpecificFields
 );
 
+router.delete(
+  '/:carId',
+  auth(),
+  hasCarAccess,
+  validator(carValidator.deleteCarSchema),
+  carController.disableCar
+);
+
 router.post(
   '/:carId/images',
   auth(),

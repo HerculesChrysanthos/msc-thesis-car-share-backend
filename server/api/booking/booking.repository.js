@@ -1,3 +1,4 @@
+const { default: mongoose } = require('mongoose');
 const Booking = require('./booking.model');
 
 async function createBooking(booking) {
@@ -280,6 +281,16 @@ async function changeBookingStatus(bookingId, status) {
     .exec();
 }
 
+async function findAcceptedAndPendingBookingsByCarId(carId, session) {
+  return Booking.find({
+    car: new mongoose.Types.ObjectId(carId),
+    status: { $in: ['ACCEPTED', 'PENDING'] },
+  })
+    .session(session)
+    .lean()
+    .exec();
+}
+
 module.exports = {
   createBooking,
   getCarBookingsByCarId,
@@ -289,4 +300,5 @@ module.exports = {
   setBookingReview,
   getRenterUserBookings,
   changeBookingStatus,
+  findAcceptedAndPendingBookingsByCarId,
 };

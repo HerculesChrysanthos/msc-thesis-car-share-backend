@@ -257,6 +257,10 @@ async function setAvailabilitiesAsAvailableByBookingId(bookingId) {
   );
 }
 
+async function deleteAvailabilitiesByCarId(id, session) {
+  return availabilityRepository.deleteAvailabilitiesByCarId(id, session);
+}
+
 module.exports = {
   createAvailability,
   findCarAvailabilitiesOnSpecificDates,
@@ -268,4 +272,5 @@ module.exports = {
   findCarAvailableOrReservedAvailabilities,
   updatePartialCarAvailabilities,
   setAvailabilitiesAsAvailableByBookingId,
+  deleteAvailabilitiesByCarId,
 };

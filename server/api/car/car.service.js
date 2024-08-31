@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const carRepository = require('./car.repository');
 const modelService = require('../model/model.service');
 const makeservice = require('../make/make.service');
@@ -7,6 +8,8 @@ const sharpHelper = require('../../helpers/sharp.helper');
 const imagekitClient = require('../../clients/imagekit-client');
 const moment = require('moment');
 const userService = require('../user/user.service');
+const bookingService = require('../booking/booking.service');
+const availabilitiesService = require('../availability/availability.service');
 
 async function createCar(car) {
   if (!utils.isValidObjectId(car.model) || !utils.isValidObjectId(car.make)) {
@@ -170,7 +173,7 @@ async function getCarById(carId) {
 
   const carFound = await carRepository.findCarByIdAndPopulateModelMake(carId);
 
-  if (!carFound) {
+  if (!carFound && !carFound.isEnabled) {
     throw new Error('Το αυτοκίνητο δε βρέθηκε');
   }
 
@@ -217,7 +220,7 @@ async function checkIfCarExists(carId) {
 
   const foundCar = await carRepository.findCarById(carId);
 
-  if (!foundCar) {
+  if (!foundCar && !foundCar.isEnabled) {
     throw new Error('Το αυτοκίνητο δε βρέθηκε');
   }
 }
@@ -226,6 +229,41 @@ async function getCarsByOwnerId(userId, skip, limit) {
   const user = await userService.checkIfUserExists(userId);
 
   return carRepository.getCarsByOwnerId(user._id, skip, limit);
+}
+
+async function disableCar(carId, car) {
+  const session = await mongoose.startSession();
+  session.startTransaction();
+  try {
+    const carBookings =
+      await bookingService.findAcceptedAndPendingBookingsByCarId(
+        carId,
+        session
+      );
+
+    if (carBookings.length > 0) {
+      throw new Error(
+        'Δεν μπορείς να διαγράψεις αυτοκίνητο που έχει ενεργή κράτηση'
+      );
+    }
+
+    await carRepository.disableCar(carId, session);
+
+    await availabilitiesService.deleteAvailabilitiesByCarId(carId, session);
+
+    await session.commitTransaction();
+  } catch (error) {
+    await session.abortTransaction();
+    throw error;
+  } finally {
+    session.endSession();
+  }
+
+  car.images.forEach((image) => {
+    imagekitClient.deleteImageByFileId(image.externalId);
+  });
+
+  carRepository.updateCarById(carId, { images: [] });
 }
 
 module.exports = {
@@ -239,4 +277,5 @@ module.exports = {
   updateCarRatingScoreAndAmount,
   checkIfCarExists,
   getCarsByOwnerId,
+  disableCar,
 };
