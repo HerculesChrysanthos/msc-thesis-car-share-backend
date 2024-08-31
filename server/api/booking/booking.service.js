@@ -79,11 +79,23 @@ async function setAsDoneAcceptedBookingsThatEndDatePassed() {
   const bookings =
     await bookingRepository.findAcceptedBookingsThatEndDatePassed();
 
-  // send emails
+  const results = await bookingRepository.setBookingsAsDone(bookings);
 
-  // update
+  bookings.forEach((booking) => {
+    const ownerPrompt = {
+      type: EMAIL_TYPES.REVIEW_PROMP_ONWER,
+      user: booking.owner,
+    };
+    nodemailer.sendEmail(ownerPrompt);
 
-  return bookings;
+    const renterPrompt = {
+      type: EMAIL_TYPES.REVIEW_PROMP_RENTER,
+      user: booking.renter,
+    };
+    nodemailer.sendEmail(renterPrompt);
+  });
+
+  return results;
 }
 
 async function setBookingReview(bookingId, review) {

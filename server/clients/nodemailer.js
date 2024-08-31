@@ -40,6 +40,10 @@ function setSubjectByEmailType(type) {
       return 'Ακύρωση από owner';
     case EMAIL_TYPES.BOOKING_CANCELEATION_BY_RENTER:
       return 'Ακύρωση από renter';
+    case EMAIL_TYPES.REVIEW_PROMP_RENTER:
+      return 'Προσθηκη review απο renter';
+    case EMAIL_TYPES.REVIEW_PROMP_ONWER:
+      return 'Προσθηκη review απο owner';
     default:
       return 'ok';
   }
@@ -69,6 +73,10 @@ function setBodyByEmailType(emailInfo) {
       return '<html>Ακύρωση από owner</html>';
     case EMAIL_TYPES.BOOKING_CANCELEATION_BY_RENTER:
       return '<html>Ακύρωση από renter</html>';
+    case EMAIL_TYPES.REVIEW_PROMP_RENTER:
+      return '<html>Προσθηκη review απο renter</html>';
+    case EMAIL_TYPES.REVIEW_PROMP_ONWER:
+      return '<html>Προσθηκη review απο owner</html>';
     default:
       return 'verified';
   }

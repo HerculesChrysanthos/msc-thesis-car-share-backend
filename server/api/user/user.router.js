@@ -97,14 +97,4 @@ router.get(
   carController.getCarsByOwnerId
 );
 
-//router.get('/:userId', authorization(), userController.getUserProfile);
-
-// router.put('/:userId');
-// // change password
-// router.put('/:userId/password');
-
-// router.post('/:userId/profile-picture');
-
-// router.post('/forgot-password');
-
 module.exports = router;

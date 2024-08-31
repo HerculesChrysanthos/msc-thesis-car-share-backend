@@ -112,6 +112,17 @@ async function findAcceptedBookingsThatEndDatePassed() {
     {
       $unwind: '$owner',
     },
+    {
+      $lookup: {
+        from: 'users',
+        localField: 'renter',
+        foreignField: '_id',
+        as: 'renter',
+      },
+    },
+    {
+      $unwind: '$renter',
+    },
   ]).exec();
 }
 
