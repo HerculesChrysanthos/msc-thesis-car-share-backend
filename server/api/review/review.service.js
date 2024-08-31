@@ -4,6 +4,11 @@ const userService = require('../user/user.service');
 const carService = require('../car/car.service');
 
 async function createReview(user, booking, review) {
+  if (booking.status !== 'DONE') {
+    throw new Error(
+      'Δεν μπορείς να προσθέσεις κριτική σε κράτηση που δεν έχει ολοκληρωθεί'
+    );
+  }
   let createdReview;
 
   review.reviewer = user._id;

@@ -18,6 +18,16 @@ async function createReview(req, res, next) {
       error.status = 409;
     }
 
+    if (
+      error
+        .toString()
+        .includes(
+          'Δεν μπορείς να προσθέσεις κριτική σε κράτηση που δεν έχει ολοκληρωθεί'
+        )
+    ) {
+      error.status = 409;
+    }
+
     return next(error);
   }
 }
