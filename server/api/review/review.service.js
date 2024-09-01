@@ -83,10 +83,10 @@ async function createReview(user, booking, review) {
   return createdReview;
 }
 
-async function getUserReviews(userId, page, limit) {
+async function getUserReviews(userId, page, limit, role) {
   await userService.checkIfUserExists(userId);
 
-  return reviewRepository.getUserReviews(userId, page, limit);
+  return reviewRepository.getUserReviews(userId, page, limit, role);
 }
 
 async function getCarReviews(carId, page, limit) {

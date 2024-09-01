@@ -35,7 +35,7 @@ async function createReview(req, res, next) {
 async function getUserReviews(req, res, next) {
   try {
     const userId = req.params.userId;
-    const { page, limit } = req.query;
+    const { page, limit, role } = req.query;
 
     const pageSize = limit ? Number(limit) : 9;
     const skipSize = page ? (Number(page) - 1) * pageSize : 0;
@@ -43,7 +43,8 @@ async function getUserReviews(req, res, next) {
     const reviews = await reviewService.getUserReviews(
       userId,
       skipSize,
-      pageSize
+      pageSize,
+      role
     );
 
     return res.status(200).json(reviews);

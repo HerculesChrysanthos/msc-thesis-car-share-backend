@@ -112,6 +112,7 @@ const getUserReviewsSchema = Joi.object({
   query: Joi.object({
     page: Joi.number().integer().min(1),
     limit: Joi.number().integer().min(1),
+    role: Joi.string().valid('RENTER', 'OWNER').required(),
   }),
 });
 

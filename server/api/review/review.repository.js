@@ -5,8 +5,8 @@ async function createReview(review) {
   return Review.create(review);
 }
 
-async function getUserReviews(userId, skip, limit) {
-  return Review.aggregate([
+async function getUserReviews(userId, skip, limit, role) {
+  const pipeline = [
     {
       $match: {
         reviewedUser: new mongoose.Types.ObjectId(userId),
@@ -34,9 +34,12 @@ async function getUserReviews(userId, skip, limit) {
     {
       $unwind: '$booking',
     },
-    {
+  ];
+
+  if (role === 'RENTER') {
+    pipeline.push({
       $facet: {
-        reviewsAsRenter: [
+        results: [
           {
             $match: {
               $expr: {
@@ -83,7 +86,12 @@ async function getUserReviews(userId, skip, limit) {
             },
           },
         ],
-        reviewsAsOwner: [
+      },
+    });
+  } else {
+    pipeline.push({
+      $facet: {
+        results: [
           {
             $match: {
               $expr: {
@@ -131,8 +139,10 @@ async function getUserReviews(userId, skip, limit) {
           },
         ],
       },
-    },
-  ]);
+    });
+  }
+
+  return Review.aggregate(pipeline).exec();
 }
 
 async function getCarReviews(carId, skip, limit) {
