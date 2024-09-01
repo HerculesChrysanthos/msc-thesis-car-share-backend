@@ -33,7 +33,7 @@ const reviewSchema = mongoose.Schema(
     },
   },
   {
-    timestampts: true,
+    timestamps: true,
   }
 );
 
