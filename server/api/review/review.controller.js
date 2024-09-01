@@ -47,7 +47,12 @@ async function getUserReviews(req, res, next) {
       role
     );
 
-    return res.status(200).json(reviews);
+    const response = {
+      totalCount: reviews[0].results[0]?.totalCount || 0,
+      paginatedResults: reviews[0].results[0]?.paginatedResults || [],
+    };
+
+    return res.status(200).json(response);
   } catch (error) {
     if (error.toString().includes('δε βρέθηκε')) {
       error.status = 404;
