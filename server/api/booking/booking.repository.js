@@ -76,8 +76,22 @@ async function getCarBookingsByCarId(car, status, skip, limit) {
     },
     {
       $facet: {
-        totalCount: [{ $count: 'count' }],
+        total: [{ $count: 'count' }],
         paginatedResults: [{ $skip: skip }, { $limit: limit }],
+      },
+    },
+    {
+      $addFields: {
+        totalCount: {
+          $ifNull: [{ $arrayElemAt: ['$total.count', 0] }, 0],
+        },
+      },
+    },
+    {
+      $project: {
+        totalCount: 1,
+        paginatedResults: 1,
+        general: 1,
       },
     },
   ]);
@@ -266,8 +280,21 @@ async function getRenterUserBookings(renter, status, skip, limit) {
     },
     {
       $facet: {
-        totalCount: [{ $count: 'count' }],
+        total: [{ $count: 'count' }],
         paginatedResults: [{ $skip: skip }, { $limit: limit }],
+      },
+    },
+    {
+      $addFields: {
+        totalCount: {
+          $ifNull: [{ $arrayElemAt: ['$total.count', 0] }, 0],
+        },
+      },
+    },
+    {
+      $project: {
+        totalCount: 1,
+        paginatedResults: 1,
       },
     },
   ]).exec();

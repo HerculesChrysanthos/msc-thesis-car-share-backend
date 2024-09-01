@@ -46,7 +46,7 @@ async function getCarBookings(req, res, next) {
       skipSize,
       pageSize
     );
-    return res.status(200).json(bookings);
+    return res.status(200).json(bookings[0]);
   } catch (error) {
     return next(error);
   }
@@ -66,7 +66,7 @@ async function getRenterUserBookings(req, res, next) {
       pageSize
     );
 
-    return res.status(200).json(bookings);
+    return res.status(200).json(bookings[0]);
   } catch (error) {
     if (error.toString().includes('δε βρέθηκε')) {
       error.status = 404;

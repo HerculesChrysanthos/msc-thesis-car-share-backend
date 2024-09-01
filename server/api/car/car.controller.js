@@ -169,7 +169,7 @@ async function findCarByFiltersAndByAvailabilityDays(req, res, next) {
       result[0].searchTerms.model = modelFound.name;
     }
 
-    return res.status(200).json(result);
+    return res.status(200).json(result[0]);
   } catch (error) {
     if (
       error
@@ -211,7 +211,7 @@ async function getCarsByOwnerId(req, res, next) {
 
     const cars = await carService.getCarsByOwnerId(userId, skipSize, pageSize);
 
-    return res.status(200).json(cars);
+    return res.status(200).json(cars[0]);
   } catch (error) {
     if (error.toString().includes('δε βρέθηκε')) {
       error.status = 404;

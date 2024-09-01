@@ -189,7 +189,7 @@ async function findCarByFiltersAndByAvailabilityDays(
     },
     {
       $facet: {
-        totalCount: [{ $count: 'count' }],
+        total: [{ $count: 'count' }],
         paginatedResults: [{ $skip: filters.skip }, { $limit: filters.limit }],
         general: [
           {
@@ -211,6 +211,20 @@ async function findCarByFiltersAndByAvailabilityDays(
             },
           },
         ],
+      },
+    },
+    {
+      $addFields: {
+        totalCount: {
+          $ifNull: [{ $arrayElemAt: ['$total.count', 0] }, 0],
+        },
+      },
+    },
+    {
+      $project: {
+        totalCount: 1,
+        paginatedResults: 1,
+        general: 1,
       },
     }
   );
@@ -272,8 +286,21 @@ async function getCarsByOwnerId(ownerId, skip, limit) {
     },
     {
       $facet: {
-        totalCount: [{ $count: 'count' }],
+        total: [{ $count: 'count' }],
         paginatedResults: [{ $skip: skip }, { $limit: limit }],
+      },
+    },
+    {
+      $addFields: {
+        totalCount: {
+          $ifNull: [{ $arrayElemAt: ['$total.count', 0] }, 0],
+        },
+      },
+    },
+    {
+      $project: {
+        totalCount: 1,
+        paginatedResults: 1,
       },
     },
   ]).exec();
