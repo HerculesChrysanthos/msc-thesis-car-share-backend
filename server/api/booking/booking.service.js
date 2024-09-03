@@ -7,6 +7,23 @@ const utils = require('../../utils');
 const moment = require('moment');
 
 async function createBooking(booking) {
+  const momentStartDate = moment(booking.startDate);
+  const momentEndDate = moment(booking.endDate);
+
+  if (!momentStartDate.isBefore(momentEndDate)) {
+    throw new Error(
+      'Η αρχική ημερομηνία θα πρέπει να είναι αργότερα από την τελική'
+    );
+  }
+
+  const oneHourFromNow = moment().add(1, 'hour');
+
+  if (!momentStartDate.isAfter(oneHourFromNow)) {
+    throw new Error(
+      'Η κράτηση θα πρέπει να ξεκινάει τουλάχιστον μια ώρα αργότερα από τώρα'
+    );
+  }
+
   const session = await mongoose.startSession();
   session.startTransaction();
 

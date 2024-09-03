@@ -24,7 +24,17 @@ async function createBooking(req, res, next) {
       error
         .toString()
         .includes('Το αυτοκίνητο δεν είναι διαθέσιμο τις επιλεγμένες ώρες') ||
-      error.toString().includes('Υπάρχει ασυμφωνία στις τιμές.')
+      error.toString().includes('Υπάρχει ασυμφωνία στις τιμές.') ||
+      error
+        .toString()
+        .includes(
+          'Η αρχική ημερομηνία θα πρέπει να είναι αργότερα από την τελική'
+        ) ||
+      error
+        .toString()
+        .includes(
+          'Η κράτηση θα πρέπει να ξεκινάει τουλάχιστον μια ώρα αργότερα από τώρα'
+        )
     ) {
       error.status = 409;
     }
