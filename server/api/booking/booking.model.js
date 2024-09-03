@@ -3,7 +3,6 @@ const mongoose = require('mongoose');
 
 const bookingSchema = mongoose.Schema(
   {
-    // friendlyId ?
     car: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Car',

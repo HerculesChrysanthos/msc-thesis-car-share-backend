@@ -26,13 +26,6 @@ const EMAIL_TYPES = Object.freeze({
   REVIEW_PROMP_RENTER: 'review-promp-renter',
 });
 
-const DRIVE_TYPES = Object.freeze({
-  FWD: 'FWD',
-  RWD: 'RWD',
-  FOURXFOUR: '4x4',
-  AWD: 'AWD',
-});
-
 const GEARBOX_TYPES = Object.freeze({
   AUTO: 'Αυτόματο',
   MANUAL: 'Μηχανικό',
@@ -46,14 +39,6 @@ const FEATURES = Object.freeze({
   ESP: 'ESP',
   REAR_VIEW_CAMERA: 'Κάμερα οπισθοπορείας',
   GPS: 'GPS',
-});
-
-const EXTRA_FEATURES = Object.freeze({
-  CHILD_SEAT: 'Παιδικό κάθισμα',
-  SNOW_CHAINS: 'Αλυσίδες χιονιού',
-  WINTER_TIRES: 'Χειμερινά ελαστικά',
-  BIKE_RACK: 'Σχάρα ποδηλάτου',
-  ROOF_BOX: 'Κουτί οροφής',
 });
 
 const INTERIOR_COLORS = Object.freeze({
@@ -82,10 +67,8 @@ module.exports = {
   ROLES,
   FUEL_TYPES,
   EMAIL_TYPES,
-  DRIVE_TYPES,
   GEARBOX_TYPES,
   FEATURES,
-  EXTRA_FEATURES,
   INTERIOR_COLORS,
   EXTERIOR_COLORS,
 };

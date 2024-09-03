@@ -1,12 +1,5 @@
 const mongoose = require('mongoose');
-const {
-  MAKES,
-  FUEL_TYPES,
-  DRIVE_TYPES,
-  GEARBOX_TYPES,
-  FEATURES,
-  EXTRA_FEATURES,
-} = require('../constants');
+const { FUEL_TYPES, GEARBOX_TYPES, FEATURES } = require('../constants');
 
 const carSchema = mongoose.Schema(
   {
@@ -54,7 +47,7 @@ const carSchema = mongoose.Schema(
       enum: FUEL_TYPES,
     },
     kilowatt: {
-      type: String,
+      type: Number,
     },
     engineSize: {
       type: Number,
@@ -73,15 +66,8 @@ const carSchema = mongoose.Schema(
     interiorColor: {
       type: String,
     },
-    rimSize: {
-      type: Number,
-    },
     euroClass: {
       type: Number,
-    },
-    driveType: {
-      type: String,
-      enum: DRIVE_TYPES,
     },
     doors: {
       type: String,
@@ -96,12 +82,6 @@ const carSchema = mongoose.Schema(
       {
         type: String,
         enum: FEATURES,
-      },
-    ],
-    extraFeatures: [
-      {
-        name: { type: String, enum: EXTRA_FEATURES },
-        extraPrice: { type: Number },
       },
     ],
     address: {
