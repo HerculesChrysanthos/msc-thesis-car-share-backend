@@ -17,7 +17,7 @@ async function createOrUpdateUserByGoogleId(user) {
         surname: user.surname,
         email: user.email,
         googleId: user.googleId,
-        profilePictureUrl: user.profilePictureUrl,
+        profileImage: user.profileImage,
       },
       //$setOnInsert: { role: user.role },
     },

@@ -68,8 +68,16 @@ async function googleAuth(req, res, next) {
       throw new Error('Error on google auth');
     }
     console.log(user);
-    const response = userHelper.buildUserResponse(user);
-    return res.status(200).json(response);
+
+    const token = userService.createToken(user);
+
+    const userInfo = userHelper.buildUserResponse(user);
+
+    res.cookie('token', token, { httpOnly: false, secure: true });
+
+    res.cookie('userInfo', JSON.stringify(userInfo), { secure: true });
+
+    return res.redirect(process.env.CLIENT_URL);
   } catch (error) {
     return next(error);
   }

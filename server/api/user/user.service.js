@@ -168,4 +168,5 @@ module.exports = {
   updateUserRatingScoreAndAmount,
   checkIfUserExists,
   getUserById,
+  createToken,
 };
