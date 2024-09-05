@@ -60,7 +60,7 @@ function setBodyByEmailType(emailInfo) {
     case EMAIL_TYPES.REGISTRATION_GOOGLE:
       return `<html> <b>Welcome ${emailInfo.user.name} </b></html>`;
     case EMAIL_TYPES.VERIFICATION:
-      return `<html> <p> Verify your account here localhost:8080/api/users/verify?token=${emailInfo.token.tokenId} until ${expirationDateGreek}</html>`;
+      return `<html> <p> Verify your account here localhost:5173/verify-token?token=${emailInfo.token.tokenId} until ${expirationDateGreek}</html>`;
     case EMAIL_TYPES.BOOKING_OWNER:
       return '<html> Νέα κράτηση για τον ιδιοκτήτη</html>';
     case EMAIL_TYPES.BOOKING_RENTER:
