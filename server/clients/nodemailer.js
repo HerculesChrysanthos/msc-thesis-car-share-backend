@@ -56,7 +56,7 @@ function setBodyByEmailType(emailInfo) {
   }
   switch (emailInfo.type) {
     case EMAIL_TYPES.REGISTRATION:
-      return `<html> <b>Welcome ${emailInfo.user.name} </b> <p> Verify your account here localhost:8080/api/users/verify?token=${emailInfo.token.tokenId} until ${expirationDateGreek} </p></html>`;
+      return `<html> <b>Welcome ${emailInfo.user.name} </b> <p> Verify your account here localhost:5173/verify-token?token=${emailInfo.token.tokenId} until ${expirationDateGreek} </p></html>`;
     case EMAIL_TYPES.REGISTRATION_GOOGLE:
       return `<html> <b>Welcome ${emailInfo.user.name} </b></html>`;
     case EMAIL_TYPES.VERIFICATION:
