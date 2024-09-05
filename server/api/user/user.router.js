@@ -44,7 +44,7 @@ router.get(
   // }
 );
 
-router.get(
+router.post(
   '/verify',
   validator(userValidator.verifySchema),
   userController.verify
