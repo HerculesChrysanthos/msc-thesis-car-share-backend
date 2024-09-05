@@ -92,8 +92,8 @@ async function findCarAvailabilitiesGroupByDay(car, dates) {
   return availabilityRepository.findCarAvailabilitiesGroupByDay(car, dates);
 }
 
-async function findCarAvailabilities(car) {
-  return availabilityRepository.findCarAvailabilities(car);
+async function findCarAvailabilitiesByStatus(car, status) {
+  return availabilityRepository.findCarAvailabilitiesByStatus(car, status);
 }
 
 async function setBookingOnAvailabilities(booking, availabilities) {
@@ -266,7 +266,7 @@ module.exports = {
   findCarAvailabilitiesOnSpecificDates,
   changeAvailabilitiesStatus,
   findCarAvailabilitiesGroupByDay,
-  findCarAvailabilities,
+  findCarAvailabilitiesByStatus,
   setBookingOnAvailabilities,
   updateCarAvailabilities,
   findCarAvailableOrReservedAvailabilities,

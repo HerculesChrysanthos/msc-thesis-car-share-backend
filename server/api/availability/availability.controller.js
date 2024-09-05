@@ -35,13 +35,17 @@ async function createAvailability(req, res, next) {
   }
 }
 
-async function findCarAvailabilities(req, res, next) {
+async function findCarAvailabilitiesByStatus(req, res, next) {
   try {
     const car = req.params.carId;
+    const status = req.query.status;
 
-    const availabilities = await availabilityService.findCarAvailabilities(car);
+    const availabilities =
+      await availabilityService.findCarAvailabilitiesByStatus(car, status);
 
-    return res.status(200).json(availabilities);
+    const results = availabilities[0]?.segments || [];
+
+    return res.status(200).json(results);
   } catch (error) {
     return next(error);
   }
@@ -86,6 +90,6 @@ async function updatePartialCarAvailabilities(req, res, next) {}
 
 module.exports = {
   createAvailability,
-  findCarAvailabilities,
+  findCarAvailabilitiesByStatus,
   updateCarAvailabilities,
 };

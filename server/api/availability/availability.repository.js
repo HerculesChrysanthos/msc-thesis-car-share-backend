@@ -62,11 +62,12 @@ async function findCarAvailabilitiesGroupByDay(car, dates) {
   ]).exec();
 }
 
-async function findCarAvailabilities(car) {
+async function findCarAvailabilitiesByStatus(car, status) {
   return Availability.aggregate([
     {
       $match: {
         car: new mongoose.Types.ObjectId(car),
+        status,
       },
     },
     {
@@ -139,7 +140,7 @@ async function findCarAvailabilities(car) {
     },
     {
       $project: {
-        status: 1,
+        //status: 1,
         // booking: 1,
         segments: {
           $map: {
@@ -223,7 +224,7 @@ module.exports = {
   insertMultipleAvailabilities,
   findCarAvailabilitiesGroupByDay,
   findCarAvailabilitiesOnSpecificDates,
-  findCarAvailabilities,
+  findCarAvailabilitiesByStatus,
   changeAvailabilitiesStatus,
   setBookingOnAvailabilities,
   findAvailabilitiesByCarId,

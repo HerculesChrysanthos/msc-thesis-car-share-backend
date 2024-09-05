@@ -206,6 +206,9 @@ const getCarAvailabilitiesSchema = Joi.object({
   params: Joi.object({
     carId: Joi.string().required(),
   }).required(),
+  query: Joi.object({
+    status: Joi.string().valid('UNAVAILABLE', 'AVAILABLE', 'RESERVED'),
+  }),
 });
 
 const getCarReviewsSchema = Joi.object({

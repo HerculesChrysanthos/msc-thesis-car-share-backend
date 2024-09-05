@@ -87,7 +87,7 @@ router.get(
   auth(),
   hasCarAccess,
   validator(carValidator.getCarAvailabilitiesSchema),
-  availabilityController.findCarAvailabilities
+  availabilityController.findCarAvailabilitiesByStatus
 );
 
 router.get(
