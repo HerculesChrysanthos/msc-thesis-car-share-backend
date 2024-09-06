@@ -218,6 +218,8 @@ async function createAvailabilities(carId) {
   const futureUtc = new Date(nowUtc);
   futureUtc.setUTCDate(nowUtc.getUTCDate() + 60);
 
+  futureUtc.setUTCHours(0, 0, 0, 0);
+
   const availability = {
     startDate: nowUtc,
     endDate: futureUtc,
@@ -265,6 +267,15 @@ async function deleteCarAvailableAvailabilities(carId) {
   return availabilityRepository.deleteCarAvailableAvailabilities(carId);
 }
 
+async function deleteBeforeGivenDateAvailabilitiesByCarIds(date, carIds) {
+  return availabilityRepository.deleteBeforeGivenDateAvailabilitiesByCarIds(
+    date,
+    carIds
+  );
+}
+
+async function extendCarsAvailabilities() {}
+
 module.exports = {
   findCarAvailabilitiesOnSpecificDates,
   changeAvailabilitiesStatus,
@@ -278,4 +289,6 @@ module.exports = {
   deleteAvailabilitiesByCarId,
   createAvailabilities,
   deleteCarAvailableAvailabilities,
+  deleteBeforeGivenDateAvailabilitiesByCarIds,
+  extendCarsAvailabilities,
 };

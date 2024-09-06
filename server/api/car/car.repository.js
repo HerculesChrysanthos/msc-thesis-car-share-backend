@@ -327,6 +327,10 @@ async function changeCarStatus(id, available) {
     .exec();
 }
 
+async function findAvailableCarsIds() {
+  return Car.find({ isAvailable: true, isEnabled: true }, { _id: 1 }).exec();
+}
+
 module.exports = {
   createCar,
   findCarByIdAndPopulateModelMake,
@@ -343,4 +347,5 @@ module.exports = {
   getCarsByOwnerId,
   disableCar,
   changeCarStatus,
+  findAvailableCarsIds,
 };

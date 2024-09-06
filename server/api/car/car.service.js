@@ -284,6 +284,10 @@ async function changeCarStatus(carId, available) {
   return updatedCar;
 }
 
+async function findAvailableCarsIds() {
+  return carRepository.findAvailableCarsIds();
+}
+
 module.exports = {
   createCar,
   updateCarSpecificFields,
@@ -297,4 +301,5 @@ module.exports = {
   getCarsByOwnerId,
   disableCar,
   changeCarStatus,
+  findAvailableCarsIds,
 };

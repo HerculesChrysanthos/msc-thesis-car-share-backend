@@ -231,6 +231,13 @@ async function deleteAvailabilitiesByCarId(id, session) {
   }).session(session);
 }
 
+async function deleteBeforeGivenDateAvailabilitiesByCarIds(date, carIds) {
+  return Availability.find({
+    car: { $in: carIds },
+    date: { $lt: date },
+  });
+}
+
 module.exports = {
   insertMultipleAvailabilities,
   findCarAvailabilitiesGroupByDay,
@@ -245,4 +252,5 @@ module.exports = {
   deleteAvailabilitiesByCarId,
   findCarReservedAvailabilities,
   deleteCarAvailableAvailabilities,
+  deleteBeforeGivenDateAvailabilitiesByCarIds,
 };
