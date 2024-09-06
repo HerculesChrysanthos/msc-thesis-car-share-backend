@@ -2,56 +2,6 @@ const mongoose = require('mongoose');
 const availabilityRepository = require('./availability.repository');
 const moment = require('moment');
 
-async function createAvailability(availability, carId) {
-  const existingAvailabilities =
-    await availabilityRepository.findCarAvailableOrReservedAvailabilities(
-      carId
-    );
-  if (existingAvailabilities.length > 0) {
-    throw new Error(
-      'Δεν μπορείς να προσθέσεις επιπλέον διαθεσιμότητα. Επεξεργάσου την υπάρχουσα.'
-    );
-  }
-
-  const startDate = moment.utc(availability.startDate);
-  const endDate = moment.utc(availability.endDate);
-
-  const availabilities = [];
-  let createdAvailabilities;
-
-  const currentDate = startDate.clone();
-
-  while (currentDate.isBefore(endDate)) {
-    availabilities.push({
-      car: carId,
-      date: currentDate.toISOString(),
-      status: 'AVAILABLE',
-    });
-
-    currentDate.add(1, 'hour');
-  }
-  const session = await mongoose.startSession();
-  session.startTransaction();
-
-  try {
-    // check if car has availabilities, if yes throw error
-    createdAvailabilities =
-      await availabilityRepository.insertMultipleAvailabilities(
-        availabilities,
-        session
-      );
-
-    await session.commitTransaction();
-  } catch (error) {
-    await session.abortTransaction();
-    throw error;
-  } finally {
-    session.endSession();
-  }
-
-  return createdAvailabilities;
-}
-
 async function findCarAvailabilitiesOnSpecificDates(
   car,
   startDate,
@@ -316,7 +266,6 @@ async function deleteCarAvailableAvailabilities(carId) {
 }
 
 module.exports = {
-  createAvailability,
   findCarAvailabilitiesOnSpecificDates,
   changeAvailabilitiesStatus,
   findCarAvailabilitiesGroupByDay,

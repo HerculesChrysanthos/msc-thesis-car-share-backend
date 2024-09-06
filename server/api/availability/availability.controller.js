@@ -1,40 +1,5 @@
 const availabilityService = require('./availability.service');
 
-// async function createAvailability(req, res, next) {
-//   try {
-//     const availability = req.body;
-//     const carId = req.car._id;
-
-//     const availabilities = await availabilityService.createAvailability(
-//       availability,
-//       carId
-//     );
-//     return res.status(201).json(availabilities);
-//   } catch (error) {
-//     console.log(`error: ${error}`);
-
-//     if (error.toString().includes('duplicate key')) {
-//       error.message = error?.writeErrors[0]?.err?.op?.date
-//         ? `Το timeslot ${error?.writeErrors[0]?.err?.op?.date} υπάρχει ήδη.`
-//         : 'Το timeslot υπάρχει ήδη';
-
-//       error.status = 409;
-//     }
-
-//     if (
-//       error
-//         .toString()
-//         .includes(
-//           'Δεν μπορείς να προσθέσεις επιπλέον διαθεσιμότητα. Επεξεργάσου την υπάρχουσα.'
-//         )
-//     ) {
-//       error.status = 409;
-//     }
-
-//     return next(error);
-//   }
-// }
-
 async function findCarAvailabilitiesByStatus(req, res, next) {
   try {
     const car = req.params.carId;
@@ -87,7 +52,6 @@ async function updateCarAvailabilities(req, res, next) {
 }
 
 module.exports = {
-  //  createAvailability,
   findCarAvailabilitiesByStatus,
   updateCarAvailabilities,
 };

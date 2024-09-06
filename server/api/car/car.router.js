@@ -61,14 +61,6 @@ router.delete(
   carController.deleteCarImage
 );
 
-// router.post(
-//   '/:carId/availabilities',
-//   auth(),
-//   hasCarAccess,
-//   validator(carValidator.addCarAvailabilitySchema),
-//   availabilityController.createAvailability
-// );
-
 // change general car availability
 // Also partial change.
 // Allazei diathesimothta se range mesa mesa sth geniki diathesimothta efoson dinetai to status
