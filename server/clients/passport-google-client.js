@@ -31,7 +31,7 @@ passport.use(
         surname: profile._json.family_name,
         email: profile._json.email,
         googleId: profile._json.sub,
-        profileImage: profile._json.picture,
+        profileImage: { url: profile._json.picture },
         //role: req.query.state,
         verified: true,
       };
