@@ -240,6 +240,31 @@ async function disableCar(req, res, next) {
   }
 }
 
+async function changeCarStatus(req, res, next) {
+  try {
+    const available = req.body.available;
+    const carId = req.params.carId;
+
+    if (available === req.car.isAvailable) {
+      throw new Error('Δεν μπορείς να θέσεις status ίδιο με το υπάρχον');
+    }
+
+    const car = await carService.changeCarStatus(carId, available);
+
+    return res.status(200).json(car);
+  } catch (error) {
+    if (
+      error
+        .toString()
+        .includes('Δεν μπορείς να θέσεις status ίδιο με το υπάρχον')
+    ) {
+      error.status = 409;
+    }
+
+    return next(error);
+  }
+}
+
 module.exports = {
   createCar,
   updateCarSpecificFields,
@@ -250,4 +275,5 @@ module.exports = {
   getMyCars,
   getCarsByOwnerId,
   disableCar,
+  changeCarStatus,
 };

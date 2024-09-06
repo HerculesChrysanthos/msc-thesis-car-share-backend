@@ -84,6 +84,12 @@ async function updateCarSpecificFields(carId, car, existingCar) {
     };
   }
 
+  if (car.address && !existingCar.available && !existingCar.address.city) {
+    car.isAvailable = true;
+
+    availabilitiesService.createAvailabilities(carId);
+  }
+
   return carRepository.updateCarById(carId, car);
 }
 
@@ -266,6 +272,18 @@ async function disableCar(carId, car) {
   carRepository.updateCarById(carId, { images: [] });
 }
 
+async function changeCarStatus(carId, available) {
+  const updatedCar = await carRepository.changeCarStatus(carId, available);
+
+  if (available) {
+    await availabilitiesService.createAvailabilities(carId);
+  } else {
+    await availabilitiesService.deleteCarAvailableAvailabilities(carId);
+  }
+
+  return updatedCar;
+}
+
 module.exports = {
   createCar,
   updateCarSpecificFields,
@@ -278,4 +296,5 @@ module.exports = {
   checkIfCarExists,
   getCarsByOwnerId,
   disableCar,
+  changeCarStatus,
 };

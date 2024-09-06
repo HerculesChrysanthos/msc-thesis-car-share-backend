@@ -197,8 +197,19 @@ async function deleteAvailabilities(availabilities, session) {
   );
 }
 
+async function deleteCarAvailableAvailabilities(carId) {
+  return Availability.deleteMany({
+    car: new mongoose.Types.ObjectId(carId),
+    status: 'AVAILABLE',
+  });
+}
+
 async function findCarAvailableOrReservedAvailabilities(car) {
   return Availability.find({ car, status: { $in: ['AVAILABLE', 'RESERVED'] } });
+}
+
+async function findCarReservedAvailabilities(car) {
+  return Availability.find({ car, status: 'RESERVED' });
 }
 
 async function setAvailabilitiesAsAvailableByBookingId(bookingId) {
@@ -232,4 +243,6 @@ module.exports = {
   findCarAvailableOrReservedAvailabilities,
   setAvailabilitiesAsAvailableByBookingId,
   deleteAvailabilitiesByCarId,
+  findCarReservedAvailabilities,
+  deleteCarAvailableAvailabilities,
 };

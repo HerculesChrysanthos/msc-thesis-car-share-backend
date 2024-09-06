@@ -22,6 +22,9 @@ const carSchema = mongoose.Schema(
       type: Boolean,
       default: true,
     },
+    isAvailable: {
+      type: Boolean,
+    },
     registration: {
       month: {
         type: Number,

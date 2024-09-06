@@ -61,13 +61,13 @@ router.delete(
   carController.deleteCarImage
 );
 
-router.post(
-  '/:carId/availabilities',
-  auth(),
-  hasCarAccess,
-  validator(carValidator.addCarAvailabilitySchema),
-  availabilityController.createAvailability
-);
+// router.post(
+//   '/:carId/availabilities',
+//   auth(),
+//   hasCarAccess,
+//   validator(carValidator.addCarAvailabilitySchema),
+//   availabilityController.createAvailability
+// );
 
 // change general car availability
 // Also partial change.
@@ -108,6 +108,14 @@ router.get(
   '/:carId/reviews',
   validator(carValidator.getCarReviewsSchema),
   reviewController.getCarReviews
+);
+
+router.put(
+  '/:carId/status',
+  auth(),
+  hasCarAccess,
+  validator(carValidator.changeCarStatus),
+  carController.changeCarStatus
 );
 
 module.exports = router;

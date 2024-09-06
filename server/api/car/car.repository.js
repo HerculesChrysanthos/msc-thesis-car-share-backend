@@ -317,6 +317,16 @@ async function disableCar(id, session) {
     .exec();
 }
 
+async function changeCarStatus(id, available) {
+  return Car.findByIdAndUpdate(
+    id,
+    { $set: { isAvailable: available } },
+    { new: true }
+  )
+    .lean()
+    .exec();
+}
+
 module.exports = {
   createCar,
   findCarByIdAndPopulateModelMake,
@@ -332,4 +342,5 @@ module.exports = {
   updateCarRatingScoreAndAmount,
   getCarsByOwnerId,
   disableCar,
+  changeCarStatus,
 };

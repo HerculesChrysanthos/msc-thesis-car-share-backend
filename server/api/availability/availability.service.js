@@ -261,6 +261,60 @@ async function deleteAvailabilitiesByCarId(id, session) {
   return availabilityRepository.deleteAvailabilitiesByCarId(id, session);
 }
 
+async function createAvailabilities(carId) {
+  const nowUtc = new Date();
+  nowUtc.setUTCMinutes(0, 0, 0);
+
+  const futureUtc = new Date(nowUtc);
+  futureUtc.setUTCDate(nowUtc.getUTCDate() + 60);
+
+  const availability = {
+    startDate: nowUtc,
+    endDate: futureUtc,
+  };
+
+  const startDate = moment.utc(availability.startDate);
+  const endDate = moment.utc(availability.endDate);
+
+  const availabilities = [];
+
+  const currentDate = startDate.clone();
+
+  while (currentDate.isBefore(endDate)) {
+    availabilities.push({
+      car: carId,
+      date: currentDate.toISOString(),
+      status: 'AVAILABLE',
+    });
+
+    currentDate.add(1, 'hour');
+  }
+
+  const existingReservedAvailabilities =
+    await availabilityRepository.findCarReservedAvailabilities(carId);
+
+  const existingReservedAvailabilitiesSet = new Set(
+    existingReservedAvailabilities.map((availability) =>
+      availability.date.toISOString()
+    )
+  );
+
+  const availabilitiesToAdd = availabilities.filter(
+    (availability) =>
+      !existingReservedAvailabilitiesSet.has(
+        new Date(availability.date).toISOString()
+      )
+  );
+
+  await availabilityRepository.insertMultipleAvailabilities(
+    availabilitiesToAdd
+  );
+}
+
+async function deleteCarAvailableAvailabilities(carId) {
+  return availabilityRepository.deleteCarAvailableAvailabilities(carId);
+}
+
 module.exports = {
   createAvailability,
   findCarAvailabilitiesOnSpecificDates,
@@ -273,4 +327,6 @@ module.exports = {
   updatePartialCarAvailabilities,
   setAvailabilitiesAsAvailableByBookingId,
   deleteAvailabilitiesByCarId,
+  createAvailabilities,
+  deleteCarAvailableAvailabilities,
 };

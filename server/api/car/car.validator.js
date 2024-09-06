@@ -107,23 +107,23 @@ const deleteCarImageSchema = Joi.object({
   }).required(),
 });
 
-const addCarAvailabilitySchema = Joi.object({
-  params: Joi.object({
-    carId: Joi.string().required(),
-  }).required(),
-  body: Joi.object({
-    available: Joi.boolean(),
-    startDate: Joi.date().iso().required(),
-    endDate: Joi.date()
-      .iso()
-      .required()
-      .greater(Joi.ref('startDate'))
-      .messages({
-        'date.greater':
-          'Η αρχική ημερομηνία πρέπει να είναι αργότερα από την αρχική.',
-      }),
-  }).required(),
-});
+// const addCarAvailabilitySchema = Joi.object({
+//   params: Joi.object({
+//     carId: Joi.string().required(),
+//   }).required(),
+//   body: Joi.object({
+//     available: Joi.boolean(),
+//     startDate: Joi.date().iso().required(),
+//     endDate: Joi.date()
+//       .iso()
+//       .required()
+//       .greater(Joi.ref('startDate'))
+//       .messages({
+//         'date.greater':
+//           'Η αρχική ημερομηνία πρέπει να είναι αργότερα από την αρχική.',
+//       }),
+//   }).required(),
+// });
 
 const updateCarAvailabilitySchema = Joi.object({
   params: Joi.object({
@@ -227,13 +227,22 @@ const deleteCarSchema = Joi.object({
   }).required(),
 });
 
+const changeCarStatus = Joi.object({
+  params: Joi.object({
+    carId: Joi.string().required(),
+  }).required(),
+  body: Joi.object({
+    available: Joi.boolean().required(),
+  }).required(),
+});
+
 module.exports = {
   createCarSchema,
   // updateCarSchema,
   updateCarSpecificFieldsSchema,
   uploadCarImageSchema,
   deleteCarImageSchema,
-  addCarAvailabilitySchema,
+  // addCarAvailabilitySchema,
   updateCarAvailabilitySchema,
   getCarByIdSchema,
   findCarByFiltersAndByAvailabilityDaysSchema,
@@ -241,4 +250,5 @@ module.exports = {
   getCarAvailabilitiesSchema,
   getCarReviewsSchema,
   deleteCarSchema,
+  changeCarStatus,
 };
