@@ -10,7 +10,9 @@ async function findUser(email) {
 
 async function createOrUpdateUserByGoogleId(user) {
   return User.findOneAndUpdate(
-    { googleId: user.googleId },
+    {
+      $or: [{ googleId: user.googleId }, { email: user.email }],
+    },
     {
       $set: {
         name: user.name,

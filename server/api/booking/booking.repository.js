@@ -131,6 +131,24 @@ async function findAcceptedBookingsThatEndDatePassed() {
     },
     {
       $lookup: {
+        from: 'makes',
+        localField: 'car.make',
+        foreignField: '_id',
+        as: 'car.make',
+      },
+    },
+    { $unwind: '$car.make' },
+    {
+      $lookup: {
+        from: 'models',
+        localField: 'car.model',
+        foreignField: '_id',
+        as: 'car.model',
+      },
+    },
+    { $unwind: '$car.model' },
+    {
+      $lookup: {
         from: 'users',
         localField: 'renter',
         foreignField: '_id',
@@ -156,9 +174,13 @@ async function getBookingById(bookingId) {
   return Booking.findById(bookingId)
     .populate({
       path: 'car',
-      populate: {
-        path: 'owner',
-      },
+      populate: [
+        {
+          path: 'owner',
+        },
+        { path: 'make' },
+        { path: 'model' },
+      ],
     })
     .populate('renter')
     .lean()

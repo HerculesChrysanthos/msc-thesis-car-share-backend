@@ -135,7 +135,7 @@ async function checkIfUserIsNotOwner(req, res, next) {
       throw error;
     }
 
-    const car = await carRepository.findCarByIdAndPopulateOnwer(carId);
+    const car = await carRepository.findCarByIdAndPopulateOnwerMakeModel(carId);
 
     if (!car) {
       const error = new Error('Το αυτοκίνητο δε βρέθηκε');

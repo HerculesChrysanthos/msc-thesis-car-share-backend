@@ -75,14 +75,6 @@ async function verify(tokenId) {
   }
 
   await deleteTokenByTokenId(tokenId);
-
-  const emailInfo = {
-    type: EMAIL_TYPES.VERIFIED,
-    user: verifiedUser,
-    token: token,
-  };
-
-  nodemailer.sendEmail(emailInfo);
 }
 
 async function reSendVerifyToken(user) {

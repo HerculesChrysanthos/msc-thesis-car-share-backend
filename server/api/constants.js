@@ -14,7 +14,6 @@ const FUEL_TYPES = Object.freeze({
 const EMAIL_TYPES = Object.freeze({
   REGISTRATION: 'registration',
   REGISTRATION_GOOGLE: 'registration-google',
-  VERIFIED: 'verified',
   VERIFICATION: 'verification',
   BOOKING_OWNER: 'booking-owner',
   BOOKING_RENTER: 'booking-renter',

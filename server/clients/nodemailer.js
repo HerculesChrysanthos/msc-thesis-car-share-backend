@@ -1,4 +1,5 @@
 const nodemailer = require('nodemailer');
+const ejs = require('ejs');
 require('dotenv').config();
 const { EMAIL_TYPES } = require('../api/constants');
 
@@ -28,6 +29,8 @@ function setSubjectByEmailType(type) {
       return 'Καλώς ήρθες στο car share';
     case EMAIL_TYPES.REGISTRATION_GOOGLE:
       return 'Καλώς ήρθες στο car share';
+    case EMAIL_TYPES.VERIFICATION:
+      return 'Επιβεβαίωσε το email σου';
     case EMAIL_TYPES.BOOKING_OWNER:
       return 'Νέα κράτηση';
     case EMAIL_TYPES.BOOKING_RENTER:
@@ -39,11 +42,11 @@ function setSubjectByEmailType(type) {
     case EMAIL_TYPES.BOOKING_CANCELEATION_BY_OWNER:
       return 'Ακύρωση από owner';
     case EMAIL_TYPES.BOOKING_CANCELEATION_BY_RENTER:
-      return 'Ακύρωση από renter';
+      return 'Ακύρωση κράτησης';
     case EMAIL_TYPES.REVIEW_PROMP_RENTER:
-      return 'Προσθηκη review απο renter';
+      return 'Ολοκλήρωση κράτησης | Προσθηκη κριτικής απο τον ενοικιαστή';
     case EMAIL_TYPES.REVIEW_PROMP_ONWER:
-      return 'Προσθηκη review απο owner';
+      return 'Ολοκλήρωση κράτησης | Προσθηκη κριτικής απο τον ιδιοκτήτη';
     default:
       return 'ok';
   }
@@ -56,31 +59,181 @@ function setBodyByEmailType(emailInfo) {
   }
   switch (emailInfo.type) {
     case EMAIL_TYPES.REGISTRATION:
-      return `<html> <b>Welcome ${emailInfo.user.name} </b> <p> Verify your account here localhost:5173/verify-token?token=${emailInfo.token.tokenId} until ${expirationDateGreek} </p></html>`;
+      return `
+                <table style="width: 100%; max-width: 640px; margin: 0 auto; padding: 24px 48px;">
+                  <tr>
+                     <td>
+                        <h2 style="font-size: 24px; line-height: 32px; font-weight: 700; color: #000; margin-bottom: 24px;">Επιβεβαίωσε τo email σου!</h2>
+                        <div style="font-size: 16px; line-height: 24px; font-weight: 400; color: #595959;">Γειά σου ${emailInfo.user.name}<br /><br />Καλώς ήρθες και χαιρόμαστε πολύ να σε έχουμε στην παρέα μας! Το μόνο που μένει είναι να επιβεβαιώσεις το email σου πατώντας τον παρακάτω σύνδεσμο μέχρι τις ${expirationDateGreek}!<br /><br />Ευχαριστούμε,<br />η ομάδα του Car Share</div>
+                        <div style="margin-top: 40px; padding-bottom: 10px;">
+                           <a href="http://localhost:5173/verify-token?token=${emailInfo.token.tokenId}" target="_blank" style="display: inline-block; padding: 8px 24px; border-radius: 8px; background-color: #000; font-size: 20px; line-height: 24px; font-weight: 400; color: #fff; text-decoration: none;">Επιβεβαίωση</a>
+                        </div>
+                     </td>
+                  </tr>
+               </table>
+            `;
     case EMAIL_TYPES.REGISTRATION_GOOGLE:
-      return `<html> <b>Welcome ${emailInfo.user.name} </b></html>`;
+      return `
+                <table style="width: 100%; max-width: 640px; margin: 0 auto; padding: 24px 48px;">
+                  <tr>
+                     <td>
+                        <h2 style="font-size: 24px; line-height: 32px; font-weight: 700; color: #000; margin-bottom: 24px;">Καλές διαδρομές!</h2>
+                        <div style="font-size: 16px; line-height: 24px; font-weight: 400; color: #595959;">Γειά σου ${emailInfo.user.name}<br /><br />Καλώς ήρθες και χαιρόμαστε πολύ να σε έχουμε στην παρέα μας!<br /><br />Ευχαριστούμε,<br />η ομάδα του Car Share</div>
+                     </td>
+                  </tr>
+               </table>
+            `;
     case EMAIL_TYPES.VERIFICATION:
-      return `<html> <p> Verify your account here localhost:5173/verify-token?token=${emailInfo.token.tokenId} until ${expirationDateGreek}</html>`;
+      return `
+                <table style="width: 100%; max-width: 640px; margin: 0 auto; padding: 24px 48px;">
+                  <tr>
+                    <td>
+                        <h2 style="font-size: 24px; line-height: 32px; font-weight: 700; color: #000; margin-bottom: 24px;">Επιβεβαίωσε τo email σου!</h2>
+                        <div style="font-size: 16px; line-height: 24px; font-weight: 400; color: #595959;">Γειά σου ${emailInfo.user.name}<br /><br />Για να επιβεβαιώσεις το email χρειάζεται να πατήσεις τον παρακάτω σύνδεσμο μέχρι τις ${expirationDateGreek}!<br /><br />Ευχαριστούμε,<br />η ομάδα του Car Share</div>
+                        <div style="margin-top: 40px; padding-bottom: 10px;">
+                          <a href="http://localhost:5173/verify-token?token=${emailInfo.token.tokenId}" target="_blank" style="display: inline-block; padding: 8px 24px; border-radius: 8px; background-color: #000; font-size: 20px; line-height: 24px; font-weight: 400; color: #fff; text-decoration: none;">Επιβεβαίωση</a>
+                        </div>
+                    </td>
+                  </tr>
+                </table>
+          `;
     case EMAIL_TYPES.BOOKING_OWNER:
-      return '<html> Νέα κράτηση για τον ιδιοκτήτη</html>';
+      return `
+                <table style="width: 100%; max-width: 640px; margin: 0 auto; padding: 24px 48px;">
+                  <tr>
+                    <td style="width: 544px; height: 256px">
+                        <img
+                           src="https://ik.imagekit.io/carsharerentingapp/email-photo.png?updatedAt=1725785225480"
+                           alt="New book image"
+                           style="width: 544px; height: 256px"
+                        />
+                     </td>
+                  </tr>
+                  <tr>
+                    <td>
+                        <h2 style="font-size: 24px; line-height: 32px; font-weight: 700; color: #000; margin-bottom: 24px;">Έχεις κράτηση!</h2>
+                        <div style="font-size: 16px; line-height: 24px; font-weight: 400; color: #595959;">Γειά σου ${emailInfo.booking.car.owner.name}<br /><br />Έχεις μια νέα κράτηση για το όχημα <strong>${emailInfo.booking.car.make.name} ${emailInfo.booking.car.model.name}</strong> από τον ${emailInfo.booking.user.name} ${emailInfo.booking.user.surname}! Πηγαίνοντας στο προφίλ σου και στις κρατήσεις του οχήματος σου μπορείς να δεις περισσότερες πληροφορίες για το αίτημα καθώς και να το αποδεχτείς ή να το απορρίψεις!<br /><br />Ευχαριστούμε,<br />η ομάδα του Car Share</div>
+                        <div style="margin-top: 40px; padding-bottom: 10px;">
+                          <a href="http://localhost:5173/" target="_blank" style="display: inline-block; padding: 8px 24px; border-radius: 8px; background-color: #000; font-size: 20px; line-height: 24px; font-weight: 400; color: #fff; text-decoration: none;">Η κράτηση</a>
+                        </div>
+                    </td>
+                  </tr>
+              </table>
+            `;
     case EMAIL_TYPES.BOOKING_RENTER:
-      return '<html> Νέα κράτηση για τον renter</html>';
+      return `
+                <table style="width: 100%; max-width: 640px; margin: 0 auto; padding: 24px 48px;">
+                  <tr>
+                    <td style="width: 544px; height: 256px">
+                        <img
+                           src="https://ik.imagekit.io/carsharerentingapp/email-photo.png?updatedAt=1725785225480"
+                           alt="New book image"
+                           style="width: 544px; height: 256px"
+                        />
+                     </td>
+                  </tr>
+                  <tr>
+                    <td>
+                        <h2 style="font-size: 24px; line-height: 32px; font-weight: 700; color: #000; margin-bottom: 24px;">Έχεις κράτηση!</h2>
+                        <div style="font-size: 16px; line-height: 24px; font-weight: 400; color: #595959;">Γειά σου ${emailInfo.booking.user.name}<br /><br />Έχουμε κάλα νέα, η κράτηση για το όχημα <strong>${emailInfo.booking.car.make.name} ${emailInfo.booking.car.model.name}</strong>για τις <strong>${emailInfo.booking.startDate} ως τις ${emailInfo.booking.endDate}</strong> έγινε αποδεχτή! Πηγαίνοντας στο προφίλ σου και στις κρατήσεις σου μπορείς να δεις την κράτηση σου.<br /><br />Ευχαριστούμε,<br />η ομάδα του Car Share</div>
+                        <div style="margin-top: 40px; padding-bottom: 10px;">
+                          <a href="http://localhost:5173/" target="_blank" style="display: inline-block; padding: 8px 24px; border-radius: 8px; background-color: #000; font-size: 20px; line-height: 24px; font-weight: 400; color: #fff; text-decoration: none;">Η κράτηση</a>
+                        </div>
+                    </td>
+                  </tr>
+                </table>
+            `;
     case EMAIL_TYPES.BOOKING_ACCEPTANCE:
-      return '<html>  Αποδοχη </html>';
+      return `
+                <table style="width: 100%; max-width: 640px; margin: 0 auto; padding: 24px 48px;">
+                  <tr>
+                    <td>
+                        <h2 style="font-size: 24px; line-height: 32px; font-weight: 700; color: #000; margin-bottom: 24px;">Η κράτηση σου επιβεβαιώθηκε!</h2>
+                        <div style="font-size: 16px; line-height: 24px; font-weight: 400; color: #595959;">Γειά σου ${emailInfo.user.name}<br /><br />Έχουμε κάλα νέα, η κράτηση για το όχημα <strong>${emailInfo.info.car.make.name} ${emailInfo.info.car.model.name}</strong> έγινε αποδεκτή. Πηγαίνοντας στο προφίλ σου και στις κρατήσεις σου μπορείς να δεις την κράτηση σου.<br /><br />Ευχαριστούμε,<br />η ομάδα του Car Share</div>
+                        <div style="margin-top: 40px; padding-bottom: 10px;">
+                          <a href="http://localhost:5173/" target="_blank" style="display: inline-block; padding: 8px 24px; border-radius: 8px; background-color: #000; font-size: 20px; line-height: 24px; font-weight: 400; color: #fff; text-decoration: none;">Η κράτηση</a>
+                        </div>
+                    </td>
+                  </tr>
+                </table>
+                `;
     case EMAIL_TYPES.BOOKING_REJECTION:
-      return '<html>Απόρριψη </html>';
-    case EMAIL_TYPES.BOOKING_CANCELEATION_BY_OWNER:
-      return '<html>Ακύρωση από owner</html>';
+      return `
+                <table style="width: 100%; max-width: 640px; margin: 0 auto; padding: 24px 48px;">
+                  <tr>
+                    <td>
+                        <h2 style="font-size: 24px; line-height: 32px; font-weight: 700; color: #000; margin-bottom: 24px;">Η κράτηση σου απορρίφθηκε.</h2>
+                        <div style="font-size: 16px; line-height: 24px; font-weight: 400; color: #595959;">Γειά σου ${emailInfo.user.name}<br /><br />Δυστυχώς η κράτηση για το όχημα <strong>${emailInfo.info.car.make.name} ${emailInfo.info.car.model.name}</strong> απορρίφθηκε. Μπορείς να συνεχίσεις την αναζήτηση και να βρεις αλλά οχήματα που είναι διαθέσιμα εκείνη την χρονική περίοδο! <br /><br />Ευχαριστούμε,<br />η ομάδα του Car Share</div>
+                        <div style="margin-top: 40px; padding-bottom: 10px;">
+                          <a href="http://localhost:5173/" target="_blank" style="display: inline-block; padding: 8px 24px; border-radius: 8px; background-color: #000; font-size: 20px; line-height: 24px; font-weight: 400; color: #fff; text-decoration: none;">Η κράτηση</a>
+                        </div>
+                    </td>
+                  </tr>
+                </table>
+         `;
+    // case EMAIL_TYPES.BOOKING_CANCELEATION_BY_OWNER:
+    //   return 'Ακύρωση από owner';
+    //   return `
+    //             <table style="width: 100%; max-width: 640px; margin: 0 auto; padding: 24px 48px;">
+    //               <tr>
+    //                 <td>
+    //                     <h2 style="font-size: 24px; line-height: 32px; font-weight: 700; color: #000; margin-bottom: 24px;">Η κράτηση σου ακυρώθηκε.</h2>
+    //                     <div style="font-size: 16px; line-height: 24px; font-weight: 400; color: #595959;">Γειά σου Ηρακλή<br /><br />Δυστυχώς η κράτηση για το όχημα <strong></strong>για τις <strong>03/10 12:00 ως τις 15/10 11:00</strong> ακυρώθηκε. Έχουμε αποδεσμεύσει την κράτηση και το όχημα σου θα φαίνεται ξανά διαθέσιμο σε οποίο κάνει αναζήτηση αυτές τις ημερομηνίες στην περιοχή σου!<br /><br />Ευχαριστούμε,<br />η ομάδα του Car Share</div>
+    //                     <div style="margin-top: 40px; padding-bottom: 10px;">
+    //                       <a href="http://localhost:5173/" target="_blank" style="display: inline-block; padding: 8px 24px; border-radius: 8px; background-color: #000; font-size: 20px; line-height: 24px; font-weight: 400; color: #fff; text-decoration: none;">Η κράτηση</a>
+    //                     </div>
+    //                 </td>
+    //               </tr>
+    //             </table>
+    //      `;
     case EMAIL_TYPES.BOOKING_CANCELEATION_BY_RENTER:
-      return '<html>Ακύρωση από renter</html>';
+      return `
+                <table style="width: 100%; max-width: 640px; margin: 0 auto; padding: 24px 48px;">
+                  <tr>
+                    <td>
+                        <h2 style="font-size: 24px; line-height: 32px; font-weight: 700; color: #000; margin-bottom: 24px;">Η κράτηση σου ακυρώθηκε.</h2>
+                        <div style="font-size: 16px; line-height: 24px; font-weight: 400; color: #595959;">Γειά σου ${emailInfo.user.name}<br /><br />Δυστυχώς η κράτηση για το όχημα <strong>${emailInfo.info.car.make.name} ${emailInfo.info.car.model.name}</strong> ακυρώθηκε από το χρήστη ${emailInfo.info.renter.name} ${emailInfo.info.renter.surname}. Έχουμε αποδεσμεύσει την κράτηση και το όχημα σου θα φαίνεται ξανά διαθέσιμο.<br /><br />Ευχαριστούμε,<br />η ομάδα του Car Share</div>
+                        <div style="margin-top: 40px; padding-bottom: 10px;">
+                          <a href="http://localhost:5173/" target="_blank" style="display: inline-block; padding: 8px 24px; border-radius: 8px; background-color: #000; font-size: 20px; line-height: 24px; font-weight: 400; color: #fff; text-decoration: none;">Η κράτηση</a>
+                        </div>
+                    </td>
+                  </tr>
+                </table>
+         `;
     case EMAIL_TYPES.REVIEW_PROMP_RENTER:
-      return '<html>Προσθηκη review απο renter</html>';
+      return `
+      <table style="width: 100%; max-width: 640px; margin: 0 auto; padding: 24px 48px;">
+        <tr>
+          <td>
+              <h2 style="font-size: 24px; line-height: 32px; font-weight: 700; color: #000; margin-bottom: 24px;">Η κράτηση ολοκληρώθηκε!</h2>
+              <div style="font-size: 16px; line-height: 24px; font-weight: 400; color: #595959;">Γειά σου ${emailInfo.user.name}<br /><br />Η κράτηση για το όχημα <strong>${emailInfo.info.car.make.name} ${emailInfo.info.car.model.name}</strong> ακυρώθηκε του χρήστη ${emailInfo.info.renter.name} ${emailInfo.info.renter.surname} ολοκληρώθηκε. Πηγαίνοντας στο προφίλ σου και στις κρατήσεις σου μπορείς να δεις περισσότερες πληροφορίες και να αφήσεις την κρητική σου!<br /><br />Ευχαριστούμε,<br />η ομάδα του Car Share</div>
+              <div style="margin-top: 40px; padding-bottom: 10px;">
+                <a href="http://localhost:5173/" target="_blank" style="display: inline-block; padding: 8px 24px; border-radius: 8px; background-color: #000; font-size: 20px; line-height: 24px; font-weight: 400; color: #fff; text-decoration: none;">Η κράτηση</a>
+              </div>
+          </td>
+        </tr>
+      </table>
+`;
     case EMAIL_TYPES.REVIEW_PROMP_ONWER:
-      return '<html>Προσθηκη review απο owner</html>';
+      return `
+      <table style="width: 100%; max-width: 640px; margin: 0 auto; padding: 24px 48px;">
+        <tr>
+          <td>
+              <h2 style="font-size: 24px; line-height: 32px; font-weight: 700; color: #000; margin-bottom: 24px;">Η κράτηση ολοκληρώθηκε!</h2>
+              <div style="font-size: 16px; line-height: 24px; font-weight: 400; color: #595959;">Γειά σου ${emailInfo.user.name}<br /><br />Η κράτηση για το όχημα <strong>${emailInfo.info.car.make.name} ${emailInfo.info.car.model.name}</strong>  από το χρήστη ${emailInfo.info.renter.name} ${emailInfo.info.renter.surname} ολοκληρώθηκε. Πηγαίνοντας στο προφίλ σου και στις κρατήσεις του οχήματος σου μπορείς να δεις περισσότερες πληροφορίες και να αφήσεις την κριτική σου!<br /><br />Ευχαριστούμε,<br />η ομάδα του Car Share</div>
+              <div style="margin-top: 40px; padding-bottom: 10px;">
+                <a href="http://localhost:5173/" target="_blank" style="display: inline-block; padding: 8px 24px; border-radius: 8px; background-color: #000; font-size: 20px; line-height: 24px; font-weight: 400; color: #fff; text-decoration: none;">Η κράτηση</a>
+              </div>
+          </td>
+        </tr>
+      </table>
+`;
     default:
       return 'verified';
   }
 }
+
+// ολοκληρώθηκε! Πηγαίνοντας στο προφίλ σου και στις κρατήσεις του οχήματος σου μπορείς να δεις περισσότερες πληροφορίες και να αφήσεις την κρητική σου!
 
 /**
  * Send email
@@ -99,23 +252,33 @@ async function sendEmail(emailInfo) {
     },
   });
 
-  let mailOptions = {
-    from: {
-      name: 'Car Share',
-      address: process.env.APP_EMAIL,
-    },
-    to: emailInfo.user.email,
-    subject: setSubjectByEmailType(emailInfo.type),
-    html: setBodyByEmailType(emailInfo),
-  };
+  ejs.renderFile(
+    __dirname + '/views/emailTemplate.ejs',
+    { content: setBodyByEmailType(emailInfo) },
+    function (err, template) {
+      if (err) {
+        console.log('Error: ', err);
+      } else {
+        let mailOptions = {
+          from: {
+            name: 'Car Share',
+            address: process.env.APP_EMAIL,
+          },
+          to: emailInfo.user.email,
+          subject: setSubjectByEmailType(emailInfo.type),
+          html: template,
+        };
 
-  transporter.sendMail(mailOptions, function (error, info) {
-    if (error) {
-      console.log(error);
-    } else {
-      console.log('Email sent: ' + info.response);
+        transporter.sendMail(mailOptions, function (error, info) {
+          if (error) {
+            console.log(error);
+          } else {
+            console.log('Email sent: ' + info.response);
+          }
+        });
+      }
     }
-  });
+  );
 }
 
 module.exports = {

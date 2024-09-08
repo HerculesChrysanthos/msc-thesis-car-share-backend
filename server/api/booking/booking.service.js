@@ -75,12 +75,14 @@ async function createBooking(booking) {
   const emailInfo = {
     type: EMAIL_TYPES.BOOKING_OWNER,
     user: booking.car.owner,
+    booking,
   };
   nodemailer.sendEmail(emailInfo);
 
   const emailInfoRenter = {
     type: EMAIL_TYPES.BOOKING_RENTER,
     user: booking.user,
+    booking,
   };
   nodemailer.sendEmail(emailInfoRenter);
 
@@ -101,12 +103,14 @@ async function setAsDoneAcceptedBookingsThatEndDatePassed() {
     const ownerPrompt = {
       type: EMAIL_TYPES.REVIEW_PROMP_ONWER,
       user: booking.owner,
+      info: booking,
     };
     nodemailer.sendEmail(ownerPrompt);
 
     const renterPrompt = {
       type: EMAIL_TYPES.REVIEW_PROMP_RENTER,
       user: booking.renter,
+      info: booking,
     };
     nodemailer.sendEmail(renterPrompt);
   });

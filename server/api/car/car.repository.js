@@ -236,8 +236,8 @@ async function getMyCars(userId) {
   return Car.find({ owner: userId }).populate('model make');
 }
 
-async function findCarByIdAndPopulateOnwer(id) {
-  return Car.findById(id).populate('owner').lean().exec();
+async function findCarByIdAndPopulateOnwerMakeModel(id) {
+  return Car.findById(id).populate('owner model make').lean().exec();
 }
 
 async function updateCarRatingScoreAndAmount(id, score, amount) {
@@ -342,7 +342,7 @@ module.exports = {
   removeCarThumbnail,
   findCarByFiltersAndByAvailabilityDays,
   getMyCars,
-  findCarByIdAndPopulateOnwer,
+  findCarByIdAndPopulateOnwerMakeModel,
   updateCarRatingScoreAndAmount,
   getCarsByOwnerId,
   disableCar,
