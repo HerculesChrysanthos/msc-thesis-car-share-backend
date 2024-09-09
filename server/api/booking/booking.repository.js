@@ -199,8 +199,7 @@ async function setBookingReview(bookingId, review) {
 
 async function getRenterUserBookings(renter, status, skip, limit) {
   const query = { renter };
-  query.status =
-    status === 'PREVIOUS' ? { $in: ['REJECTED', 'DONE', 'CANCELLED'] } : status;
+  query.status = status === 'PREVIOUS' ? { $in: ['DONE'] } : status;
 
   return Booking.aggregate([
     {
