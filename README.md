@@ -16,12 +16,6 @@ Get user by id
 | ------ | ---------- | ----------- | -------- | ------ |
 | userId | path       |             | Yes      | string |
 
-##### Responses
-
-| Code | Description         |
-| ---- | ------------------- |
-| 200  | Successful response |
-
 ##### Security
 
 | Security Schema | Scopes |
@@ -40,12 +34,6 @@ Update my users fields
 | ------ | ---------- | ----------- | -------- | ------ |
 | userId | path       |             | Yes      | string |
 
-##### Responses
-
-| Code | Description         |
-| ---- | ------------------- |
-| 200  | Successful response |
-
 ##### Security
 
 | Security Schema | Scopes |
@@ -59,12 +47,6 @@ Update my users fields
 ##### Summary:
 
 Get me
-
-##### Responses
-
-| Code | Description         |
-| ---- | ------------------- |
-| 200  | Successful response |
 
 ##### Security
 
@@ -89,12 +71,6 @@ Get user reviews
 | role   | query      | REQUIRED , OWNER OR RENTER | No       | string  |
 | userId | path       |                            | Yes      | string  |
 
-##### Responses
-
-| Code | Description         |
-| ---- | ------------------- |
-| 200  | Successful response |
-
 ##### Security
 
 | Security Schema | Scopes |
@@ -109,15 +85,9 @@ Get user reviews
 
 Create user
 
-##### Responses
-
-| Code | Description         |
-| ---- | ------------------- |
-| 200  | Successful response |
-
 ### /api/users/verify
 
-#### POST
+#### GET
 
 ##### Summary:
 
@@ -128,12 +98,6 @@ Verify user
 | Name  | Located in | Description | Required | Schema |
 | ----- | ---------- | ----------- | -------- | ------ |
 | token | query      |             | No       | string |
-
-##### Responses
-
-| Code | Description         |
-| ---- | ------------------- |
-| 200  | Successful response |
 
 ##### Security
 
@@ -149,12 +113,6 @@ Verify user
 
 Re send verify token
 
-##### Responses
-
-| Code | Description         |
-| ---- | ------------------- |
-| 200  | Successful response |
-
 ##### Security
 
 | Security Schema | Scopes |
@@ -169,12 +127,6 @@ Re send verify token
 
 Login
 
-##### Responses
-
-| Code | Description         |
-| ---- | ------------------- |
-| 200  | Successful response |
-
 ### /api/users/google
 
 #### POST
@@ -182,12 +134,6 @@ Login
 ##### Summary:
 
 Google auth
-
-##### Responses
-
-| Code | Description         |
-| ---- | ------------------- |
-| 200  | Successful response |
 
 ### /api/users/{userId}/profile-image
 
@@ -203,11 +149,19 @@ Create image
 | ------ | ---------- | ----------- | -------- | ------ |
 | userId | path       |             | Yes      | string |
 
-##### Responses
+##### Security
 
-| Code | Description         |
-| ---- | ------------------- |
-| 200  | Successful response |
+| Security Schema | Scopes |
+| --------------- | ------ |
+| bearerAuth      |        |
+
+### /api/cars/66ae4c0dc6e794e099b9dffc/availabilities
+
+#### POST
+
+##### Summary:
+
+Create availability
 
 ##### Security
 
@@ -215,7 +169,7 @@ Create image
 | --------------- | ------ |
 | bearerAuth      |        |
 
-### /api/cars/{carId}/availabilities
+### /api/cars/66ae4c0dc6e794e099b9dffc/availabilities
 
 #### PUT
 
@@ -228,12 +182,6 @@ Update availabilities
 | Name  | Located in | Description | Required | Schema |
 | ----- | ---------- | ----------- | -------- | ------ |
 | carId | path       |             | Yes      | string |
-
-##### Responses
-
-| Code | Description         |
-| ---- | ------------------- |
-| 200  | Successful response |
 
 ##### Security
 
@@ -254,12 +202,6 @@ Get car availabilities
 | status | query      |             | No       | string |
 | carId  | path       |             | Yes      | string |
 
-##### Responses
-
-| Code | Description         |
-| ---- | ------------------- |
-| 200  | Successful response |
-
 ##### Security
 
 | Security Schema | Scopes |
@@ -274,61 +216,19 @@ Get car availabilities
 
 Create car
 
-##### Responses
-
-| Code | Description         |
-| ---- | ------------------- |
-| 200  | Successful response |
-
 ##### Security
 
 | Security Schema | Scopes |
 | --------------- | ------ |
 | bearerAuth      |        |
 
-### /api/cars/{carId}
+### /api/cars/66892ffc0dae3b5bdfbb8eec
 
 #### PATCH
 
 ##### Summary:
 
 Update car
-
-##### Parameters
-
-| Name  | Located in | Description | Required | Schema |
-| ----- | ---------- | ----------- | -------- | ------ |
-| carId | path       |             | Yes      | string |
-
-##### Responses
-
-| Code | Description         |
-| ---- | ------------------- |
-| 200  | Successful response |
-
-##### Security
-
-| Security Schema | Scopes |
-| --------------- | ------ |
-| bearerAuth      |        |
-
-#### DELETE
-
-##### Summary:
-
-Delete car
-
-##### Parameters
-
-| Name  | Located in | Description | Required | Schema |
-| ----- | ---------- | ----------- | -------- | ------ |
-| carId | path       |             | Yes      | string |
-
-##### Responses
-
-| Code | Description         |
-| ---- | ------------------- |
-| 200  | Successful response |
 
 ##### Security
 
@@ -342,43 +242,19 @@ Delete car
 
 Get car by id
 
-##### Parameters
-
-| Name  | Located in | Description | Required | Schema |
-| ----- | ---------- | ----------- | -------- | ------ |
-| carId | path       |             | Yes      | string |
-
-##### Responses
-
-| Code | Description         |
-| ---- | ------------------- |
-| 200  | Successful response |
-
 ##### Security
 
 | Security Schema | Scopes |
 | --------------- | ------ |
 | bearerAuth      |        |
 
-### /api/cars/{carId}/status
+### /api/cars/66d399bfd513db0cd7273277
 
-#### PUT
+#### DELETE
 
 ##### Summary:
 
-Change car status
-
-##### Parameters
-
-| Name  | Located in | Description | Required | Schema |
-| ----- | ---------- | ----------- | -------- | ------ |
-| carId | path       |             | Yes      | string |
-
-##### Responses
-
-| Code | Description         |
-| ---- | ------------------- |
-| 200  | Successful response |
+Delete car
 
 ##### Security
 
@@ -396,20 +272,18 @@ Search cars by filters
 
 ##### Parameters
 
-| Name      | Located in | Description | Required | Schema  |
-| --------- | ---------- | ----------- | -------- | ------- |
-| startDate | query      |             | No       | string  |
-| endDate   | query      |             | No       | string  |
-| lat       | query      |             | No       | number  |
-| long      | query      |             | No       | number  |
-| maxPrice  | query      |             | No       | integer |
-| minPrice  | query      |             | No       | integer |
-
-##### Responses
-
-| Code | Description         |
-| ---- | ------------------- |
-| 200  | Successful response |
+| Name        | Located in | Description | Required | Schema  |
+| ----------- | ---------- | ----------- | -------- | ------- |
+| startDate   | query      |             | No       | string  |
+| endDate     | query      |             | No       | string  |
+| lat         | query      |             | No       | number  |
+| long        | query      |             | No       | number  |
+| limit       | query      |             | No       | integer |
+| maxPrice    | query      |             | No       | integer |
+| minPrice    | query      |             | No       | integer |
+| make        | query      |             | No       | string  |
+| model       | query      |             | No       | string  |
+| gearboxType | query      |             | No       | string  |
 
 ##### Security
 
@@ -424,12 +298,6 @@ Search cars by filters
 ##### Summary:
 
 Get my cars
-
-##### Responses
-
-| Code | Description         |
-| ---- | ------------------- |
-| 200  | Successful response |
 
 ##### Security
 
@@ -450,12 +318,6 @@ Get user cars (for profile)
 | Name   | Located in | Description | Required | Schema |
 | ------ | ---------- | ----------- | -------- | ------ |
 | userId | path       |             | Yes      | string |
-
-##### Responses
-
-| Code | Description         |
-| ---- | ------------------- |
-| 200  | Successful response |
 
 ##### Security
 
@@ -479,19 +341,13 @@ Get car reviews
 | limit | query      |             | No       | integer |
 | carId | path       |             | Yes      | string  |
 
-##### Responses
-
-| Code | Description         |
-| ---- | ------------------- |
-| 200  | Successful response |
-
 ##### Security
 
 | Security Schema | Scopes |
 | --------------- | ------ |
 | noauthAuth      |        |
 
-### /api/cars/{carId}/images
+### /api/cars/66ae4c0dc6e794e099b9dffc/images
 
 #### POST
 
@@ -499,44 +355,19 @@ Get car reviews
 
 Create image
 
-##### Parameters
-
-| Name  | Located in | Description | Required | Schema |
-| ----- | ---------- | ----------- | -------- | ------ |
-| carId | path       |             | Yes      | string |
-
-##### Responses
-
-| Code | Description         |
-| ---- | ------------------- |
-| 200  | Successful response |
-
 ##### Security
 
 | Security Schema | Scopes |
 | --------------- | ------ |
 | bearerAuth      |        |
 
-### /api/cars/{carId}/images/{imageId}
+### /api/cars/66892ffc0dae3b5bdfbb8eec/images/668f06e6500585143b7ffa2d
 
 #### DELETE
 
 ##### Summary:
 
 Delete image
-
-##### Parameters
-
-| Name    | Located in | Description | Required | Schema |
-| ------- | ---------- | ----------- | -------- | ------ |
-| carId   | path       |             | Yes      | string |
-| imageId | path       |             | Yes      | string |
-
-##### Responses
-
-| Code | Description         |
-| ---- | ------------------- |
-| 200  | Successful response |
 
 ##### Security
 
@@ -550,19 +381,13 @@ Delete image
 
 ##### Summary:
 
-Get models by make Id
+Get models
 
 ##### Parameters
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ------ |
 | make | query      |             | No       | string |
-
-##### Responses
-
-| Code | Description         |
-| ---- | ------------------- |
-| 200  | Successful response |
 
 ### /api/makes/
 
@@ -572,31 +397,13 @@ Get models by make Id
 
 Get makes
 
-##### Responses
-
-| Code | Description         |
-| ---- | ------------------- |
-| 200  | Successful response |
-
-### /api/bookings/{bookingId}/reviews
+### /api/bookings/66d2f98965b2b1aa5df2349e/reviews
 
 #### POST
 
 ##### Summary:
 
 Add review
-
-##### Parameters
-
-| Name      | Located in | Description | Required | Schema |
-| --------- | ---------- | ----------- | -------- | ------ |
-| bookingId | path       |             | Yes      | string |
-
-##### Responses
-
-| Code | Description         |
-| ---- | ------------------- |
-| 200  | Successful response |
 
 ##### Security
 
@@ -612,19 +419,13 @@ Add review
 
 Create booking
 
-##### Responses
-
-| Code | Description         |
-| ---- | ------------------- |
-| 200  | Successful response |
-
 ##### Security
 
 | Security Schema | Scopes |
 | --------------- | ------ |
 | bearerAuth      |        |
 
-### /080/api/bookings/{bookingId}/accept
+### /api/bookings/{bookingId}/accept
 
 #### PUT
 
@@ -638,19 +439,13 @@ Accept booking
 | --------- | ---------- | ----------- | -------- | ------ |
 | bookingId | path       |             | Yes      | string |
 
-##### Responses
-
-| Code | Description         |
-| ---- | ------------------- |
-| 200  | Successful response |
-
 ##### Security
 
 | Security Schema | Scopes |
 | --------------- | ------ |
 | bearerAuth      |        |
 
-### /080/api/bookings/{bookingId}/reject
+### /api/bookings/{bookingId}/reject
 
 #### PUT
 
@@ -663,12 +458,6 @@ Reject booking
 | Name      | Located in | Description | Required | Schema |
 | --------- | ---------- | ----------- | -------- | ------ |
 | bookingId | path       |             | Yes      | string |
-
-##### Responses
-
-| Code | Description         |
-| ---- | ------------------- |
-| 200  | Successful response |
 
 ##### Security
 
@@ -690,19 +479,13 @@ Cancel booking
 | --------- | ---------- | ----------- | -------- | ------ |
 | bookingId | path       |             | Yes      | string |
 
-##### Responses
-
-| Code | Description         |
-| ---- | ------------------- |
-| 200  | Successful response |
-
 ##### Security
 
 | Security Schema | Scopes |
 | --------------- | ------ |
 | bearerAuth      |        |
 
-### /api/cars/{carId}/bookings
+### /api/cars/66ae4c0dc6e794e099b9dffc/bookings
 
 #### GET
 
@@ -716,13 +499,6 @@ Get car bookings
 | ------ | ---------- | ----------- | -------- | ------- |
 | page   | query      |             | No       | integer |
 | status | query      |             | No       | string  |
-| carId  | path       |             | Yes      | string  |
-
-##### Responses
-
-| Code | Description         |
-| ---- | ------------------- |
-| 200  | Successful response |
 
 ##### Security
 
@@ -744,12 +520,6 @@ Get user renter bookings
 | ------ | ---------- | ----------- | -------- | ------ |
 | status | query      |             | No       | string |
 | userId | path       |             | Yes      | string |
-
-##### Responses
-
-| Code | Description         |
-| ---- | ------------------- |
-| 200  | Successful response |
 
 ##### Security
 
