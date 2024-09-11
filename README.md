@@ -155,7 +155,7 @@ Create image
 | --------------- | ------ |
 | bearerAuth      |        |
 
-### /api/cars/66ae4c0dc6e794e099b9dffc/availabilities
+### /api/cars/{carId}/availabilities
 
 #### POST
 
@@ -169,7 +169,7 @@ Create availability
 | --------------- | ------ |
 | bearerAuth      |        |
 
-### /api/cars/66ae4c0dc6e794e099b9dffc/availabilities
+### /api/cars/{carId}/availabilities
 
 #### PUT
 
@@ -222,7 +222,7 @@ Create car
 | --------------- | ------ |
 | bearerAuth      |        |
 
-### /api/cars/66892ffc0dae3b5bdfbb8eec
+### /api/cars/{carId}
 
 #### PATCH
 
@@ -248,7 +248,7 @@ Get car by id
 | --------------- | ------ |
 | bearerAuth      |        |
 
-### /api/cars/66d399bfd513db0cd7273277
+### /api/cars/{carId}
 
 #### DELETE
 
@@ -361,7 +361,7 @@ Create image
 | --------------- | ------ |
 | bearerAuth      |        |
 
-### /api/cars/66892ffc0dae3b5bdfbb8eec/images/668f06e6500585143b7ffa2d
+### /api/cars/{carId}/images/{imageId}
 
 #### DELETE
 
@@ -397,7 +397,7 @@ Get models
 
 Get makes
 
-### /api/bookings/66d2f98965b2b1aa5df2349e/reviews
+### /api/bookings/{bookingId}/reviews
 
 #### POST
 
@@ -485,7 +485,7 @@ Cancel booking
 | --------------- | ------ |
 | bearerAuth      |        |
 
-### /api/cars/66ae4c0dc6e794e099b9dffc/bookings
+### /api/cars/{carId}/bookings
 
 #### GET
 
