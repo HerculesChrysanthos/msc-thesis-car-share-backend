@@ -206,7 +206,7 @@ function setBodyByEmailType(emailInfo) {
         <tr>
           <td>
               <h2 style="font-size: 24px; line-height: 32px; font-weight: 700; color: #000; margin-bottom: 24px;">Η κράτηση ολοκληρώθηκε!</h2>
-              <div style="font-size: 16px; line-height: 24px; font-weight: 400; color: #595959;">Γειά σου ${emailInfo.user.name}<br /><br />Η κράτηση για το όχημα <strong>${emailInfo.info.car.make.name} ${emailInfo.info.car.model.name}</strong> ακυρώθηκε του χρήστη ${emailInfo.info.renter.name} ${emailInfo.info.renter.surname} ολοκληρώθηκε. Πηγαίνοντας στο προφίλ σου και στις κρατήσεις σου μπορείς να δεις περισσότερες πληροφορίες και να αφήσεις την κρητική σου!<br /><br />Ευχαριστούμε,<br />η ομάδα του Car Share</div>
+              <div style="font-size: 16px; line-height: 24px; font-weight: 400; color: #595959;">Γειά σου ${emailInfo.user.name}<br /><br />Η κράτηση για το όχημα <strong>${emailInfo.info.car.make.name} ${emailInfo.info.car.model.name}</strong> του χρήστη ${emailInfo.info.owner.name} ${emailInfo.info.owner.surname} ολοκληρώθηκε. Πηγαίνοντας στο προφίλ σου και στις κρατήσεις σου μπορείς να δεις περισσότερες πληροφορίες και να αφήσεις την κρητική σου!<br /><br />Ευχαριστούμε,<br />η ομάδα του Car Share</div>
               <div style="margin-top: 40px; padding-bottom: 10px;">
                 <a href="http://localhost:5173/" target="_blank" style="display: inline-block; padding: 8px 24px; border-radius: 8px; background-color: #000; font-size: 20px; line-height: 24px; font-weight: 400; color: #fff; text-decoration: none;">Η κράτηση</a>
               </div>

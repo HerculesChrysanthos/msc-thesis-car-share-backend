@@ -17,7 +17,7 @@ function createToken(user) {
     { userId: user._id, email: user.email },
     process.env.TOKEN_KEY,
     {
-      expiresIn: expirationTimeInSeconds, //'2h',
+      expiresIn: expirationTimeInSeconds,
     }
   );
 }

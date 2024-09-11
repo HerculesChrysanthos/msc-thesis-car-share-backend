@@ -84,7 +84,6 @@ const validator = (schema, property) => {
     }
 
     const { error } = schema.validate(data, { abortEarly: false });
-    // console.log(`validator ${JSON.stringify(data)}`);
 
     const valid = error == null;
 

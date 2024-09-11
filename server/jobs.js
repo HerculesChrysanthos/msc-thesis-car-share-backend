@@ -67,7 +67,7 @@ function scheduleJobs() {
   // '* * * * *' run every minute
   // '1 * * * *' Schedule the job to run at the first minute of every hour
   cron.schedule('* * * * *', markBookingAsDone);
-
+  // 0 2 * * * every day at 2 am
   // cron.schedule('* * * * *', extendCarsAvailabilities);
 }
 

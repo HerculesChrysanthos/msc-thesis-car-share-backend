@@ -148,6 +148,10 @@ async function updatePartialCarAvailabilities(carId, availability) {
 
   const startDate = moment.utc(availability.startDate);
   const endDate = moment.utc(availability.endDate);
+
+  startDate.minutes(0).seconds(0).milliseconds(0);
+  endDate.minutes(0).seconds(0).milliseconds(0);
+
   const searchStatus =
     availability.status === 'AVAILABLE' ? 'UNAVAILABLE' : 'AVAILABLE';
   const status = availability.status;
