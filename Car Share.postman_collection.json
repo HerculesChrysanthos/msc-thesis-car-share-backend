@@ -1,0 +1,1302 @@
+{
+	"info": {
+		"_postman_id": "f2fdbdcb-7d69-49a6-8fa1-8b37ec35b96f",
+		"name": "Car Share",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24634749",
+		"_collection_link": "https://interstellar-sunset-4866-1.postman.co/workspace/My-Workspace~323b6998-f2ef-4e02-839d-32f4bcb2f06c/collection/24634749-f2fdbdcb-7d69-49a6-8fa1-8b37ec35b96f?action=share&source=collection_link&creator=24634749"
+	},
+	"item": [
+		{
+			"name": "user",
+			"item": [
+				{
+					"name": "Get user by id",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/users/:userId",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"users",
+								":userId"
+							],
+							"variable": [
+								{
+									"key": "userId",
+									"value": "66ae4b95c6e794e099b9dff2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get me",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmFlNGI5NWM2ZTc5NGUwOTliOWRmZjIiLCJlbWFpbCI6ImhlcmNzbWFAaG90bWFpbC5jb20iLCJpYXQiOjE3MjI3MTYxNDYsImV4cCI6MTcyNTMwODE0Nn0.EbzpFdpi5D-WPTufgwSQkB-Z_CAL4eQUi6A3A6kVmCQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/users/me",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"me"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get user reviews",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/users/:userId/reviews?page=1&limit=9&role=OWNER",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"users",
+								":userId",
+								"reviews"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "9"
+								},
+								{
+									"key": "role",
+									"value": "OWNER",
+									"description": "REQUIRED , OWNER OR RENTER "
+								}
+							],
+							"variable": [
+								{
+									"key": "userId",
+									"value": "66ae4b95c6e794e099b9dff2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create user",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"\",\n    \"email\": \"hercsmahotmail.com\",\n    \"password\": \"2123312\",\n    \"passwordConfirmation\": \"12341234\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/users/register",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update my users fields",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmFlNGI5NWM2ZTc5NGUwOTliOWRmZjIiLCJlbWFpbCI6ImhlcmNzbWFAaG90bWFpbC5jb20iLCJpYXQiOjE3MjI3MjM2NzcsImV4cCI6MTcyNTMxNTY3N30.9be2ROyG-RDpYlQSBl-YjiGCi94IKc1C_v5NJkDMbJg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"aaa\",\n    \"surname\": \"test\",\n    \"email\": \"hercsma@hotmail.com\",\n    \"phone\": \"6976689355\",\n    \"dateOfBirth\": {\n        \"day\": 1,\n        \"month\": 7,\n        \"year\": 1999\n    },\n    \"vat\": \"123123123\",\n    \"licenceNumber\": 123123123,\n    \"drivingSince\": {\n        \"month\": 1,\n        \"year\": 2017\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/users/:userId",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"users",
+								":userId"
+							],
+							"variable": [
+								{
+									"key": "userId",
+									"value": "66ae4b95c6e794e099b9dff2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Verify user",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/users/verify?token=d622100682732bbb363928b99fd69b62815fe4ad9676f434ec131fba2abd60ee",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"verify"
+							],
+							"query": [
+								{
+									"key": "token",
+									"value": "d622100682732bbb363928b99fd69b62815fe4ad9676f434ec131fba2abd60ee"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Re send verify token",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjQ4NzNhYTQ3NzUxNDkyMWI2NmNiYjIiLCJlbWFpbCI6ImhlcmNzbWFAaG90bWFpbC5jb20iLCJpYXQiOjE3MTYwMjQyNDUsImV4cCI6MTcxODYxNjI0NX0.nf9YPDRCbAf1U4FoeCaCKeSRecQjT-Rr3VDTjUwHo9w",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/users/re-send-verify-token",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"re-send-verify-token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"user@test.com\",\n    \"password\": \"12341234\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/users/login",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Google auth",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/users/google",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"google"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create image",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmFlNGI5NWM2ZTc5NGUwOTliOWRmZjIiLCJlbWFpbCI6ImhlcmNzbWFAaG90bWFpbC5jb20iLCJpYXQiOjE3MjI3MjM2NzcsImV4cCI6MTcyNTMxNTY3N30.9be2ROyG-RDpYlQSBl-YjiGCi94IKc1C_v5NJkDMbJg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/Users/hercules/Desktop/Vw-Golf.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/api/users/:userId/profile-image",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"users",
+								":userId",
+								"profile-image"
+							],
+							"variable": [
+								{
+									"key": "userId",
+									"value": "66ae4b95c6e794e099b9dff2"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Car",
+			"item": [
+				{
+					"name": "Availability",
+					"item": [
+						{
+							"name": "Update availabilities",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmFlNGI5NWM2ZTc5NGUwOTliOWRmZjIiLCJlbWFpbCI6ImhlcmNzbWFAaG90bWFpbC5jb20iLCJpYXQiOjE3MjI3MjM2NzcsImV4cCI6MTcyNTMxNTY3N30.9be2ROyG-RDpYlQSBl-YjiGCi94IKc1C_v5NJkDMbJg",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"startDate\": \"2024-07-25T12:00:00.000Z\",\n    \"endDate\" : \"2024-07-25T15:00:00.000Z\",\n    \"status\": \"UNAVAILABLE\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/cars/:carId/availabilities",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"cars",
+										":carId",
+										"availabilities"
+									],
+									"query": [
+										{
+											"key": "",
+											"value": null,
+											"disabled": true
+										}
+									],
+									"variable": [
+										{
+											"key": "carId",
+											"value": "66ae4c0dc6e794e099b9dffc"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get car availabilities",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmFlNGI5NWM2ZTc5NGUwOTliOWRmZjIiLCJlbWFpbCI6ImhlcmNzbWFAaG90bWFpbC5jb20iLCJpYXQiOjE3MjU1NTcxODAsImV4cCI6MTcyODE0OTE4MH0.zOy31w-uZS1zMynCfxyLMD64Iwi5LwThbP6WJxy8EII",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/cars/:carId/availabilities?status=UNAVAILABLE",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"cars",
+										":carId",
+										"availabilities"
+									],
+									"query": [
+										{
+											"key": "status",
+											"value": "UNAVAILABLE"
+										}
+									],
+									"variable": [
+										{
+											"key": "carId",
+											"value": "66ae4c0dc6e794e099b9dffc"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Create car",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTEwMTlhYWU3Y2YxZmM0ZDM2YTA3YWMiLCJlbWFpbCI6InVzZXJAdGVzdC5jb20iLCJpYXQiOjE3MjAyNjU3MjAsImV4cCI6MTcyMjg1NzcyMH0.K6JpOy_WxejgndlWO7Di3wEq-tqvkejIR2eSCACQdLU",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"make\": \"6654fd2f40e0c89f5d805be0\",\n    \"model\": \"6654ff52283b28389802e4b6\",\n    \"registration\": {\n        \"month\": 1,\n        \"year\": 2010\n    },\n    \"registrationPlate\": \"ΑΑΓ-1234\",\n    \"mileage\": 10000,\n    \"engineSize\": 2000,\n    \"enginePower\": 200,\n    \"fuelType\": \"Βενζίνη\",\n    \"gearboxType\": \"Αυτόματο\",\n    \"euroClass\": 5,\n    \"rentPerHour\": 50\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/cars",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"cars"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update car",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTEwMTlhYWU3Y2YxZmM0ZDM2YTA3YWMiLCJlbWFpbCI6InVzZXJAdGVzdC5jb20iLCJpYXQiOjE3MjAyNjU3MjAsImV4cCI6MTcyMjg1NzcyMH0.K6JpOy_WxejgndlWO7Di3wEq-tqvkejIR2eSCACQdLU",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"address\": {\n        \"city\": \"Θεσσαλονίκη\",\n        \"street\": \"Παύλου Μελά\",\n        \"number\": \"20\",\n        \"postalCode\": \"546 22\",\n        \"lat\": 40.63010939999999,\n        \"long\": 22.9478851\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/cars/:carId",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"cars",
+								":carId"
+							],
+							"variable": [
+								{
+									"key": "carId",
+									"value": "66a51f60524d41fab41a0b0d"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete car",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmQyZjUyOTY1YjJiMWFhNWRmMjJiMTMiLCJlbWFpbCI6ImhlcmNjaHJ5c0BnbWFpbC5jb20iLCJpYXQiOjE3MjUxMDEzNTQsImV4cCI6MTcyNzY5MzM1NH0.yriWjLJ1r0hw8YNGK8_DawCkSmSnSB3L2F1nOwj3Cv4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/cars/:carId",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"cars",
+								":carId"
+							],
+							"variable": [
+								{
+									"key": "carId",
+									"value": "66d399bfd513db0cd7273277"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get car by id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTEwMTlhYWU3Y2YxZmM0ZDM2YTA3YWMiLCJlbWFpbCI6InVzZXJAdGVzdC5jb20iLCJpYXQiOjE3MjAyNjU3MjAsImV4cCI6MTcyMjg1NzcyMH0.K6JpOy_WxejgndlWO7Di3wEq-tqvkejIR2eSCACQdLU",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/cars/:carId",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"cars",
+								":carId"
+							],
+							"variable": [
+								{
+									"key": "carId",
+									"value": "66892ffc0dae3b5bdfbb8eec"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Change car status",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmFlNGI5NWM2ZTc5NGUwOTliOWRmZjIiLCJlbWFpbCI6ImhlcmNzbWFAaG90bWFpbC5jb20iLCJpYXQiOjE3MjU1ODA1MjIsImV4cCI6MTcyODE3MjUyMn0.WKQvzgItin8cJ2BYmtGkvSZAazuHNpi744v_BYysg6s",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"available\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/cars/:carId/status",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"cars",
+								":carId",
+								"status"
+							],
+							"variable": [
+								{
+									"key": "carId",
+									"value": "66da466fc560c652f62e3b45"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Search cars by filters",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/cars/?startDate=2024-08-25T12:00:00Z&endDate=2024-08-26T18:00:00Z&lat=38.109443596830765&long=23.84270818195744&maxPrice=10000&minPrice=4900",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"cars",
+								""
+							],
+							"query": [
+								{
+									"key": "startDate",
+									"value": "2024-08-25T12:00:00Z"
+								},
+								{
+									"key": "endDate",
+									"value": "2024-08-26T18:00:00Z"
+								},
+								{
+									"key": "lat",
+									"value": "38.109443596830765"
+								},
+								{
+									"key": "long",
+									"value": "23.84270818195744"
+								},
+								{
+									"key": "page",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "9",
+									"disabled": true
+								},
+								{
+									"key": "maxPrice",
+									"value": "10000"
+								},
+								{
+									"key": "minPrice",
+									"value": "4900"
+								},
+								{
+									"key": "make",
+									"value": "6654fd2f40e0c89f5d805be0",
+									"disabled": true
+								},
+								{
+									"key": "model",
+									"value": "6654ff52283b28389802e4b6",
+									"disabled": true
+								},
+								{
+									"key": "gearboxType",
+									"value": "Αυτόματο",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get my cars",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmFlNGI5NWM2ZTc5NGUwOTliOWRmZjIiLCJlbWFpbCI6ImhlcmNzbWFAaG90bWFpbC5jb20iLCJpYXQiOjE3MjI3MTYxNDYsImV4cCI6MTcyNTMwODE0Nn0.EbzpFdpi5D-WPTufgwSQkB-Z_CAL4eQUi6A3A6kVmCQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/cars/my-cars",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"cars",
+								"my-cars"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get user cars (for profile)",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/users/:userId/cars",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"users",
+								":userId",
+								"cars"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "9",
+									"disabled": true
+								}
+							],
+							"variable": [
+								{
+									"key": "userId",
+									"value": "66ae4b95c6e794e099b9dff2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get car reviews",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/cars/:carId/reviews?page=1&limit=9",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"cars",
+								":carId",
+								"reviews"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "9"
+								}
+							],
+							"variable": [
+								{
+									"key": "carId",
+									"value": "66ae4c0dc6e794e099b9dffc"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create image",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmFlNGI5NWM2ZTc5NGUwOTliOWRmZjIiLCJlbWFpbCI6ImhlcmNzbWFAaG90bWFpbC5jb20iLCJpYXQiOjE3MjI3MjM2NzcsImV4cCI6MTcyNTMxNTY3N30.9be2ROyG-RDpYlQSBl-YjiGCi94IKc1C_v5NJkDMbJg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/Users/hercules/Desktop/vw-golf-gti-2024.jpg"
+								},
+								{
+									"key": "setThumbnail",
+									"value": "true",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/api/cars/:carId/images",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"cars",
+								":carId",
+								"images"
+							],
+							"variable": [
+								{
+									"key": "carId",
+									"value": "66ae4c0dc6e794e099b9dffc"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete image",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTEwMTlhYWU3Y2YxZmM0ZDM2YTA3YWMiLCJlbWFpbCI6InVzZXJAdGVzdC5jb20iLCJpYXQiOjE3MjAyNjU3MjAsImV4cCI6MTcyMjg1NzcyMH0.K6JpOy_WxejgndlWO7Di3wEq-tqvkejIR2eSCACQdLU",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/Users/hercules/Desktop/2022-volkswagen-golf-r-exterior.jpg"
+								},
+								{
+									"key": "setThumbnail",
+									"value": "true",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/api/cars/:carId/images/:imageId",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"cars",
+								":carId",
+								"images",
+								":imageId"
+							],
+							"variable": [
+								{
+									"key": "carId",
+									"value": "66892ffc0dae3b5bdfbb8eec"
+								},
+								{
+									"key": "imageId",
+									"value": "668f06e6500585143b7ffa2d"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Model",
+			"item": [
+				{
+					"name": "Get models by make Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/models?make=6654fd2f40e0c89f5d805be0",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"models"
+							],
+							"query": [
+								{
+									"key": "make",
+									"value": "6654fd2f40e0c89f5d805be0"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Make",
+			"item": [
+				{
+					"name": "Get makes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/makes/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"makes",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Booking",
+			"item": [
+				{
+					"name": "Review",
+					"item": [
+						{
+							"name": "Add review",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmFlNGI5NWM2ZTc5NGUwOTliOWRmZjIiLCJlbWFpbCI6ImhlcmNzbWFAaG90bWFpbC5jb20iLCJpYXQiOjE3MjQzMTg3MTAsImV4cCI6MTcyNjkxMDcxMH0._6-grpdSuEtxsWJ4IuRqHVktxec_eKqfqkXBgqqD5X8",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"rating\": 3,\n    \"comment\": \"kritiki apo ton renter bla bla bla\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/bookings/:bookingId/reviews",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"bookings",
+										":bookingId",
+										"reviews"
+									],
+									"variable": [
+										{
+											"key": "bookingId",
+											"value": "66d2f98965b2b1aa5df2349e"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Create booking",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmFlNGI5NWM2ZTc5NGUwOTliOWRmZjIiLCJlbWFpbCI6ImhlcmNzbWFAaG90bWFpbC5jb20iLCJpYXQiOjE3MjQzMTg3MTAsImV4cCI6MTcyNjkxMDcxMH0._6-grpdSuEtxsWJ4IuRqHVktxec_eKqfqkXBgqqD5X8",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"car\": \"66d399bfd513db0cd7273277\",\n    \"startDate\": \"2024-09-03T20:00:00Z\",\n    \"endDate\": \"2024-09-28T20:00:00Z\",\n    \"price\": 50\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/bookings",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"bookings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Accept booking",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmFlNGI5NWM2ZTc5NGUwOTliOWRmZjIiLCJlbWFpbCI6ImhlcmNzbWFAaG90bWFpbC5jb20iLCJpYXQiOjE3MjQyMzA5NjcsImV4cCI6MTcyNjgyMjk2N30.oAL0yxJptcVHFOIw1Vg7jab8A0M8ZV9CVNmTMtMvO6Q",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/bookings/:bookingId/accept",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"bookings",
+								":bookingId",
+								"accept"
+							],
+							"variable": [
+								{
+									"key": "bookingId",
+									"value": "66aeae1b5c2aacab6db9a04e"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reject booking",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmFlNGQ0ZmM2ZTc5NGUwOTliOWUwMjEiLCJlbWFpbCI6ImhlcmN1bGVzOTljaEBob3RtYWlsLmNvbSIsImlhdCI6MTcyMjcyMzUwMywiZXhwIjoxNzI1MzE1NTAzfQ.o1VhI8aE4mIWodOpYvBjPOUE2LILgTNjio72tKcZiGE",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/bookings/:bookingId/reject",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"bookings",
+								":bookingId",
+								"reject"
+							],
+							"variable": [
+								{
+									"key": "bookingId",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cancel booking",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmFlNGI5NWM2ZTc5NGUwOTliOWRmZjIiLCJlbWFpbCI6ImhlcmNzbWFAaG90bWFpbC5jb20iLCJpYXQiOjE3MjQyMzA5NjcsImV4cCI6MTcyNjgyMjk2N30.oAL0yxJptcVHFOIw1Vg7jab8A0M8ZV9CVNmTMtMvO6Q",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/bookings/:bookingId/cancel",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"bookings",
+								":bookingId",
+								"cancel"
+							],
+							"variable": [
+								{
+									"key": "bookingId",
+									"value": "66d39a56d513db0cd7273b3d"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get car bookings",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmFlNGI5NWM2ZTc5NGUwOTliOWRmZjIiLCJlbWFpbCI6ImhlcmNzbWFAaG90bWFpbC5jb20iLCJpYXQiOjE3MjI3MjM2NzcsImV4cCI6MTcyNTMxNTY3N30.9be2ROyG-RDpYlQSBl-YjiGCi94IKc1C_v5NJkDMbJg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/cars/:carId/bookings?page=1&status=PENDING",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"cars",
+								":carId",
+								"bookings"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "9",
+									"disabled": true
+								},
+								{
+									"key": "status",
+									"value": "PENDING"
+								},
+								{
+									"key": "status",
+									"value": "ACCEPTED",
+									"disabled": true
+								},
+								{
+									"key": "status",
+									"value": "PREVIOUS",
+									"disabled": true
+								}
+							],
+							"variable": [
+								{
+									"key": "carId",
+									"value": "66ae4c0dc6e794e099b9dffc"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get user renter bookings",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmFlNGQ0ZmM2ZTc5NGUwOTliOWUwMjEiLCJlbWFpbCI6ImhlcmN1bGVzOTljaEBob3RtYWlsLmNvbSIsImlhdCI6MTcyNDc2NDIzMSwiZXhwIjoxNzI3MzU2MjMxfQ.uEeC_8AmkSkfi-JXxLlLIaqZ_VJxyH4VqrVKJATCkJQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/users/:userId/bookings?status=ACCEPTED",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"users",
+								":userId",
+								"bookings"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "9",
+									"disabled": true
+								},
+								{
+									"key": "status",
+									"value": "ACCEPTED"
+								},
+								{
+									"key": "status",
+									"value": "PREVIOUS",
+									"disabled": true
+								}
+							],
+							"variable": [
+								{
+									"key": "userId",
+									"value": "66ae4d4fc6e794e099b9e021"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
