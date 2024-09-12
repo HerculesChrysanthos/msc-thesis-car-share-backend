@@ -278,7 +278,42 @@ async function deleteBeforeGivenDateAvailabilitiesByCarIds(date, carIds) {
   );
 }
 
-async function extendCarsAvailabilities() {}
+async function extendCarsAvailabilitiesByOneDay(nowUtc, carIds) {
+  const start = new Date(nowUtc);
+  start.setUTCDate(nowUtc.getUTCDate() + 60);
+
+  start.setUTCHours(0, 0, 0, 0);
+
+  const end = new Date(nowUtc);
+  end.setUTCDate(nowUtc.getUTCDate() + 61);
+
+  end.setUTCHours(0, 0, 0, 0);
+
+  const availability = {
+    startDate: start,
+    endDate: end,
+  };
+
+  const availabilities = [];
+
+  carIds.forEach((carId) => {
+    const startDate = moment.utc(availability.startDate);
+    const endDate = moment.utc(availability.endDate);
+    const currentDate = startDate.clone();
+
+    while (currentDate.isBefore(endDate)) {
+      availabilities.push({
+        car: carId._id,
+        date: currentDate.toISOString(),
+        status: 'AVAILABLE',
+      });
+
+      currentDate.add(1, 'hour');
+    }
+  });
+
+  return availabilityRepository.insertMultipleAvailabilities(availabilities);
+}
 
 module.exports = {
   findCarAvailabilitiesOnSpecificDates,
@@ -294,5 +329,5 @@ module.exports = {
   createAvailabilities,
   deleteCarAvailableAvailabilities,
   deleteBeforeGivenDateAvailabilitiesByCarIds,
-  extendCarsAvailabilities,
+  extendCarsAvailabilitiesByOneDay,
 };

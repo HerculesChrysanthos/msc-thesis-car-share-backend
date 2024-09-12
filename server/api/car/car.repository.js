@@ -328,7 +328,9 @@ async function changeCarStatus(id, available) {
 }
 
 async function findAvailableCarsIds() {
-  return Car.find({ isAvailable: true, isEnabled: true }, { _id: 1 }).exec();
+  return Car.find({ isAvailable: true, isEnabled: true }, { _id: 1 })
+    .lean()
+    .exec();
 }
 
 module.exports = {
