@@ -143,7 +143,7 @@ async function checkIfUserIsNotOwner(req, res, next) {
       throw error;
     }
 
-    if (car.owner.toString() === req.user._id.toString()) {
+    if (car.owner._id.toString() === req.user._id.toString()) {
       const error = new Error(
         'Δεν μπορείς να νοικιάσεις αυτοκίνητο που σου ανήκει.'
       );

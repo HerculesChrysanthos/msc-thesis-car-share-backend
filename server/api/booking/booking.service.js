@@ -60,7 +60,7 @@ async function createBooking(booking) {
       throw new Error('Υπάρχει ασυμφωνία στις τιμές.');
     }
 
-    result = await bookingRepository.createBooking(bookingToCreate);
+    result = await bookingRepository.createBooking(bookingToCreate, session);
 
     await session.commitTransaction();
   } catch (error) {

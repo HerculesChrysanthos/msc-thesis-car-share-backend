@@ -1,8 +1,8 @@
 const { default: mongoose } = require('mongoose');
 const Booking = require('./booking.model');
 
-async function createBooking(booking) {
-  return Booking.create(booking);
+async function createBooking(booking, session) {
+  return Booking.create([booking], { session });
 }
 
 async function getCarBookingsByCarId(car, status, skip, limit) {
